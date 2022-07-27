@@ -1,0 +1,23 @@
+@import '../../index.scss';
+
+.app__logo {
+  img {
+    height: 38px;
+  }
+}
+
+.badge__style {
+  color: $main;
+  span {
+    height: 20px;
+    width: 20px;
+    background-color: $main;
+    color: $white;
+    font-size: 12px;
+    display: inline-block;
+    line-height: 20px;
+    position: absolute;
+    top: -2px;
+    right: -3px;
+  }
+}
