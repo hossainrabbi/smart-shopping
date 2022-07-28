@@ -2,7 +2,6 @@ import React from 'react';
 import { Navbar, Container, Nav, Dropdown } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { FiShoppingCart, FiLogOut } from 'react-icons/fi';
-import { FaRegUserCircle } from 'react-icons/fa';
 import { useSelector, useDispatch } from 'react-redux';
 import { authAction } from '../../redux/store/auth-slice';
 import './Navbar.scss';
@@ -71,8 +70,16 @@ const NavBar = () => {
                   to="/user/profile"
                   className="dropdown-item d-flex align-items-center"
                 >
-                  <FaRegUserCircle /> <span className="ms-2 mt-1">Profile</span>
+                  Profile
                 </Link>
+                {auth?.user?.user?.roles.some((item) => item === 'ADMIN') && (
+                  <Link
+                    to="/admin/dashboard"
+                    className="dropdown-item d-flex align-items-center"
+                  >
+                    Dashboard
+                  </Link>
+                )}
                 <button
                   onClick={handleLogout}
                   className="btn dropdown-item d-flex align-items-center"

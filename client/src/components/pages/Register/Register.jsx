@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button, Col, Container, Form, Row, Alert } from 'react-bootstrap';
 import { MdOutlineMailOutline } from 'react-icons/md';
 import { FaRegUser } from 'react-icons/fa';
 import { FiLock } from 'react-icons/fi';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import RegisterImage from '../../../images/register.jpg';
@@ -11,14 +11,24 @@ import InputFormGroup from '../../common/InputFormGroup';
 import { registerUser } from '../../../redux/action/auth-action';
 
 const Register = () => {
-  const dispatch = useDispatch();
   const auth = useSelector((store) => store.auth);
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const from = location?.state?.from?.pathname || '/';
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  useEffect(() => {
+    if (auth?.isLogged) {
+      navigate(from, { replace: true });
+    }
+  }, [auth?.isLogged, navigate, from]);
 
   const onSubmit = (data) => {
     dispatch(registerUser(data));
