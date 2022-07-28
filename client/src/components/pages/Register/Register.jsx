@@ -5,10 +5,14 @@ import { FaRegUser } from 'react-icons/fa';
 import { FiLock } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 import RegisterImage from '../../../images/register.jpg';
 import InputFormGroup from '../../common/InputFormGroup';
+import { registerUser } from '../../../redux/action/auth-action';
 
 const Register = () => {
+  const dispatch = useDispatch();
+
   const {
     register,
     handleSubmit,
@@ -16,7 +20,7 @@ const Register = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
+    dispatch(registerUser(data));
   };
 
   return (

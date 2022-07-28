@@ -1,7 +1,10 @@
 import React from 'react';
-import { Navbar, Container, Nav } from 'react-bootstrap';
+import { Navbar, Container, Nav, Dropdown } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { FiShoppingCart } from 'react-icons/fi';
+import { FiShoppingCart, FiLogOut } from 'react-icons/fi';
+import { FaRegUserCircle } from 'react-icons/fa';
+import { useSelector, useDispatch } from 'react-redux';
+import { authAction } from '../../redux/store/auth-slice';
 import './Navbar.scss';
 import Logo from '../../images/smart-shopping.png';
 
@@ -25,6 +28,13 @@ const navMenu = [
 ];
 
 const NavBar = () => {
+  const auth = useSelector((store) => store.auth);
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(authAction.logoutUser());
+  };
+
   return (
     <Navbar bg="light" expand="lg">
       <Container>
@@ -44,12 +54,43 @@ const NavBar = () => {
             <FiShoppingCart />
             <span className="rounded-circle">10</span>
           </button>
-          <Link to="/login" className="btn btn-primary mx-3">
-            Login
-          </Link>
-          <Link to="/register" className="btn btn-primary">
-            Register
-          </Link>
+          {auth?.user?.token ? (
+            <Dropdown>
+              <Dropdown.Toggle
+                className="dropdown__avatar ms-3"
+                id="dropdown-user"
+              >
+                <img
+                  src={auth?.user?.user?.avatar}
+                  alt={auth?.user?.user?.username}
+                />
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu className="dropdown__menu">
+                <Link
+                  to="/user/profile"
+                  className="dropdown-item d-flex align-items-center"
+                >
+                  <FaRegUserCircle /> <span className="ms-2 mt-1">Profile</span>
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="btn dropdown-item d-flex align-items-center"
+                >
+                  <span className="me-2">Logout</span> <FiLogOut />
+                </button>
+              </Dropdown.Menu>
+            </Dropdown>
+          ) : (
+            <>
+              <Link to="/login" className="btn btn-primary mx-3">
+                Login
+              </Link>
+              <Link to="/register" className="btn btn-primary">
+                Register
+              </Link>
+            </>
+          )}
         </Navbar.Collapse>
       </Container>
     </Navbar>
