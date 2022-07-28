@@ -1,17 +1,18 @@
 import React from 'react';
-import { Button, Col, Container, Form, Row } from 'react-bootstrap';
+import { Button, Col, Container, Form, Row, Alert } from 'react-bootstrap';
 import { MdOutlineMailOutline } from 'react-icons/md';
 import { FaRegUser } from 'react-icons/fa';
 import { FiLock } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import RegisterImage from '../../../images/register.jpg';
 import InputFormGroup from '../../common/InputFormGroup';
 import { registerUser } from '../../../redux/action/auth-action';
 
 const Register = () => {
   const dispatch = useDispatch();
+  const auth = useSelector((store) => store.auth);
 
   const {
     register,
@@ -31,6 +32,11 @@ const Register = () => {
         </Col>
         <Col md={6}>
           <h3 className="text-center mb-3">Create an Account</h3>
+          {auth?.error && (
+            <Alert variant="danger" className="text-center text-capitalize">
+              {auth?.error}
+            </Alert>
+          )}
           <Form onSubmit={handleSubmit(onSubmit)}>
             <InputFormGroup
               icon={FaRegUser}
@@ -65,8 +71,12 @@ const Register = () => {
               error={errors.password}
             />
 
-            <Button type="submit" className="w-100 py-2 my-2">
-              Create Account
+            <Button
+              disabled={auth?.loading}
+              type="submit"
+              className="w-100 py-2 my-2"
+            >
+              {auth?.loading ? 'Loading...' : 'Create Account'}
             </Button>
 
             <Form.Text className="text-center d-block" muted>

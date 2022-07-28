@@ -28,3 +28,31 @@ export const registerUser = (registerData) => async (dispatch) => {
     );
   }
 };
+
+export const loginUser = (loginData) => async (dispatch) => {
+  try {
+    dispatch(
+      authAction.loginUser({
+        loading: true,
+      })
+    );
+
+    const { data } = await axios.post('/api/v1/auth/login', loginData);
+
+    dispatch(
+      authAction.loginUser({
+        loading: false,
+        error: '',
+        isLogged: true,
+        user: data,
+      })
+    );
+  } catch (err) {
+    dispatch(
+      authAction.loginUser({
+        loading: false,
+        error: err.response.data.message,
+      })
+    );
+  }
+};

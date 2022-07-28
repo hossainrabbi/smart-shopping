@@ -1,13 +1,18 @@
 import React from 'react';
-import { Button, Col, Container, Form, Row } from 'react-bootstrap';
+import { Button, Col, Container, Form, Row, Alert } from 'react-bootstrap';
 import { MdOutlineMailOutline } from 'react-icons/md';
 import { FiLock } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import LoginImage from '../../../images/login.jpg';
 import InputFormGroup from '../../common/InputFormGroup';
 import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUser } from '../../../redux/action/auth-action';
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const auth = useSelector((store) => store.auth);
+
   const {
     register,
     handleSubmit,
@@ -15,7 +20,7 @@ const Login = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
+    dispatch(loginUser(data));
   };
 
   return (
@@ -26,6 +31,11 @@ const Login = () => {
         </Col>
         <Col md={6}>
           <h3 className="text-center mb-3">Login Your Account</h3>
+          {auth?.error && (
+            <Alert variant="danger" className="text-center text-capitalize">
+              {auth?.error}
+            </Alert>
+          )}
           <Form onSubmit={handleSubmit(onSubmit)}>
             <InputFormGroup
               icon={MdOutlineMailOutline}
@@ -43,8 +53,12 @@ const Login = () => {
               })}
               error={errors.password}
             />
-            <Button type="submit" className="w-100 py-2 my-2">
-              Login Account
+            <Button
+              disabled={auth?.loading}
+              type="submit"
+              className="w-100 py-2 my-2"
+            >
+              {auth?.loading ? 'Loading...' : 'Login Account'}
             </Button>
             <Form.Text className="text-center d-block" muted>
               Don't have any account? <Link to="/register">Register</Link>
