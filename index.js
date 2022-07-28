@@ -5,8 +5,21 @@ const connectDB = require('./config/connectDB');
 const app = express();
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 app.use('/api/v1', require('./routes'));
+
+app.use((err, _req, res, _next) => {
+  if (err.status) {
+    res.status(err.status).json({
+      message: err.message,
+    });
+  }
+
+  res.status(500).json({
+    message: `internal server error, ${err.message}`,
+  });
+});
 
 // Connection with Database
 (async function () {
