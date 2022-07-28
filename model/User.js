@@ -51,6 +51,10 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
+userSchema.methods.comparePasswordMatch = function (password) {
+  return bcrypt.compare(password, this.password);
+};
+
 userSchema.methods.getSignToken = function () {
   return jwt.sign({ _id: this._id }, process.env.JWT_SECRET_KEY, {
     expiresIn: process.env.JWT_EXPIRES_IN,
