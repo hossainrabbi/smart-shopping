@@ -1,6 +1,11 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Categories from './components/admin/Categories/Categories';
 import Dashboard from './components/admin/Dashboard/Dashboard';
+import Products from './components/admin/Products/Products';
+import AddProduct from './components/admin/AddProduct/AddProduct';
+import Users from './components/admin/Users/Users';
+import Orders from './components/admin/Orders/Orders';
 import AdminLayout from './components/layout/AdminLayout/AdminLayout';
 import PublicLayout from './components/layout/PublicLayout/PublicLayout';
 import Login from './components/pages/Login/Login';
@@ -18,6 +23,11 @@ const App = () => {
         <Route path="admin" element={<PrivateRoute userRole="ADMIN" />}>
           <Route path="" element={<AdminLayout />}>
             <Route path="dashboard" element={<Dashboard />} />
+            <Route path="products" element={<Products />} />
+            <Route path="add-product" element={<AddProduct />} />
+            <Route path="categories" element={<Categories />} />
+            <Route path="users" element={<Users />} />
+            <Route path="orders" element={<Orders />} />
           </Route>
         </Route>
       </Routes>
