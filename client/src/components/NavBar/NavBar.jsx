@@ -35,7 +35,7 @@ const NavBar = () => {
   };
 
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar expand="lg">
       <Container>
         <Link to="/" className="navbar-brand app__logo">
           <img src={Logo} alt="smart-shopping" />

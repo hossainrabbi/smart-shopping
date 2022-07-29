@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import PublicLayout from './components/layout/PublicLayout';
+import AdminLayout from './components/layout/AdminLayout/AdminLayout';
+import PublicLayout from './components/layout/PublicLayout/PublicLayout';
 import Login from './components/pages/Login/Login';
 import Register from './components/pages/Register/Register';
 import PrivateRoute from './components/PrivateRoute';
@@ -13,8 +14,10 @@ const App = () => {
           <Route path="register" element={<Register />} />
           <Route path="login" element={<Login />} />
         </Route>
-        <Route path="" element={<PrivateRoute userRole="ADMIN" />}>
-          <Route path="admin/dashboard" element={'Welcome to Dashboard'} />
+        <Route path="admin" element={<PrivateRoute userRole="ADMIN" />}>
+          <Route path="" element={<AdminLayout />}>
+            <Route path="dashboard" element={'Welcome to Dashboard'} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>
