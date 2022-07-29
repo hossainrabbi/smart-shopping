@@ -1,0 +1,13 @@
+@import '../../../index.scss';
+
+.admin__navbar {
+  background-color: $white;
+
+  .toggle__btn {
+    font-size: 19px;
+    color: $main;
+    border: none;
+    background-color: $light;
+    border-radius: 5px;
+  }
+}

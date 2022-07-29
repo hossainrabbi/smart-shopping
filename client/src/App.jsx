@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Dashboard from './components/admin/Dashboard/Dashboard';
 import AdminLayout from './components/layout/AdminLayout/AdminLayout';
 import PublicLayout from './components/layout/PublicLayout/PublicLayout';
 import Login from './components/pages/Login/Login';
@@ -16,7 +17,7 @@ const App = () => {
         </Route>
         <Route path="admin" element={<PrivateRoute userRole="ADMIN" />}>
           <Route path="" element={<AdminLayout />}>
-            <Route path="dashboard" element={'Welcome to Dashboard'} />
+            <Route path="dashboard" element={<Dashboard />} />
           </Route>
         </Route>
       </Routes>

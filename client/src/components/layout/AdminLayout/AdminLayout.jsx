@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { NavLink, Link, Outlet } from 'react-router-dom';
 import { MdDashboard } from 'react-icons/md';
 import { FaUser, FaListUl } from 'react-icons/fa';
+import { Container } from 'react-bootstrap';
 import {
   BsFillBagFill,
   BsFillCartPlusFill,
@@ -9,6 +10,8 @@ import {
 } from 'react-icons/bs';
 import './AdminLayout.scss';
 import Logo from '../../../images/smart-shopping.png';
+import LogoSmall from '../../../images/smart-shopping-small.png';
+import AdminNavbar from '../../admin/AdminNavbar/AdminNavbar';
 
 const sidebarMenu = [
   {
@@ -40,10 +43,15 @@ const sidebarMenu = [
 ];
 
 const AdminLayout = () => {
-  const [sidebarOpen, sidebarClose] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+
+  const handleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
 
   const activeStyle = {
-    backgroundColor: '#E5F3FF',
+    color: '#ffffff',
+    backgroundColor: '#002d68',
   };
 
   return (
@@ -55,7 +63,7 @@ const AdminLayout = () => {
       >
         <div className="logo">
           <Link to="/">
-            <img src={Logo} alt="smart-shopping" />
+            <img src={sidebarOpen ? Logo : LogoSmall} alt="smart-shopping" />
           </Link>
         </div>
         <div className="sidebar-menu">
@@ -74,8 +82,11 @@ const AdminLayout = () => {
           ))}
         </div>
       </aside>
-      <section className="dashboard__area">
-        <Outlet />
+      <section className="admin__area">
+        <AdminNavbar sidebarOpen={sidebarOpen} handleSidebar={handleSidebar} />
+        <Container fluid className="p-3">
+          <Outlet />
+        </Container>
       </section>
     </main>
   );
