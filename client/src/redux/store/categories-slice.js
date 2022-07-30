@@ -4,11 +4,13 @@ const categoriesSlice = createSlice({
   name: 'categories',
   initialState: {
     createLoading: false,
+    updateLoading: false,
     createError: '',
     getError: '',
     removeError: '',
+    updateError: '',
     isCreate: false,
-    isRemove: false,
+    isUpdate: false,
     categories: [],
   },
   reducers: {
@@ -26,15 +28,27 @@ const categoriesSlice = createSlice({
 
       state.createError = '';
       state.removeError = '';
+      state.updateError = '';
       state.isCreate = false;
-      state.isRemove = false;
+      state.isUpdate = false;
     },
     removeCategory(state, action) {
-      state.isRemove = action.payload.isRemove;
       state.removeError = action.payload.error;
-      if (action.payload.isRemove && action.payload.id) {
+      if (action.payload.id) {
         state.categories = state.categories.filter(
           (category) => category._id !== action.payload.id
+        );
+      }
+    },
+    updateCategory(state, action) {
+      state.updateError = action.payload.error;
+      state.isUpdate = action.payload.isUpdate;
+      state.updateLoading = action.payload.loading;
+      if (action.payload.id) {
+        state.categories = state.categories.map((category) =>
+          category._id === action.payload.id
+            ? action.payload.category
+            : category
         );
       }
     },

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Row, Col, InputGroup, Form, Button, ListGroup } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import toast from 'react-hot-toast';
@@ -7,13 +7,16 @@ import {
   createCategories,
   getCategories,
   removeCategory,
+  updateCategory,
 } from '../../../redux/action/categories-action';
 import './Categories.scss';
 
 const Categories = () => {
   const [categoryInput, setCategoryInput] = useState('');
-  const dispatch = useDispatch();
+  const [updatedCategoryId, setUpdatedCategoryId] = useState('');
   const categories = useSelector((store) => store.categories);
+  const dispatch = useDispatch();
+  const editRef = useRef(null);
 
   useEffect(() => {
     dispatch(getCategories());
@@ -30,21 +33,44 @@ const Categories = () => {
     }
   }, [categories?.createError, categories?.isCreate]);
 
-  // Category Remove SideEffect
+  // Update Category SideEffect
   useEffect(() => {
-    if (categories?.isRemove) {
-      toast.success('Category Remove Successfully');
+    if (categories?.updateError) {
+      toast.error(categories?.updateError);
     }
-  }, [categories?.isRemove]);
+
+    if (categories?.isUpdate) {
+      setCategoryInput('');
+      setUpdatedCategoryId('');
+      toast.success('Category Update Successfully');
+    }
+  }, [categories?.updateError, categories?.isUpdate]);
 
   const handleAddCategory = (e) => {
     e.preventDefault();
     if (!categoryInput) return toast.error('Please Type Category');
-    dispatch(createCategories({ categoryName: categoryInput }));
+
+    if (updatedCategoryId) {
+      return dispatch(
+        updateCategory(updatedCategoryId, { categoryName: categoryInput })
+      );
+    }
+
+    return dispatch(createCategories({ categoryName: categoryInput }));
   };
 
   const handleRemoveCategory = (id) => {
     dispatch(removeCategory(id));
+  };
+
+  const handleEditCategory = (id) => {
+    setUpdatedCategoryId(id);
+    const findCategory = categories?.categories?.find(
+      (item) => item._id === id
+    );
+
+    setCategoryInput(findCategory.categoryName);
+    editRef.current.focus();
   };
 
   return (
@@ -60,7 +86,10 @@ const Categories = () => {
               >
                 {categoryItem?.categoryName}
                 <span>
-                  <button className="action__btn text-success">
+                  <button
+                    onClick={() => handleEditCategory(categoryItem?._id)}
+                    className="action__btn text-success"
+                  >
                     <FaEdit />
                   </button>
                   <button
@@ -83,13 +112,20 @@ const Categories = () => {
                 placeholder="Type Category"
                 value={categoryInput}
                 onChange={(e) => setCategoryInput(e.target.value)}
+                ref={editRef}
               />
               <Button
                 disabled={categories?.createLoading}
                 type="submit"
                 variant="primary"
               >
-                {categories?.createLoading ? 'Creating...' : 'Add Category'}
+                {categories?.createLoading
+                  ? 'Creating...'
+                  : categories?.updateLoading
+                  ? 'Updating...'
+                  : updatedCategoryId
+                  ? 'Update Category'
+                  : 'Add Category'}
               </Button>
             </InputGroup>
           </Form>

@@ -61,25 +61,50 @@ export const getCategories = () => async (dispatch) => {
 
 export const removeCategory = (id) => async (dispatch) => {
   try {
-    dispatch(
-      categoriesAction.removeCategory({
-        isRemove: false,
-      })
-    );
-
     await axios.delete(`/api/v1/products/categories/${id}`);
 
     dispatch(
       categoriesAction.removeCategory({
-        isRemove: true,
         id,
       })
     );
   } catch (err) {
     dispatch(
       categoriesAction.removeCategory({
-        isRemove: false,
         error: err.response.data.message,
+      })
+    );
+  }
+};
+
+export const updateCategory = (id, updatedValue) => async (dispatch) => {
+  try {
+    dispatch(
+      categoriesAction.updateCategory({
+        loading: true,
+      })
+    );
+
+    const { data } = await axios.put(
+      `/api/v1/products/categories/${id}`,
+      updatedValue
+    );
+
+    dispatch(
+      categoriesAction.updateCategory({
+        error: '',
+        isUpdate: true,
+        id,
+        category: data,
+        loading: false,
+      })
+    );
+  } catch (err) {
+    dispatch(
+      categoriesAction.updateCategory({
+        error: err.response.data.message,
+        isUpdate: false,
+        loading: false,
       })
     );
   }
