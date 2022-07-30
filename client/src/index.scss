@@ -23,4 +23,5 @@ img {
 .section__area {
   background-color: $white;
   padding: 5px 10px;
+  min-height: calc(100vh - 83px);
 }

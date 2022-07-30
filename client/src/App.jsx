@@ -11,10 +11,12 @@ import PublicLayout from './components/layout/PublicLayout/PublicLayout';
 import Login from './components/pages/Login/Login';
 import Register from './components/pages/Register/Register';
 import PrivateRoute from './components/PrivateRoute';
+import { Toaster } from 'react-hot-toast';
 
 const App = () => {
   return (
     <BrowserRouter>
+      <Toaster position="top-right" reverseOrder={false} />
       <Routes>
         <Route path="" element={<PublicLayout />}>
           <Route path="register" element={<Register />} />
