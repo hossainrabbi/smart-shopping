@@ -43,6 +43,7 @@ const userSchema = new Schema(
   }
 );
 
+// Make Password hash with bcryptjs
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) next();
 
@@ -51,10 +52,12 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
+// Compare Password with hashPassword with bcryptjs
 userSchema.methods.comparePasswordMatch = function (password) {
   return bcrypt.compare(password, this.password);
 };
 
+// Make JWT token for user
 userSchema.methods.getSignToken = function () {
   return jwt.sign({ _id: this._id }, process.env.JWT_SECRET_KEY, {
     expiresIn: process.env.JWT_EXPIRES_IN,
