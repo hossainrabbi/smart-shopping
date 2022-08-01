@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Row, Col, InputGroup, Form, Button, ListGroup } from 'react-bootstrap';
+import { InputGroup, Form, Button, ListGroup } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import toast from 'react-hot-toast';
 import { FaTrash, FaEdit } from 'react-icons/fa';
@@ -75,63 +75,58 @@ const Categories = () => {
 
   return (
     <div className="section__area p-3">
-      <Row>
-        <Col md={6}>
-          <h3 className="text-center mb-4">Create Categories</h3>
-          <ListGroup className="list__group">
-            {categories?.categories?.map((categoryItem) => (
-              <ListGroup.Item
-                className="d-flex justify-content-between align-items-center"
-                key={categoryItem?._id}
+      <h3 className="text-center mb-4">Create Categories</h3>
+      <ListGroup className="list__group">
+        {categories?.categories?.map((categoryItem) => (
+          <ListGroup.Item
+            className="d-flex justify-content-between align-items-center"
+            key={categoryItem?._id}
+          >
+            {categoryItem?.categoryName}
+            <span>
+              <button
+                onClick={() => handleEditCategory(categoryItem?._id)}
+                className="action__btn text-success"
               >
-                {categoryItem?.categoryName}
-                <span>
-                  <button
-                    onClick={() => handleEditCategory(categoryItem?._id)}
-                    className="action__btn text-success"
-                  >
-                    <FaEdit />
-                  </button>
-                  <button
-                    onClick={() => handleRemoveCategory(categoryItem?._id)}
-                    className="action__btn text-danger"
-                  >
-                    <FaTrash />
-                  </button>
-                </span>
-              </ListGroup.Item>
-            ))}
-          </ListGroup>
-          <Form onSubmit={handleAddCategory}>
-            <InputGroup
-              className={`list__group__input ${
-                categories?.categories?.length > 0 ? 'empty__list' : ''
-              }`}
-            >
-              <Form.Control
-                placeholder="Type Category"
-                value={categoryInput}
-                onChange={(e) => setCategoryInput(e.target.value)}
-                ref={editRef}
-              />
-              <Button
-                disabled={categories?.createLoading}
-                type="submit"
-                variant="primary"
+                <FaEdit />
+              </button>
+              <button
+                onClick={() => handleRemoveCategory(categoryItem?._id)}
+                className="action__btn text-danger"
               >
-                {categories?.createLoading
-                  ? 'Creating...'
-                  : categories?.updateLoading
-                  ? 'Updating...'
-                  : updatedCategoryId
-                  ? 'Update Category'
-                  : 'Add Category'}
-              </Button>
-            </InputGroup>
-          </Form>
-        </Col>
-        <Col md={6}>{/* <h3 className="text-center">Create Brand</h3> */}</Col>
-      </Row>
+                <FaTrash />
+              </button>
+            </span>
+          </ListGroup.Item>
+        ))}
+      </ListGroup>
+      <Form onSubmit={handleAddCategory}>
+        <InputGroup
+          className={`list__group__input ${
+            categories?.categories?.length > 0 ? 'empty__list' : ''
+          }`}
+        >
+          <Form.Control
+            placeholder="Type Category"
+            value={categoryInput}
+            onChange={(e) => setCategoryInput(e.target.value)}
+            ref={editRef}
+          />
+          <Button
+            disabled={categories?.createLoading}
+            type="submit"
+            variant="primary"
+          >
+            {categories?.createLoading
+              ? 'Creating...'
+              : categories?.updateLoading
+              ? 'Updating...'
+              : updatedCategoryId
+              ? 'Update Category'
+              : 'Add Category'}
+          </Button>
+        </InputGroup>
+      </Form>
     </div>
   );
 };
