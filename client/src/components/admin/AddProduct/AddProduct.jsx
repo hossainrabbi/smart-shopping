@@ -48,15 +48,12 @@ const AddProduct = () => {
             <Form.Label>Choose Category:</Form.Label>
             <Form.Select aria-label="Default select example">
               <option className="d-none">Select Category</option>
-              {categories?.categories?.length > 0 ? (
+              {categories?.categories?.length > 0 &&
                 categories.categories.map((category) => (
                   <option value={category.categoryName} key={category._id}>
                     {category.categoryName}
                   </option>
-                ))
-              ) : (
-                <Link to="/admin/categories">Create Category</Link>
-              )}
+                ))}
             </Form.Select>
           </Col>
         </Row>
