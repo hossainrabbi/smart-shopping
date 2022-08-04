@@ -46,6 +46,12 @@ const Categories = () => {
     }
   }, [categories?.updateError, categories?.isUpdate]);
 
+  useEffect(() => {
+    if (categories?.removeError) {
+      toast.error(categories?.removeError);
+    }
+  }, [categories?.removeError]);
+
   const handleAddCategory = (e) => {
     e.preventDefault();
     if (!categoryInput) return toast.error('Please Type Category');

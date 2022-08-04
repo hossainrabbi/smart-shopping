@@ -2,29 +2,47 @@ import React, { useEffect, useState } from 'react';
 import { Row, Col, Form, Button, Alert } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { IoClose } from 'react-icons/io5';
+import toast from 'react-hot-toast';
 import { getCategories } from '../../../redux/action/categories-action';
 import './AddProduct.scss';
+import { createProduct } from '../../../redux/action/product-action';
+
+const productInitialsState = {
+  productName: '',
+  price: '',
+  inStock: '',
+  discount: '',
+  category: '',
+  images: [],
+  description: '',
+};
 
 const AddProduct = () => {
-  const [products, setProducts] = useState({
-    productName: '',
-    price: '',
-    inStock: '',
-    discount: '',
-    category: '',
-    images: [],
-    description: '',
+  const [productsValue, setProductsValue] = useState({
+    ...productInitialsState,
   });
   const [error, setError] = useState('');
   const categories = useSelector((store) => store.categories);
+  const products = useSelector((store) => store.products);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getCategories());
   }, [dispatch]);
 
+  useEffect(() => {
+    if (products?.createError) {
+      toast.error(products?.createError);
+    }
+
+    if (products?.isCreate) {
+      toast.success('Product Created Successfully');
+      setProductsValue({ ...productInitialsState });
+    }
+  }, [products?.createError, products?.isCreate]);
+
   const handleProductChange = (e) => {
-    setProducts((prevProduct) => ({
+    setProductsValue((prevProduct) => ({
       ...prevProduct,
       [e.target.name]: e.target.value,
     }));
@@ -34,8 +52,8 @@ const AddProduct = () => {
 
   const handleImagesChange = (e) => {
     const files = e.target.files;
-    if (products.images.length >= 5 || files.length > 5) {
-      console.log(products.images.length > 5);
+    if (productsValue.images.length >= 5 || files.length > 5) {
+      console.log(productsValue.images.length > 5);
       return setError('Maximum 5 image can upload');
     }
 
@@ -44,14 +62,14 @@ const AddProduct = () => {
       const reader = new FileReader();
       file = files[i];
       reader.onloadend = () => {
-        const findImage = products.images.find(
+        const findImage = productsValue.images.find(
           (image) => image === reader.result
         );
 
         if (findImage) {
           return setError('This image already exist');
         }
-        setProducts((prevProduct) => ({
+        setProductsValue((prevProduct) => ({
           ...prevProduct,
           images: [...prevProduct.images, reader.result],
         }));
@@ -63,10 +81,10 @@ const AddProduct = () => {
   };
 
   const removeImage = (image) => {
-    const filterImage = products.images.filter(
+    const filterImage = productsValue.images.filter(
       (singleImage) => singleImage !== image
     );
-    setProducts((prevProduct) => ({
+    setProductsValue((prevProduct) => ({
       ...prevProduct,
       images: filterImage,
     }));
@@ -76,30 +94,39 @@ const AddProduct = () => {
     e.preventDefault();
 
     if (
-      !products.productName ||
-      !products.price ||
-      !products.inStock ||
-      !products.category ||
-      !products.description
+      !productsValue.productName ||
+      !productsValue.price ||
+      !productsValue.inStock ||
+      !productsValue.category ||
+      !productsValue.description
     ) {
       return setError('Please set Product all Credentials!');
     }
 
-    if (products.category === 'Select Category') {
+    if (productsValue.category === 'Select Category') {
       return setError('Select Valid Category');
     }
 
-    if (products.images.length === 0) {
+    if (productsValue.images.length === 0) {
       return setError('Choose Product Image');
     }
 
-    if (products.images.length > 5) {
+    if (productsValue.images.length > 5) {
       return setError('Maximum 5 image can upload');
     }
 
     setError('');
 
-    console.log(products);
+    return dispatch(
+      createProduct({
+        ...productsValue,
+        price: parseFloat(productsValue.price),
+        inStock: parseFloat(productsValue.inStock),
+        discount: productsValue.discount
+          ? parseFloat(productsValue.discount)
+          : 0,
+      })
+    );
   };
 
   return (
@@ -118,7 +145,7 @@ const AddProduct = () => {
                 type="text"
                 placeholder="Enter Product Name"
                 name="productName"
-                value={products.productName}
+                value={productsValue.productName}
                 onChange={handleProductChange}
               />
             </Form.Group>
@@ -130,7 +157,7 @@ const AddProduct = () => {
                 type="number"
                 placeholder="$ Price"
                 name="price"
-                value={products.price}
+                value={productsValue.price}
                 onChange={handleProductChange}
               />
             </Form.Group>
@@ -142,7 +169,7 @@ const AddProduct = () => {
                 type="number"
                 placeholder="Is Stock"
                 name="inStock"
-                value={products.inStock}
+                value={productsValue.inStock}
                 onChange={handleProductChange}
               />
             </Form.Group>
@@ -154,7 +181,7 @@ const AddProduct = () => {
                 type="number"
                 placeholder="Discount %"
                 name="discount"
-                value={products.discount}
+                value={productsValue.discount}
                 onChange={handleProductChange}
               />
             </Form.Group>
@@ -164,7 +191,7 @@ const AddProduct = () => {
             <Form.Select
               aria-label="category selected"
               name="category"
-              value={products.category}
+              value={productsValue.category}
               onChange={handleProductChange}
             >
               <option className="d-none" value="Select Category">
@@ -191,7 +218,7 @@ const AddProduct = () => {
           </Col>
           <Col md={6}>
             <div className="d-flex">
-              {products?.images?.map((image, i) => (
+              {productsValue?.images?.map((image, i) => (
                 <div
                   className="add__product__images px-1 position-relative"
                   key={new Date().getTime() * Math.random()}
@@ -219,13 +246,15 @@ const AddProduct = () => {
                 as="textarea"
                 rows={3}
                 name="description"
-                value={products.description}
+                value={productsValue.description}
                 onChange={handleProductChange}
               />
             </Form.Group>
           </Col>
         </Row>
-        <Button type="submit">Add Product</Button>
+        <Button disabled={products?.createLoading} type="submit">
+          {products?.createLoading ? 'Product Creating...' : 'Add Product'}
+        </Button>
       </Form>
     </div>
   );

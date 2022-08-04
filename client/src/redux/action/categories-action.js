@@ -2,6 +2,16 @@ import axios from 'axios';
 import { categoriesAction } from '../store/categories-slice';
 
 export const createCategories = (category) => async (dispatch) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${
+        JSON.parse(
+          JSON.parse(localStorage.getItem('smart-shopping-login')).user
+        ).token
+      }`,
+    },
+  };
+
   try {
     dispatch(
       categoriesAction.createCategories({
@@ -9,7 +19,11 @@ export const createCategories = (category) => async (dispatch) => {
       })
     );
 
-    const { data } = await axios.post('/api/v1/products/categories', category);
+    const { data } = await axios.post(
+      '/api/v1/products/categories',
+      category,
+      config
+    );
 
     if (data) {
       dispatch(
@@ -60,8 +74,18 @@ export const getCategories = () => async (dispatch) => {
 };
 
 export const removeCategory = (id) => async (dispatch) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${
+        JSON.parse(
+          JSON.parse(localStorage.getItem('smart-shopping-login')).user
+        ).token
+      }`,
+    },
+  };
+
   try {
-    await axios.delete(`/api/v1/products/categories/${id}`);
+    await axios.delete(`/api/v1/products/categories/${id}`, config);
 
     dispatch(
       categoriesAction.removeCategory({
@@ -78,6 +102,16 @@ export const removeCategory = (id) => async (dispatch) => {
 };
 
 export const updateCategory = (id, updatedValue) => async (dispatch) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${
+        JSON.parse(
+          JSON.parse(localStorage.getItem('smart-shopping-login')).user
+        ).token
+      }`,
+    },
+  };
+
   try {
     dispatch(
       categoriesAction.updateCategory({
@@ -87,7 +121,8 @@ export const updateCategory = (id, updatedValue) => async (dispatch) => {
 
     const { data } = await axios.put(
       `/api/v1/products/categories/${id}`,
-      updatedValue
+      updatedValue,
+      config
     );
 
     dispatch(
