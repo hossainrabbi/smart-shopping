@@ -18,6 +18,7 @@ const userSchema = new Schema(
           /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value),
         message: ({ value }) => `Invalid email address: ${value}`,
       },
+      trim: true,
     },
     password: {
       type: String,
