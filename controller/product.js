@@ -2,6 +2,16 @@ const uploadImages = require('../config/cloudinary');
 const error = require('../utils/error');
 const Product = require('../model/Product');
 
+exports.getAllProduct = async (_req, res, next) => {
+  try {
+    const product = await Product.find();
+
+    res.status(200).json(product);
+  } catch (err) {
+    next(err);
+  }
+};
+
 exports.createProduct = async (req, res, next) => {
   const {
     productName,

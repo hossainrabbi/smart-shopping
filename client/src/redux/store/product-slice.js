@@ -4,8 +4,10 @@ const productSlice = createSlice({
   name: 'product',
   initialState: {
     createLoading: false,
+    getLoading: false,
     isCreate: false,
     createError: '',
+    getError: '',
     products: [],
   },
   reducers: {
@@ -16,6 +18,11 @@ const productSlice = createSlice({
       if (action.payload.product) {
         state.products = [...state.products, action.payload.product];
       }
+    },
+    getProducts(state, action) {
+      state.getLoading = action.loading;
+      state.getError = action.error;
+      state.products = action.products;
     },
   },
 });
