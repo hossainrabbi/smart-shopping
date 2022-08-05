@@ -6,7 +6,7 @@ import './SingleProduct.scss';
 
 const SingleProduct = ({
   images,
-  description,
+  _id,
   discount,
   price,
   productName,
@@ -14,6 +14,7 @@ const SingleProduct = ({
   iconRight: IconRight,
   leftIconClass,
   rightIconClass,
+  rightProductHandler,
 }) => {
   const calculatePrice = parseFloat(
     (price - (price * discount) / 100).toFixed(2)
@@ -31,12 +32,12 @@ const SingleProduct = ({
       </div>
       <Card.Body className="py-0">
         <Card.Title className="mt-3">{productName}</Card.Title>
-        <Card.Text className="mb-0">
+        {/* <Card.Text className="mb-0">
           {description.length > 100
             ? `${description.slice(0, 100)}...`
             : description}
-        </Card.Text>
-        <div className="mt-2 d-flex align-items-center justify-content-between">
+        </Card.Text> */}
+        <div className="d-flex align-items-center justify-content-between">
           <div className="d-flex align-items-center">
             {discount > 0 && (
               <h6 className="mb-0 me-2 text-muted">
@@ -46,13 +47,13 @@ const SingleProduct = ({
             <h5 className="mb-0 text-primary">${calculatePrice}</h5>
           </div>
           <div className="d-flex align-items-center">
-            <Rating
+            {/* <Rating
               readonly
               emptySymbol={<FaStar className="light__color" />}
               fullSymbol={<FaStar className="orange__color" />}
-              initialRating={4.5}
+              initialRating={4}
               className="mb-2 me-1"
-            />
+            /> */}
             <span>(5)</span>
           </div>
         </div>
@@ -60,7 +61,10 @@ const SingleProduct = ({
           <span className={`btn border-0 ${leftIconClass}`}>
             <IconLeft />
           </span>
-          <span className={`btn border-0 ${rightIconClass}`}>
+          <span
+            className={`btn border-0 ${rightIconClass}`}
+            onClick={() => rightProductHandler(_id)}
+          >
             <IconRight />
           </span>
         </div>

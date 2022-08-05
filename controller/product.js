@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const uploadImages = require('../config/cloudinary');
 const error = require('../utils/error');
 const Product = require('../model/Product');
@@ -55,6 +56,23 @@ exports.createProduct = async (req, res, next) => {
 
     product = await product.save();
     res.status(200).json(product);
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.deleteProduct = async (req, res, next) => {
+  const { productId } = req.params;
+  try {
+    if (!mongoose.Types.ObjectId.isValid(productId)) {
+      throw error('product not found', 404);
+    }
+
+    const product = await Product.findById(productId);
+    if (!product) throw error('product not found', 404);
+
+    await product.remove();
+    res.status(203).send();
   } catch (err) {
     next(err);
   }

@@ -57,9 +57,46 @@ export const getProducts = () => async (dispatch) => {
       })
     );
   } catch (err) {
-    console.log(err);
     dispatch(
       productAction.getProducts({
+        loading: false,
+        error: err.response.data.message,
+      })
+    );
+  }
+};
+
+export const removeProduct = (productId) => async (dispatch) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${
+        JSON.parse(
+          JSON.parse(localStorage.getItem('smart-shopping-login')).user
+        ).token
+      }`,
+    },
+  };
+
+  try {
+    dispatch(
+      productAction.removeProduct({
+        loading: true,
+      })
+    );
+
+    await axios.delete(`/api/v1/products/${productId}`, config);
+
+    dispatch(
+      productAction.removeProduct({
+        loading: false,
+        isRemove: true,
+        error: '',
+        productId,
+      })
+    );
+  } catch (err) {
+    dispatch(
+      productAction.removeProduct({
         loading: false,
         error: err.response.data.message,
       })

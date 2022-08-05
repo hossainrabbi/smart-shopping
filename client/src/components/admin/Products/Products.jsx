@@ -2,7 +2,10 @@ import React, { useEffect } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { FaEdit, FaTrash } from 'react-icons/fa';
-import { getProducts } from '../../../redux/action/product-action';
+import {
+  getProducts,
+  removeProduct,
+} from '../../../redux/action/product-action';
 import SingleProduct from '../../common/SingleProduct/SingleProduct';
 
 const Products = () => {
@@ -13,7 +16,9 @@ const Products = () => {
     dispatch(getProducts());
   }, [dispatch]);
 
-  console.log(products);
+  const removeProductItem = (id) => {
+    dispatch(removeProduct(id));
+  };
 
   return (
     <div className="section__area p-3">
@@ -26,6 +31,7 @@ const Products = () => {
                 iconRight={FaTrash}
                 leftIconClass="text-success"
                 rightIconClass="text-danger"
+                rightProductHandler={removeProductItem}
                 {...product}
               />
             </Col>
