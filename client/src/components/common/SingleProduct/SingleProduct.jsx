@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
-import Rating from 'react-rating';
-import { FaStar } from 'react-icons/fa';
+import ReactStars from 'react-rating-stars-component';
+import { FaStar, FaStarHalf } from 'react-icons/fa';
 import './SingleProduct.scss';
 
 const SingleProduct = ({
@@ -47,13 +47,19 @@ const SingleProduct = ({
             <h5 className="mb-0 text-primary">${calculatePrice}</h5>
           </div>
           <div className="d-flex align-items-center">
-            {/* <Rating
-              readonly
-              emptySymbol={<FaStar className="light__color" />}
-              fullSymbol={<FaStar className="orange__color" />}
-              initialRating={4}
-              className="mb-2 me-1"
-            /> */}
+            <ReactStars
+              emptyIcon={<FaStar />}
+              fullIcon={<FaStar />}
+              halfIcon={<FaStarHalf />}
+              activeColor="#ffa534"
+              size={25}
+              value={3.5}
+              edit={false}
+              isHalf
+              // char={<FaStar />}
+              classNames="me-1"
+            />
+
             <span>(5)</span>
           </div>
         </div>
