@@ -4,6 +4,7 @@ $main: #002d68;
 $sub-main: #424043;
 $white: #ffffff;
 $light: #e5f3ff;
+$orange: #ffa534;
 
 $transition: 0.2s;
 
@@ -24,4 +25,12 @@ img {
   background-color: $white;
   padding: 5px 10px;
   min-height: calc(100vh - 83px);
+}
+
+.light__color {
+  color: $light;
+}
+
+.orange__color {
+  color: $orange;
 }

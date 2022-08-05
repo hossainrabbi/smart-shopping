@@ -1,5 +1,7 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
+import Rating from 'react-rating';
+import { FaStar } from 'react-icons/fa';
 import './SingleProduct.scss';
 
 const SingleProduct = ({
@@ -43,7 +45,16 @@ const SingleProduct = ({
             )}
             <h5 className="mb-0 text-primary">${calculatePrice}</h5>
           </div>
-          <div>Review</div>
+          <div className="d-flex align-items-center">
+            <Rating
+              readonly
+              emptySymbol={<FaStar className="light__color" />}
+              fullSymbol={<FaStar className="orange__color" />}
+              initialRating={4.5}
+              className="mb-2 me-1"
+            />
+            <span>(5)</span>
+          </div>
         </div>
         <div className="d-flex justify-content-between align-items-center mb-1">
           <span className={`btn border-0 ${leftIconClass}`}>
