@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const uploadImages = require('../config/cloudinary');
 const error = require('../utils/error');
 const Product = require('../model/Product');
+const isValidHttpUrl = require('../utils/isValidHttpUrl');
 
 exports.getAllProduct = async (_req, res, next) => {
   try {
@@ -55,6 +56,55 @@ exports.createProduct = async (req, res, next) => {
     });
 
     product = await product.save();
+    res.status(200).json(product);
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.updateProduct = async (req, res, next) => {
+  const { productId } = req.params;
+
+  const {
+    productName,
+    price,
+    inStock,
+    discount,
+    category,
+    images,
+    description,
+  } = req.body;
+
+  try {
+    let product = await Product.findById(productId);
+    if (!product) throw error('product not found', 404);
+
+    const imageResult = [];
+    for (let i = 0; i < images.length; i++) {
+      if (isValidHttpUrl(images[i])) {
+        imageResult.push(images[i]);
+      } else {
+        const result = await uploadImages(images[i]);
+        imageResult.push(result.url);
+      }
+    }
+
+    if (imageResult.length <= 0) throw error('Images upload fail', 400);
+
+    product = await Product.findByIdAndUpdate(
+      productId,
+      {
+        productName,
+        price,
+        inStock,
+        discount,
+        category,
+        images: imageResult,
+        description,
+      },
+      { new: true }
+    );
+
     res.status(200).json(product);
   } catch (err) {
     next(err);

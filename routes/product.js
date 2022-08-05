@@ -2,6 +2,7 @@ const router = require('express').Router();
 const {
   createProduct,
   getAllProduct,
+  updateProduct,
   deleteProduct,
 } = require('../controller/product');
 const authentication = require('../middleware/authentication');
@@ -14,6 +15,7 @@ router
 
 router
   .route('/:productId')
+  .patch(authentication, authorization(['ADMIN']), updateProduct)
   .delete(authentication, authorization(['ADMIN']), deleteProduct);
 
 module.exports = router;
