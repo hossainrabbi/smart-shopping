@@ -20,9 +20,9 @@ const productSlice = createSlice({
       }
     },
     getProducts(state, action) {
-      state.getLoading = action.loading;
-      state.getError = action.error;
-      state.products = action.products;
+      state.getLoading = action.payload.loading;
+      state.getError = action.payload.error;
+      state.products = action.payload.products;
     },
   },
 });

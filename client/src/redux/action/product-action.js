@@ -38,3 +38,31 @@ export const createProduct = (productData) => async (dispatch) => {
     );
   }
 };
+
+export const getProducts = () => async (dispatch) => {
+  try {
+    dispatch(
+      productAction.getProducts({
+        loading: true,
+      })
+    );
+
+    const { data } = await axios.get('/api/v1/products');
+
+    dispatch(
+      productAction.getProducts({
+        loading: false,
+        error: '',
+        products: data,
+      })
+    );
+  } catch (err) {
+    console.log(err);
+    dispatch(
+      productAction.getProducts({
+        loading: false,
+        error: err.response.data.message,
+      })
+    );
+  }
+};
