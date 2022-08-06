@@ -6,11 +6,14 @@ const productSlice = createSlice({
     createLoading: false,
     getLoading: false,
     removeLoading: false,
+    updateLoading: false,
     isCreate: false,
     isRemove: false,
+    isUpdate: false,
     createError: '',
     getError: '',
     removeError: '',
+    updateError: '',
     products: [],
   },
   reducers: {
@@ -29,8 +32,21 @@ const productSlice = createSlice({
 
       state.createError = '';
       state.removeError = '';
+      state.updateError = '';
       state.isCreate = false;
       state.isRemove = false;
+      state.isUpdate = false;
+    },
+    updateProduct(state, action) {
+      state.updateLoading = action.payload.loading;
+      state.isUpdate = action.payload.isUpdate;
+      state.updateError = action.payload.error;
+      if (action.payload.product) {
+        const findIndex = state.products.findIndex(
+          (item) => item._id === action.payload.product._id
+        );
+        state.products[findIndex] = action.payload.product;
+      }
     },
     removeProduct(state, action) {
       state.isRemove = action.payload.isRemove;

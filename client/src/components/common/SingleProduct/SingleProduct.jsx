@@ -15,6 +15,7 @@ const SingleProduct = ({
   leftIconClass,
   rightIconClass,
   rightProductHandler,
+  leftProductHandler,
 }) => {
   const calculatePrice = parseFloat(
     (price - (price * discount) / 100).toFixed(2)
@@ -64,7 +65,10 @@ const SingleProduct = ({
           </div>
         </div>
         <div className="d-flex justify-content-between align-items-center mb-1">
-          <span className={`btn border-0 ${leftIconClass}`}>
+          <span
+            className={`btn border-0 ${leftIconClass}`}
+            onClick={() => leftProductHandler(_id)}
+          >
             <IconLeft />
           </span>
           <span

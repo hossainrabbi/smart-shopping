@@ -3,6 +3,7 @@ import { Row, Col } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 import {
   getProducts,
   removeProduct,
@@ -13,6 +14,8 @@ import Loading from '../../common/Loading';
 const Products = () => {
   const products = useSelector((store) => store.products);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  // const [editProduct, setEditProduct] = useState('');
 
   useEffect(() => {
     if (products?.isRemove) {
@@ -32,6 +35,10 @@ const Products = () => {
     dispatch(removeProduct(id));
   };
 
+  const editProductItem = (id) => {
+    navigate(`/admin/products/${id}`);
+  };
+
   if (products?.getLoading) {
     return <Loading />;
   }
@@ -48,6 +55,7 @@ const Products = () => {
                 leftIconClass="text-success"
                 rightIconClass="text-danger"
                 rightProductHandler={removeProductItem}
+                leftProductHandler={editProductItem}
                 {...product}
               />
             </Col>

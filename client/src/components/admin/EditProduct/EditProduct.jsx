@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useParams, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { getCategories } from '../../../redux/action/categories-action';
-import { createProduct } from '../../../redux/action/product-action';
+import { updateProduct } from '../../../redux/action/product-action';
 import ProductForm from '../ProductForm/ProductForm';
-
 const productInitialsState = {
   productName: '',
   price: '',
@@ -15,29 +15,35 @@ const productInitialsState = {
   description: '',
 };
 
-const AddProduct = () => {
-  const [productsValue, setProductsValue] = useState({
-    ...productInitialsState,
-  });
+const EditProduct = () => {
+  const products = useSelector((store) => store.products);
+  const { productId } = useParams();
+  const editProductValue = products?.products?.find(
+    (item) => item._id === productId
+  );
+  const [productsValue, setProductsValue] = useState(
+    editProductValue ? { ...editProductValue } : { ...productInitialsState }
+  );
   const [error, setError] = useState('');
   const categories = useSelector((store) => store.categories);
-  const products = useSelector((store) => store.products);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getCategories());
   }, [dispatch]);
 
   useEffect(() => {
-    if (products?.createError) {
-      toast.error(products?.createError);
+    if (products?.updateError) {
+      toast.error(products?.updateError);
     }
 
-    if (products?.isCreate) {
-      toast.success('Product Created Successfully');
+    if (products?.isUpdate) {
+      toast.success('Product Update Successfully');
       setProductsValue({ ...productInitialsState });
+      navigate('/admin/products');
     }
-  }, [products?.createError, products?.isCreate]);
+  }, [products?.updateError, products?.isUpdate, navigate]);
 
   const handleProductChange = (e) => {
     setProductsValue((prevProduct) => ({
@@ -115,7 +121,7 @@ const AddProduct = () => {
     setError('');
 
     return dispatch(
-      createProduct({
+      updateProduct(productId, {
         ...productsValue,
         price: parseFloat(productsValue.price),
         inStock: parseFloat(productsValue.inStock),
@@ -129,7 +135,6 @@ const AddProduct = () => {
   const handleError = () => {
     setError('');
   };
-
   return (
     <div className="section__area p-3">
       <ProductForm
@@ -142,9 +147,10 @@ const AddProduct = () => {
         handleImagesChange={handleImagesChange}
         removeImage={removeImage}
         products={products}
+        updateProduct={true}
       />
     </div>
   );
 };
 
-export default AddProduct;
+export default EditProduct;

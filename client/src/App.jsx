@@ -12,6 +12,7 @@ import Login from './components/pages/Login/Login';
 import Register from './components/pages/Register/Register';
 import PrivateRoute from './components/PrivateRoute';
 import { Toaster } from 'react-hot-toast';
+import EditProduct from './components/admin/EditProduct/EditProduct';
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
           <Route path="" element={<AdminLayout />}>
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="products" element={<Products />} />
+            <Route path="products/:productId" element={<EditProduct />} />
             <Route path="add-product" element={<AddProduct />} />
             <Route path="categories" element={<Categories />} />
             <Route path="users" element={<Users />} />

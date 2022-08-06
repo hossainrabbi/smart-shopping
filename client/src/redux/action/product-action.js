@@ -39,6 +39,48 @@ export const createProduct = (productData) => async (dispatch) => {
   }
 };
 
+export const updateProduct = (productId, productData) => async (dispatch) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${
+        JSON.parse(
+          JSON.parse(localStorage.getItem('smart-shopping-login')).user
+        ).token
+      }`,
+    },
+  };
+
+  try {
+    dispatch(
+      productAction.updateProduct({
+        loading: true,
+      })
+    );
+
+    const { data } = await axios.patch(
+      `/api/v1/products/${productId}`,
+      productData,
+      config
+    );
+
+    dispatch(
+      productAction.updateProduct({
+        loading: false,
+        error: '',
+        product: data,
+        isUpdate: true,
+      })
+    );
+  } catch (err) {
+    dispatch(
+      productAction.updateProduct({
+        loading: false,
+        error: err.response.data.message,
+      })
+    );
+  }
+};
+
 export const getProducts = () => async (dispatch) => {
   try {
     dispatch(
