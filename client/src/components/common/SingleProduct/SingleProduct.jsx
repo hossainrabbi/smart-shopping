@@ -10,6 +10,7 @@ const SingleProduct = ({
   discount,
   price,
   productName,
+  category,
   iconLeft: IconLeft,
   iconRight: IconRight,
   leftIconClass,
@@ -32,7 +33,10 @@ const SingleProduct = ({
         )}
       </div>
       <Card.Body className="py-0">
-        <Card.Title className="mt-3">{productName}</Card.Title>
+        <small className="text-muted text-capitalize my-2 d-inline-block">
+          {category}
+        </small>
+        <Card.Title>{productName}</Card.Title>
         {/* <Card.Text className="mb-0">
           {description.length > 100
             ? `${description.slice(0, 100)}...`

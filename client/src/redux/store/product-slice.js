@@ -49,8 +49,8 @@ const productSlice = createSlice({
       }
     },
     removeProduct(state, action) {
-      state.isRemove = action.payload.isRemove;
       state.removeLoading = action.payload.loading;
+      state.isRemove = action.payload.isRemove;
       state.removeError = action.payload.error;
       if (action.payload.productId) {
         state.products = state.products.filter(

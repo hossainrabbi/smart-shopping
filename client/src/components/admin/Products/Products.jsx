@@ -15,7 +15,6 @@ const Products = () => {
   const products = useSelector((store) => store.products);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const [editProduct, setEditProduct] = useState('');
 
   useEffect(() => {
     if (products?.isRemove) {
