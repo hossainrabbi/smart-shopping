@@ -7,6 +7,10 @@ const categorySchema = new Schema(
       required: [true, 'category name is required'],
       unique: [true, 'category already exist'],
     },
+    categoryImage: {
+      type: String,
+      required: [true, 'category image is required'],
+    },
   },
   { timestamps: true }
 );

@@ -1,9 +1,10 @@
 const { default: mongoose } = require('mongoose');
+const uploadImages = require('../config/cloudinary');
 const Categories = require('../model/Categories');
 const error = require('../utils/error');
 
 exports.postCategory = async (req, res, next) => {
-  const { categoryName } = req.body;
+  const { categoryName, categoryImage } = req.body;
 
   try {
     if (!categoryName) throw error('please provide category name', 400);
@@ -13,7 +14,13 @@ exports.postCategory = async (req, res, next) => {
     });
     if (category) throw error('category already exist', 400);
 
-    category = new Categories({ categoryName: categoryName.toLowerCase() });
+    const imageResult = await uploadImages(categoryImage);
+    if (!imageResult) throw error('category image is required', 400);
+
+    category = new Categories({
+      categoryName: categoryName.toLowerCase(),
+      categoryImage: imageResult.url,
+    });
     category = await category.save();
 
     res.status(201).json(category);

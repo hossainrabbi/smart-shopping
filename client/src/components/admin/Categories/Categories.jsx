@@ -13,6 +13,7 @@ import './Categories.scss';
 
 const Categories = () => {
   const [categoryInput, setCategoryInput] = useState('');
+  const [image, setImage] = useState('');
   const [updatedCategoryId, setUpdatedCategoryId] = useState('');
   const categories = useSelector((store) => store.categories);
   const dispatch = useDispatch();
@@ -30,6 +31,7 @@ const Categories = () => {
 
     if (categories?.isCreate) {
       setCategoryInput('');
+      setImage('');
     }
   }, [categories?.createError, categories?.isCreate]);
 
@@ -55,14 +57,17 @@ const Categories = () => {
   const handleAddCategory = (e) => {
     e.preventDefault();
     if (!categoryInput) return toast.error('Please Type Category');
+    if (!image) return toast.error('Category Image is Required');
 
     if (updatedCategoryId) {
       return dispatch(
-        updateCategory(updatedCategoryId, { categoryName: categoryInput })
+        updateCategory(updatedCategoryId, { categoryImage: categoryInput })
       );
     }
 
-    return dispatch(createCategories({ categoryName: categoryInput }));
+    return dispatch(
+      createCategories({ categoryName: categoryInput, categoryImage: image })
+    );
   };
 
   const handleRemoveCategory = (id) => {
@@ -79,6 +84,15 @@ const Categories = () => {
     editRef.current.focus();
   };
 
+  const handleImageChange = (e) => {
+    const reader = new FileReader();
+
+    reader.readAsDataURL(e.target.files[0]);
+    reader.onloadend = () => {
+      setImage(reader.result);
+    };
+  };
+
   return (
     <div className="section__area p-3">
       <h3 className="text-center mb-4">Create Categories</h3>
@@ -88,7 +102,14 @@ const Categories = () => {
             className="d-flex justify-content-between align-items-center"
             key={categoryItem?._id}
           >
-            {categoryItem?.categoryName}
+            <div>
+              <img
+                src={categoryItem?.categoryImage}
+                alt={categoryItem?.categoryName}
+                className="category__img me-2 rounded-1"
+              />
+              {categoryItem?.categoryName}
+            </div>
             <span>
               <button
                 onClick={() => handleEditCategory(categoryItem?._id)}
@@ -112,6 +133,18 @@ const Categories = () => {
             categories?.categories?.length > 0 ? 'empty__list' : ''
           }`}
         >
+          <div className="d-flex justify-content-center">
+            <Form.Control
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+              className="image__input"
+              size="lg"
+            />
+            {image && (
+              <img className="category__img" src={image} alt={categoryInput} />
+            )}
+          </div>
           <Form.Control
             placeholder="Type Category"
             value={categoryInput}
