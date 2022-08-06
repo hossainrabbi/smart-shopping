@@ -2,6 +2,7 @@ const { default: mongoose } = require('mongoose');
 const uploadImages = require('../config/cloudinary');
 const Categories = require('../model/Categories');
 const error = require('../utils/error');
+const isValidHttpUrl = require('../utils/isValidHttpUrl');
 
 exports.postCategory = async (req, res, next) => {
   const { categoryName, categoryImage } = req.body;
@@ -59,7 +60,7 @@ exports.deleteCategory = async (req, res, next) => {
 
 exports.updateCategory = async (req, res, next) => {
   const { categoryId } = req.params;
-  const { categoryName } = req.body;
+  const { categoryName, categoryImage } = req.body;
 
   try {
     if (!mongoose.Types.ObjectId.isValid(categoryId))
@@ -73,9 +74,19 @@ exports.updateCategory = async (req, res, next) => {
     });
     if (category) throw error('this category already exist', 400);
 
+    let updatedImage;
+
+    if (isValidHttpUrl(categoryImage)) {
+      updatedImage = categoryImage;
+    } else {
+      const result = await uploadImages(categoryImage);
+      if (!result) throw error('Invalid Product Image', 400);
+      updatedImage = result.url;
+    }
+
     category = await Categories.findByIdAndUpdate(
       categoryId,
-      { categoryName: categoryName.toLowerCase() },
+      { categoryName: categoryName.toLowerCase(), categoryImage: updatedImage },
       { new: true }
     );
 

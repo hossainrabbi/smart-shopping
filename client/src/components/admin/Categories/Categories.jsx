@@ -44,6 +44,7 @@ const Categories = () => {
     if (categories?.isUpdate) {
       setCategoryInput('');
       setUpdatedCategoryId('');
+      setImage('');
       toast.success('Category Update Successfully');
     }
   }, [categories?.updateError, categories?.isUpdate]);
@@ -61,7 +62,10 @@ const Categories = () => {
 
     if (updatedCategoryId) {
       return dispatch(
-        updateCategory(updatedCategoryId, { categoryImage: categoryInput })
+        updateCategory(updatedCategoryId, {
+          categoryName: categoryInput,
+          categoryImage: image,
+        })
       );
     }
 
@@ -81,6 +85,7 @@ const Categories = () => {
     );
 
     setCategoryInput(findCategory.categoryName);
+    setImage(findCategory.categoryImage);
     editRef.current.focus();
   };
 
