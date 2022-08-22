@@ -125,8 +125,6 @@ export const updateCategory = (id, updatedValue) => async (dispatch) => {
       config
     );
 
-    console.log(data);
-
     dispatch(
       categoriesAction.updateCategory({
         error: '',
@@ -137,7 +135,6 @@ export const updateCategory = (id, updatedValue) => async (dispatch) => {
       })
     );
   } catch (err) {
-    console.log(err);
     dispatch(
       categoriesAction.updateCategory({
         error: err.response.data.message,

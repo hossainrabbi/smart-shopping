@@ -50,12 +50,14 @@ const Register = () => {
           <Form onSubmit={handleSubmit(onSubmit)}>
             <InputFormGroup
               icon={FaRegUser}
+              type="text"
               label="Username"
               {...register('username', { required: 'Username is required' })}
               error={errors.username}
             />
             <InputFormGroup
               icon={MdOutlineMailOutline}
+              type="email"
               label="Email"
               {...register('email', {
                 required: 'Email is required',
@@ -69,6 +71,7 @@ const Register = () => {
             />
             <InputFormGroup
               icon={FiLock}
+              type="password"
               label="Password"
               {...register('password', {
                 required: 'Password is required',

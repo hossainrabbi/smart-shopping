@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, InputGroup } from 'react-bootstrap';
 
 const InputFormGroup = React.forwardRef(
-  ({ icon: Icon, label, error, ...rest }, ref) => {
+  ({ icon: Icon, label, error, type, ...rest }, ref) => {
     return (
       <div className="mb-3">
         <Form.Label htmlFor={`${label}-id`} className="mb-0">
@@ -13,7 +13,7 @@ const InputFormGroup = React.forwardRef(
             <Icon />
           </InputGroup.Text>
           <Form.Control
-            type="text"
+            type={type}
             id={`${label}-id`}
             placeholder={label}
             aria-describedby={`${label}-aria`}

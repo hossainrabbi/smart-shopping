@@ -1,0 +1,25 @@
+@import '../../../index.scss';
+
+.support__area {
+  position: relative;
+  color: $sub-main;
+  &::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 40%;
+    background-color: $light;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  &:last-child {
+    &::after {
+      background-color: transparent;
+    }
+  }
+  h5 {
+    font-size: 18px;
+    font-weight: 500;
+  }
+}

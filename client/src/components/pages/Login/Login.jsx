@@ -49,6 +49,7 @@ const Login = () => {
           <Form onSubmit={handleSubmit(onSubmit)}>
             <InputFormGroup
               icon={MdOutlineMailOutline}
+              type="email"
               label="Email"
               {...register('email', {
                 required: 'Email is required',
@@ -57,6 +58,7 @@ const Login = () => {
             />
             <InputFormGroup
               icon={FiLock}
+              type="password"
               label="Password"
               {...register('password', {
                 required: 'Password is required',
