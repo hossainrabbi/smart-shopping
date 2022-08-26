@@ -5,6 +5,7 @@ import persistStore from 'redux-persist/es/persistStore';
 import authSlice from './auth-slice';
 import categoriesSlice from './categories-slice';
 import productSlice from './product-slice';
+import productListSlice from './product-list-slice';
 
 const persistConfig = {
   keyPrefix: 'smart-shopping-',
@@ -17,6 +18,7 @@ const store = configureStore({
     auth: persistReducer(persistConfig, authSlice.reducer),
     categories: categoriesSlice.reducer,
     products: productSlice.reducer,
+    productList: productListSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }),

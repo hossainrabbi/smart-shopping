@@ -6,29 +6,18 @@ import { FaRegHeart, FaHeart, FaShoppingCart } from 'react-icons/fa';
 import './Products.scss';
 import { getProducts } from '../../../redux/action/product-action';
 import SingleProduct from '../../common/SingleProduct/SingleProduct';
-import { useState } from 'react';
+import { addProductWishList } from '../../../redux/action/product-list-action';
 
 const Products = () => {
-  const products = useSelector((store) => store.products);
+  const { products, productList } = useSelector((store) => store);
   const dispatch = useDispatch();
-  const [wishList, setWishList] = useState([]);
 
   useEffect(() => {
     dispatch(getProducts());
   }, [dispatch]);
 
   const wishProductItem = (id) => {
-    const findProduct = products?.products?.find(
-      (product) => product._id === id
-    );
-
-    if (
-      wishList.findIndex((product) => product._id === findProduct._id) === -1
-    ) {
-      setWishList([...wishList, findProduct]);
-    } else {
-      setWishList(wishList.filter((product) => product._id !== id));
-    }
+    dispatch(addProductWishList(id, products?.products));
   };
 
   const cartProductItem = () => {
@@ -43,13 +32,13 @@ const Products = () => {
           <Col md={4} key={product._id} className="mb-4">
             <SingleProduct
               iconLeft={
-                wishList.some((item) => item._id === product._id)
+                productList.wishList.some((item) => item._id === product._id)
                   ? FaHeart
                   : FaRegHeart
               }
               iconRight={FaShoppingCart}
               leftIconClass={
-                wishList.some((item) => item._id === product._id)
+                productList.wishList.some((item) => item._id === product._id)
                   ? 'text-danger'
                   : 'text-primary'
               }
