@@ -4,6 +4,7 @@ const productListSlice = createSlice({
   name: 'productList',
   initialState: {
     wishList: [],
+    cartList: [],
   },
   reducers: {
     addWishList(state, action) {
@@ -23,6 +24,7 @@ const productListSlice = createSlice({
         );
       }
     },
+    addCartList(state, action) {},
   },
 });
 
