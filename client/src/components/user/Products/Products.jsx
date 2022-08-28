@@ -6,13 +6,14 @@ import { FaRegHeart, FaHeart, FaShoppingCart } from 'react-icons/fa';
 import './Products.scss';
 import { getProducts } from '../../../redux/action/product-action';
 import SingleProduct from '../../common/SingleProduct/SingleProduct';
-import { addProductWishList } from '../../../redux/action/product-list-action';
-import { useState } from 'react';
+import {
+  addProductCartList,
+  addProductWishList,
+} from '../../../redux/action/product-list-action';
 
 const Products = () => {
   const { products, productList } = useSelector((store) => store);
   const dispatch = useDispatch();
-  const [cart, setCart] = useState([]);
 
   useEffect(() => {
     dispatch(getProducts());
@@ -23,29 +24,8 @@ const Products = () => {
   };
 
   const cartProductItem = (id) => {
-    const findProduct = products?.products.find(
-      (product) => product._id === id
-    );
-
-    const findIndex = cart.findIndex(
-      (product) => product._id === findProduct._id
-    );
-
-    if (findIndex === -1 && findProduct.inStock >= 1) {
-      return setCart([...cart, { ...findProduct, qty: 1 }]);
-    }
-
-    if (
-      findIndex !== -1 &&
-      cart[findIndex].inStock >= 1 &&
-      cart[findIndex].qty < cart[findIndex].inStock
-    ) {
-      cart[findIndex].qty = cart[findIndex].qty + 1;
-      setCart([...cart]);
-    }
+    dispatch(addProductCartList(id, products?.products));
   };
-
-  console.log(cart);
 
   return (
     <Container>

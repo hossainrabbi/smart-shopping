@@ -28,6 +28,7 @@ const navMenu = [
 
 const NavBar = () => {
   const auth = useSelector((store) => store.auth);
+  const { productList } = useSelector((store) => store);
   const dispatch = useDispatch();
 
   const handleLogout = () => {
@@ -51,7 +52,9 @@ const NavBar = () => {
           </Nav>
           <button className="btn border-0 badge__style position-relative">
             <FiShoppingCart />
-            <span className="rounded-circle">10</span>
+            <span className="rounded-circle">
+              {productList.cartList.length}
+            </span>
           </button>
           {auth?.user?.token ? (
             <Dropdown>

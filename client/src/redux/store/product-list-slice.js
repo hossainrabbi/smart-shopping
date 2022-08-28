@@ -24,7 +24,26 @@ const productListSlice = createSlice({
         );
       }
     },
-    addCartList(state, action) {},
+    addCartList(state, action) {
+      const findProduct = action.payload.products.find(
+        (product) => product._id === action.payload.productId
+      );
+
+      const findIndex = state.cartList.findIndex(
+        (product) => product._id === findProduct._id
+      );
+
+      if (findIndex === -1 && findProduct.inStock >= 1) {
+        state.cartList = [...state.cartList, { ...findProduct, qty: 1 }];
+      } else if (
+        findIndex !== -1 &&
+        state.cartList[findIndex].inStock >= 1 &&
+        state.cartList[findIndex].qty < state.cartList[findIndex].inStock
+      ) {
+        state.cartList[findIndex].qty = state.cartList[findIndex].qty + 1;
+        state.cartList = [...state.cartList];
+      }
+    },
   },
 });
 

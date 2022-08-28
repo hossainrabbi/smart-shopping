@@ -8,3 +8,12 @@ export const addProductWishList = (productId, products) => (dispatch) => {
     })
   );
 };
+
+export const addProductCartList = (productId, products) => (dispatch) => {
+  dispatch(
+    productListAction.addCartList({
+      productId,
+      products,
+    })
+  );
+};
