@@ -3,8 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 const productListSlice = createSlice({
   name: 'productList',
   initialState: {
-    wishList: [],
     cartList: [],
+    wishList: [],
   },
   reducers: {
     addWishList(state, action) {
