@@ -16,9 +16,8 @@ const Category = () => {
     dispatch(getCategories());
   }, [dispatch]);
 
-  console.log(categories);
   return (
-    <Container>
+    <Container className="pt-4">
       <ContentTitle title="All Categories" />
       <Swiper
         slidesPerView={4}
