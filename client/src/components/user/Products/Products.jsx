@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Button, Col, Container, Row } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 import ContentTitle from '../../common/ContentTitle/ContentTitle';
 import { useSelector, useDispatch } from 'react-redux';
 import { FaRegHeart, FaHeart, FaShoppingCart } from 'react-icons/fa';
@@ -83,11 +83,6 @@ const Products = () => {
               </Col>
             ))}
       </Row>
-      {products?.products?.length > 6 && (
-        <div className="text-center mt-3">
-          <Button>See More Product</Button>
-        </div>
-      )}
     </Container>
   );
 };
