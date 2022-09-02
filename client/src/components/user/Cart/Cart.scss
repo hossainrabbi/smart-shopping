@@ -1,0 +1,29 @@
+@import '../../../index.scss';
+
+.cart__table {
+  th {
+    vertical-align: middle;
+    text-align: center;
+  }
+
+  td {
+    vertical-align: middle;
+    text-align: center;
+    &:first-child {
+      width: 100px;
+      height: 100px;
+    }
+    img {
+      object-fit: cover;
+    }
+    s {
+      color: $sub-main;
+    }
+    span {
+      width: 40px;
+      text-align: center;
+      display: inline-block;
+      margin-top: 5px;
+    }
+  }
+}

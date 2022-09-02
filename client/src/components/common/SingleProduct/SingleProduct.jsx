@@ -3,6 +3,7 @@ import { Card } from 'react-bootstrap';
 import ReactStars from 'react-rating-stars-component';
 import { FaStar, FaStarHalf } from 'react-icons/fa';
 import './SingleProduct.scss';
+import discountPrice from '../../utils/discount';
 
 const SingleProduct = ({
   images,
@@ -18,9 +19,7 @@ const SingleProduct = ({
   rightProductHandler,
   leftProductHandler,
 }) => {
-  const calculatePrice = parseFloat(
-    (price - (price * discount) / 100).toFixed(2)
-  );
+  const calculatePrice = discountPrice(price, discount);
 
   return (
     <Card className="shadow-sm single__product">

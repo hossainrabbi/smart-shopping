@@ -50,12 +50,15 @@ const NavBar = () => {
               </Link>
             ))}
           </Nav>
-          <button className="btn border-0 badge__style position-relative">
+          <Link
+            to="/cart"
+            className="btn border-0 badge__style position-relative"
+          >
             <FiShoppingCart />
             <span className="rounded-circle">
-              {productList.cartList.length}
+              {productList?.cartList?.length}
             </span>
-          </button>
+          </Link>
           {auth?.user?.token ? (
             <Dropdown>
               <Dropdown.Toggle
