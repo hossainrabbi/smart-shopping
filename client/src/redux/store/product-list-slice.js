@@ -24,6 +24,7 @@ const productListSlice = createSlice({
         );
       }
     },
+
     addCartList(state, action) {
       const findProduct = action.payload.products.find(
         (product) => product._id === action.payload.productId
@@ -44,12 +45,38 @@ const productListSlice = createSlice({
         state.cartList = [...state.cartList];
       }
     },
+
     removeFromCart(state, action) {
       state.cartList = [
         ...state.cartList.filter(
           (product) => product._id !== action.payload.productId
         ),
       ];
+    },
+
+    incrementCartProductQty(state, action) {
+      const findIndex = state.cartList.findIndex(
+        (product) => product._id === action.payload.productId
+      );
+      if (
+        findIndex !== -1 &&
+        state.cartList[findIndex].qty < state.cartList[findIndex].inStock
+      ) {
+        state.cartList[findIndex].qty++;
+      }
+    },
+
+    decrementCartProductQty(state, action) {
+      const findIndex = state.cartList.findIndex(
+        (product) => product._id === action.payload.productId
+      );
+      if (findIndex !== -1 && state.cartList[findIndex].qty > 1) {
+        state.cartList[findIndex].qty--;
+      }
+    },
+
+    clearAllFromCart(state) {
+      state.cartList = [];
     },
   },
 });

@@ -8,17 +8,36 @@ import { AiOutlineClose } from 'react-icons/ai';
 import './Cart.scss';
 import ContentTitle from '../../common/ContentTitle/ContentTitle';
 import discountPrice from '../../utils/discount';
-import { removeFromCart } from '../../../redux/action/product-list-action';
+import {
+  clearAllFromCart,
+  decrementCartProductQty,
+  incrementCartProductQty,
+  removeFromCart,
+} from '../../../redux/action/product-list-action';
+import totalPrice from '../../utils/totalPrice';
 
 const Cart = () => {
   const { productList } = useSelector((store) => store);
   const dispatch = useDispatch();
 
   const subTotal = (priceDiscount, qty) => (priceDiscount * qty).toFixed(2);
-  console.log(productList);
+  const shippingFee = 75.0;
+  const total = totalPrice(productList?.cartList, shippingFee);
 
   const handleRemoveFromCart = (id) => {
     dispatch(removeFromCart(id));
+  };
+
+  const incrementProductQty = (id) => {
+    dispatch(incrementCartProductQty(id));
+  };
+
+  const decrementProductQty = (id) => {
+    dispatch(decrementCartProductQty(id));
+  };
+
+  const clearAll = () => {
+    dispatch(clearAllFromCart());
   };
 
   return (
@@ -26,7 +45,7 @@ const Cart = () => {
       {productList?.cartList?.length > 0 ? (
         <>
           <ContentTitle title="Your cart items" />
-          <Table striped bordered hover className="cart__table">
+          <Table bordered className="cart__table">
             <thead>
               <tr>
                 <th>Image</th>
@@ -62,16 +81,24 @@ const Cart = () => {
                   <td>{productItem.inStock}</td>
                   <td>
                     <div className="d-flex justify-content-center align-items-center">
-                      <button className="btn">
+                      <button
+                        className="btn"
+                        disabled={productItem.qty === 1}
+                        onClick={() => decrementProductQty(productItem._id)}
+                      >
                         <HiMinus />
                       </button>
                       <span>{productItem.qty}</span>
-                      <button className="btn">
+                      <button
+                        className="btn"
+                        disabled={productItem.qty === productItem.inStock}
+                        onClick={() => incrementProductQty(productItem._id)}
+                      >
                         <MdOutlineAdd />
                       </button>
                     </div>
                   </td>
-                  <td>
+                  <td className="price">
                     $
                     {subTotal(
                       discountPrice(productItem.price, productItem.discount),
@@ -88,8 +115,30 @@ const Cart = () => {
                   </td>
                 </tr>
               ))}
+              <tr className="total__calculation">
+                <td colspan="5">Shipping Fee:</td>
+                <td className="price">${shippingFee}</td>
+                <td />
+              </tr>
+              <tr className="total__calculation">
+                <td colspan="5">Total:</td>
+                <td className="price">${total}</td>
+                <td>
+                  <button className="btn" onClick={clearAll}>
+                    Clear All
+                  </button>
+                </td>
+              </tr>
             </tbody>
           </Table>
+          <div className="d-flex justify-content-between align-items-center">
+            <Link className="btn btn-primary" to="/shop">
+              Continue Shopping
+            </Link>
+            <Link className="btn btn-primary" to="/checkout">
+              Proceed to Checkout
+            </Link>
+          </div>
         </>
       ) : (
         <div className="text-center mt-4">

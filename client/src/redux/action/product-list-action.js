@@ -25,3 +25,23 @@ export const removeFromCart = (productId) => (dispatch) => {
     })
   );
 };
+
+export const incrementCartProductQty = (productId) => (dispatch) => {
+  dispatch(
+    productListAction.incrementCartProductQty({
+      productId,
+    })
+  );
+};
+
+export const decrementCartProductQty = (productId) => (dispatch) => {
+  dispatch(
+    productListAction.decrementCartProductQty({
+      productId,
+    })
+  );
+};
+
+export const clearAllFromCart = () => (dispatch) => {
+  dispatch(productListAction.clearAllFromCart());
+};
