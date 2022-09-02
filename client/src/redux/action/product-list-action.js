@@ -17,3 +17,11 @@ export const addProductCartList = (productId, products) => (dispatch) => {
     })
   );
 };
+
+export const removeFromCart = (productId) => (dispatch) => {
+  dispatch(
+    productListAction.removeFromCart({
+      productId,
+    })
+  );
+};

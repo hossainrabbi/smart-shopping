@@ -44,6 +44,13 @@ const productListSlice = createSlice({
         state.cartList = [...state.cartList];
       }
     },
+    removeFromCart(state, action) {
+      state.cartList = [
+        ...state.cartList.filter(
+          (product) => product._id !== action.payload.productId
+        ),
+      ];
+    },
   },
 });
 

@@ -1,18 +1,25 @@
 import React from 'react';
 import { Container, Table } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { MdOutlineAdd } from 'react-icons/md';
 import { HiMinus } from 'react-icons/hi';
+import { AiOutlineClose } from 'react-icons/ai';
 import './Cart.scss';
 import ContentTitle from '../../common/ContentTitle/ContentTitle';
 import discountPrice from '../../utils/discount';
+import { removeFromCart } from '../../../redux/action/product-list-action';
 
 const Cart = () => {
   const { productList } = useSelector((store) => store);
+  const dispatch = useDispatch();
 
   const subTotal = (priceDiscount, qty) => (priceDiscount * qty).toFixed(2);
   console.log(productList);
+
+  const handleRemoveFromCart = (id) => {
+    dispatch(removeFromCart(id));
+  };
 
   return (
     <Container>
@@ -70,6 +77,14 @@ const Cart = () => {
                       discountPrice(productItem.price, productItem.discount),
                       productItem.qty
                     )}
+                  </td>
+                  <td>
+                    <button
+                      className="btn"
+                      onClick={() => handleRemoveFromCart(productItem._id)}
+                    >
+                      <AiOutlineClose />
+                    </button>
                   </td>
                 </tr>
               ))}
