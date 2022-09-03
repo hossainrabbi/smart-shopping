@@ -6,6 +6,7 @@ import authSlice from './auth-slice';
 import categoriesSlice from './categories-slice';
 import productSlice from './product-slice';
 import productListSlice from './product-list-slice';
+import addressSlice from './address-slice';
 
 const persistConfig = {
   keyPrefix: 'smart-shopping-',
@@ -19,6 +20,7 @@ const store = configureStore({
     categories: categoriesSlice.reducer,
     products: productSlice.reducer,
     productList: productListSlice.reducer,
+    address: addressSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }),

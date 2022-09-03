@@ -1,10 +1,26 @@
 import React from 'react';
+import { useState } from 'react';
+import { useEffect } from 'react';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCity, getDivision } from '../../../redux/action/address.action';
 import ContentTitle from '../../common/ContentTitle/ContentTitle';
 
 const Checkout = () => {
-  const auth = useSelector((store) => store.auth);
+  const [division, setDivision] = useState('Choose...');
+  const [city, setCity] = useState('Choose...');
+  const [upozilla, setUpozilla] = useState('Choose...');
+  const { auth, address } = useSelector((store) => store);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getDivision());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(getCity(division));
+  }, [dispatch, division]);
+
   return (
     <Container>
       <ContentTitle title="Checkout" />
@@ -50,25 +66,48 @@ const Checkout = () => {
             <Row className="mb-3">
               <Form.Group as={Col} controlId="divisions">
                 <Form.Label>Divisions:</Form.Label>
-                <Form.Select defaultValue="Choose...">
+                <Form.Select
+                  defaultValue={division}
+                  onChange={(e) => setDivision(e.target.value)}
+                >
                   <option disabled>Choose...</option>
-                  <option>...</option>
+                  {address?.divisions?.map((item) => (
+                    <option key={item._id} value={item.division}>
+                      {item.division}
+                    </option>
+                  ))}
                 </Form.Select>
               </Form.Group>
 
               <Form.Group as={Col} controlId="city">
                 <Form.Label>City:</Form.Label>
-                <Form.Select defaultValue="Choose...">
+                <Form.Select
+                  defaultValue={city}
+                  onChange={(e) => setCity(e.target.value)}
+                >
                   <option disabled>Choose...</option>
-                  <option>...</option>
+                  {address?.city?.map((item) => (
+                    <option key={item._id} value={item.district}>
+                      {item.district}
+                    </option>
+                  ))}
                 </Form.Select>
               </Form.Group>
 
               <Form.Group as={Col} controlId="formGridZip">
                 <Form.Label>Upazilla:</Form.Label>
-                <Form.Select defaultValue="Choose...">
+                <Form.Select
+                  defaultValue={upozilla}
+                  onChange={(e) => setUpozilla(e.target.value)}
+                >
                   <option disabled>Choose...</option>
-                  <option>...</option>
+                  {address?.city
+                    ?.find((cityItem) => cityItem.district === city)
+                    ?.upazilla?.map((item) => (
+                      <option key={item} value={item}>
+                        {item}
+                      </option>
+                    ))}
                 </Form.Select>
               </Form.Group>
             </Row>
