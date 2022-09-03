@@ -15,6 +15,7 @@ import { Toaster } from 'react-hot-toast';
 import EditProduct from './components/admin/EditProduct/EditProduct';
 import Home from './components/pages/Home/Home';
 import Cart from './components/user/Cart/Cart';
+import Checkout from './components/user/Checkout/Checkout';
 
 const App = () => {
   return (
@@ -26,6 +27,11 @@ const App = () => {
           <Route path="login" element={<Login />} />
           <Route path="" element={<Home />} />
           <Route path="cart" element={<Cart />} />
+        </Route>
+        <Route path="" element={<PrivateRoute userRole="USER" />}>
+          <Route path="" element={<PublicLayout />}>
+            <Route path="checkout" element={<Checkout />} />
+          </Route>
         </Route>
         <Route path="admin" element={<PrivateRoute userRole="ADMIN" />}>
           <Route path="" element={<AdminLayout />}>
