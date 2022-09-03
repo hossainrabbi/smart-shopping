@@ -15,12 +15,12 @@ import {
   removeFromCart,
 } from '../../../redux/action/product-list-action';
 import totalPrice from '../../utils/totalPrice';
+import subTotal from '../../utils/subTotal';
 
 const Cart = () => {
   const { productList } = useSelector((store) => store);
   const dispatch = useDispatch();
 
-  const subTotal = (priceDiscount, qty) => (priceDiscount * qty).toFixed(2);
   const shippingFee = 75.0;
   const total = totalPrice(productList?.cartList, shippingFee);
 
@@ -116,12 +116,12 @@ const Cart = () => {
                 </tr>
               ))}
               <tr className="total__calculation">
-                <td colspan="5">Shipping Fee:</td>
+                <td colSpan="5">Shipping Fee:</td>
                 <td className="price">${shippingFee}</td>
                 <td />
               </tr>
               <tr className="total__calculation">
-                <td colspan="5">Total:</td>
+                <td colSpan="5">Total:</td>
                 <td className="price">${total}</td>
                 <td>
                   <button className="btn" onClick={clearAll}>

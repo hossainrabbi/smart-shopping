@@ -1,17 +1,23 @@
 import React from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { Button, Col, Container, Form, Row } from 'react-bootstrap';
+import { Col, Container, Form, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCity, getDivision } from '../../../redux/action/address.action';
 import ContentTitle from '../../common/ContentTitle/ContentTitle';
+import discountPrice from '../../utils/discount';
+import subTotal from '../../utils/subTotal';
+import totalPrice from '../../utils/totalPrice';
+import './Checkout.scss';
 
 const Checkout = () => {
   const [division, setDivision] = useState('Choose...');
   const [city, setCity] = useState('Choose...');
   const [upozilla, setUpozilla] = useState('Choose...');
-  const { auth, address } = useSelector((store) => store);
+  const { auth, address, productList } = useSelector((store) => store);
   const dispatch = useDispatch();
+
+  const shippingFee = 75.0;
 
   useEffect(() => {
     dispatch(getDivision());
@@ -24,9 +30,10 @@ const Checkout = () => {
   return (
     <Container>
       <ContentTitle title="Checkout" />
-      <Row>
-        <Col md={8}>
-          <Form>
+      <Form>
+        <Row>
+          <Col md={8}>
+            <h3 className="mb-4">Your information:</h3>
             <Row className="mb-3">
               <Form.Group as={Col} controlId="fName">
                 <Form.Label>First Name:</Form.Label>
@@ -111,14 +118,44 @@ const Checkout = () => {
                 </Form.Select>
               </Form.Group>
             </Row>
-
-            <Button variant="primary" type="submit">
-              Submit
-            </Button>
-          </Form>
-        </Col>
-        <Col md={4}></Col>
-      </Row>
+          </Col>
+          <Col md={4}>
+            <h3 className="mb-4">Your order:</h3>
+            <div className="order__area">
+              <p>
+                <b>Product</b> <b className="price__site">Total</b>
+              </p>
+              <hr />
+              {productList?.cartList?.map((product) => (
+                <p>
+                  <span key={product._id}>
+                    {product.productName} X {product.qty}
+                  </span>
+                  <span className="price__site">
+                    $
+                    {subTotal(
+                      discountPrice(product.price, product.discount),
+                      product.qty
+                    )}
+                  </span>
+                </p>
+              ))}
+              <hr />
+              <p>
+                <span>Shipping Fee:</span>{' '}
+                <span className="price__site">${shippingFee}</span>
+              </p>
+              <hr />
+              <p>
+                <b>Total:</b>{' '}
+                <b className="price__site">
+                  ${totalPrice(productList?.cartList, shippingFee)}
+                </b>
+              </p>
+            </div>
+          </Col>
+        </Row>
+      </Form>
     </Container>
   );
 };

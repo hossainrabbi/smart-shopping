@@ -1,0 +1,13 @@
+.order__area {
+  p {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    & .price__site {
+      width: 100px;
+      margin-left: 15px;
+      text-align: right;
+    }
+  }
+}
