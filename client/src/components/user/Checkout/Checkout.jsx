@@ -73,8 +73,6 @@ const Checkout = () => {
     }
 
     setErrorAddressInfo({});
-
-    console.log(addressInfo);
     setNextInfo(true);
   };
 
@@ -265,7 +263,11 @@ const Checkout = () => {
             </p>
           </div>
           <br />
-          <Payment total={total} />
+          <Payment
+            total={total}
+            addressInfo={addressInfo}
+            purchasedProduct={productList?.cartList}
+          />
         </div>
       )}
     </Container>
