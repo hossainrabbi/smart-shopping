@@ -12,11 +12,34 @@ import Payment from '../Payment/Payment';
 import './Checkout.scss';
 
 const Checkout = () => {
-  const [division, setDivision] = useState('Choose...');
-  const [city, setCity] = useState('Choose...');
-  const [upozilla, setUpozilla] = useState('Choose...');
+  const [nextInfo, setNextInfo] = useState(false);
   const { auth, address, productList } = useSelector((store) => store);
   const dispatch = useDispatch();
+
+  const [addressInfo, setAddressInfo] = useState({
+    firstName: '',
+    lastName: '',
+    phoneNo: '',
+    address: '',
+    division: 'Choose...',
+    city: 'Choose...',
+    upozilla: 'Choose...',
+    email: auth?.user?.user?.email,
+    country: 'Bangladesh',
+  });
+
+  const [errorAddressInfo, setErrorAddressInfo] = useState({
+    division: false,
+    city: false,
+    upozilla: false,
+  });
+
+  const handleFormInputChange = (e) => {
+    setAddressInfo({
+      ...addressInfo,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const shippingFee = 75.0;
 
@@ -25,25 +48,68 @@ const Checkout = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(getCity(division));
-  }, [dispatch, division]);
+    dispatch(getCity(addressInfo.division));
+  }, [dispatch, addressInfo.division]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (addressInfo.division === 'Choose...') {
+      return setErrorAddressInfo({
+        division: true,
+      });
+    }
+
+    if (addressInfo.city === 'Choose...') {
+      return setErrorAddressInfo({
+        city: true,
+      });
+    }
+
+    if (addressInfo.upozilla === 'Choose...') {
+      return setErrorAddressInfo({
+        upozilla: true,
+      });
+    }
+
+    setErrorAddressInfo({});
+
+    console.log(addressInfo);
+    setNextInfo(true);
+  };
+
+  const total = totalPrice(productList?.cartList, shippingFee);
 
   return (
     <Container>
       <ContentTitle title="Checkout" />
-      <Row>
-        <Col md={8}>
+      {!nextInfo ? (
+        <div className="w-75 m-auto">
           <h3 className="mb-4">Your information:</h3>
-          <Form>
+          <Form onSubmit={handleSubmit}>
             <Row className="mb-3">
               <Form.Group as={Col} controlId="fName">
                 <Form.Label>First Name:</Form.Label>
-                <Form.Control type="text" placeholder="John" />
+                <Form.Control
+                  type="text"
+                  name="firstName"
+                  value={addressInfo.firstName}
+                  onChange={handleFormInputChange}
+                  placeholder="John"
+                  required
+                />
               </Form.Group>
 
               <Form.Group as={Col} controlId="lName">
                 <Form.Label>Last Name:</Form.Label>
-                <Form.Control type="text" placeholder="Doe" />
+                <Form.Control
+                  type="text"
+                  name="lastName"
+                  value={addressInfo.lastName}
+                  onChange={handleFormInputChange}
+                  placeholder="Doe"
+                  required
+                />
               </Form.Group>
             </Row>
 
@@ -51,32 +117,54 @@ const Checkout = () => {
               <Form.Label>Email:</Form.Label>
               <Form.Control
                 type="email"
-                value={auth?.user?.user?.email}
+                value={addressInfo.email}
                 disabled
+                readOnly
               />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="phone">
               <Form.Label>Phone No:</Form.Label>
-              <Form.Control type="number" placeholder="880170000000" />
+              <Form.Control
+                type="number"
+                name="phoneNo"
+                value={addressInfo.phoneNo}
+                onChange={handleFormInputChange}
+                placeholder="880170000000"
+                required
+              />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="address">
               <Form.Label>Address:</Form.Label>
-              <Form.Control placeholder="1234 Main Apartment, studio, or floor" />
+              <Form.Control
+                type="text"
+                name="address"
+                value={addressInfo.address}
+                onChange={handleFormInputChange}
+                placeholder="1234 Main Apartment, studio, or floor"
+                required
+              />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="country">
               <Form.Label>Country:</Form.Label>
-              <Form.Control value="Bangladesh" disabled />
+              <Form.Control
+                type="text"
+                value={addressInfo.country}
+                disabled
+                readOnly
+              />
             </Form.Group>
 
             <Row className="mb-3">
               <Form.Group as={Col} controlId="divisions">
                 <Form.Label>Divisions:</Form.Label>
                 <Form.Select
-                  defaultValue={division}
-                  onChange={(e) => setDivision(e.target.value)}
+                  name="division"
+                  defaultValue={addressInfo.division}
+                  onChange={handleFormInputChange}
+                  required
                 >
                   <option disabled>Choose...</option>
                   {address?.divisions?.map((item) => (
@@ -85,13 +173,20 @@ const Checkout = () => {
                     </option>
                   ))}
                 </Form.Select>
+                {errorAddressInfo.division && (
+                  <Form.Text className="text-danger">
+                    Please Choose Division
+                  </Form.Text>
+                )}
               </Form.Group>
 
               <Form.Group as={Col} controlId="city">
                 <Form.Label>City:</Form.Label>
                 <Form.Select
-                  defaultValue={city}
-                  onChange={(e) => setCity(e.target.value)}
+                  name="city"
+                  defaultValue={addressInfo.city}
+                  onChange={handleFormInputChange}
+                  required
                 >
                   <option disabled>Choose...</option>
                   {address?.city?.map((item) => (
@@ -100,28 +195,44 @@ const Checkout = () => {
                     </option>
                   ))}
                 </Form.Select>
+                {errorAddressInfo.city && (
+                  <Form.Text className="text-danger">
+                    Please Choose City
+                  </Form.Text>
+                )}
               </Form.Group>
 
               <Form.Group as={Col} controlId="formGridZip">
                 <Form.Label>Upazilla:</Form.Label>
                 <Form.Select
-                  defaultValue={upozilla}
-                  onChange={(e) => setUpozilla(e.target.value)}
+                  name="upozilla"
+                  defaultValue={addressInfo.upozilla}
+                  onChange={handleFormInputChange}
+                  required
                 >
                   <option disabled>Choose...</option>
                   {address?.city
-                    ?.find((cityItem) => cityItem.district === city)
+                    ?.find((cityItem) => cityItem.district === addressInfo.city)
                     ?.upazilla?.map((item) => (
                       <option key={item} value={item}>
                         {item}
                       </option>
                     ))}
                 </Form.Select>
+                {errorAddressInfo.upozilla && (
+                  <Form.Text className="text-danger">
+                    Please Choose Upozilla
+                  </Form.Text>
+                )}
               </Form.Group>
             </Row>
+            <button className="btn btn-primary" type="submit">
+              next
+            </button>
           </Form>
-        </Col>
-        <Col md={4}>
+        </div>
+      ) : (
+        <div className="w-50 m-auto">
           <h3 className="mb-4">Your order:</h3>
           <div className="order__area">
             <p>
@@ -144,21 +255,19 @@ const Checkout = () => {
             ))}
             <hr />
             <p>
-              <span>Shipping Fee:</span>{' '}
+              <span>Shipping Fee:</span>
               <span className="price__site">${shippingFee}</span>
             </p>
             <hr />
             <p>
-              <b>Total:</b>{' '}
-              <b className="price__site">
-                ${totalPrice(productList?.cartList, shippingFee)}
-              </b>
+              <b>Total:</b>
+              <b className="price__site">${total}</b>
             </p>
           </div>
           <br />
-          <Payment />
-        </Col>
-      </Row>
+          <Payment total={total} />
+        </div>
+      )}
     </Container>
   );
 };

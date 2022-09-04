@@ -7,7 +7,7 @@ import {
 } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 
-const CheckoutForm = () => {
+const CheckoutForm = ({ total }) => {
   const stripe = useStripe();
   const elements = useElements();
 
@@ -35,7 +35,7 @@ const CheckoutForm = () => {
         type="submit"
         disabled={!stripe || !elements}
       >
-        Pay
+        Pay ${total}
       </button>
     </form>
   );
@@ -43,10 +43,10 @@ const CheckoutForm = () => {
 
 const stripePromise = loadStripe('pk_test_6pRNASCoBOKtIshFeQd4XMUh');
 
-const Payment = () => {
+const Payment = ({ total }) => {
   return (
     <Elements stripe={stripePromise}>
-      <CheckoutForm />
+      <CheckoutForm total={total} />
     </Elements>
   );
 };
