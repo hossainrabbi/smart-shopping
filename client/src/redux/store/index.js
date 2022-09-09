@@ -14,12 +14,18 @@ const persistConfig = {
   storage,
 };
 
+const persistCartConfig = {
+  keyPrefix: 'smart-shopping-',
+  key: 'cart',
+  storage,
+};
+
 const store = configureStore({
   reducer: {
     auth: persistReducer(persistConfig, authSlice.reducer),
     categories: categoriesSlice.reducer,
     products: productSlice.reducer,
-    productList: productListSlice.reducer,
+    productList: persistReducer(persistCartConfig, productListSlice.reducer),
     address: addressSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>

@@ -48,13 +48,15 @@ const CheckoutForm = ({ total, addressInfo, purchasedProduct }) => {
     <form onSubmit={handleSubmit}>
       <CardElement />
       <br />
-      <button
-        className="btn btn-primary"
-        type="submit"
-        disabled={!stripe || !elements}
-      >
-        Pay ${total}
-      </button>
+      <div className="text-end">
+        <button
+          className="btn btn-primary"
+          type="submit"
+          disabled={!stripe || !elements}
+        >
+          Pay ${total}
+        </button>
+      </div>
     </form>
   );
 };

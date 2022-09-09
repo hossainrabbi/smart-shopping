@@ -224,9 +224,11 @@ const Checkout = () => {
                 )}
               </Form.Group>
             </Row>
-            <button className="btn btn-primary" type="submit">
-              next
-            </button>
+            <div className="text-end">
+              <button className="btn btn-primary" type="submit">
+                Next
+              </button>
+            </div>
           </Form>
         </div>
       ) : (
