@@ -12,7 +12,7 @@ const orderSchema = new Schema(
     },
     purchasedProduct: [
       {
-        product_id: {
+        _id: {
           type: Schema.Types.ObjectId,
           required: true,
         },

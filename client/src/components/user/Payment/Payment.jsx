@@ -7,10 +7,32 @@ import {
 } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import toast from 'react-hot-toast';
+import { useDispatch, useSelector } from 'react-redux';
+import swal from 'sweetalert';
+import { useNavigate } from 'react-router-dom';
+import { clearOrder, createOrder } from '../../../redux/action/order-action';
+import { useEffect } from 'react';
+import { clearAllFromCart } from '../../../redux/action/product-list-action';
 
 const CheckoutForm = ({ total, addressInfo, purchasedProduct }) => {
   const stripe = useStripe();
   const elements = useElements();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const order = useSelector((state) => state.order);
+
+  useEffect(() => {
+    if (order.isOrder) {
+      swal('Product Order Successfully!', {
+        icon: 'success',
+      }).then(() => {
+        navigate('/');
+      });
+
+      dispatch(clearOrder());
+      dispatch(clearAllFromCart());
+    }
+  }, [order.isOrder, navigate, dispatch]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -40,7 +62,7 @@ const CheckoutForm = ({ total, addressInfo, purchasedProduct }) => {
         totalPrice: total,
       };
 
-      console.log(submitInfo);
+      dispatch(createOrder(submitInfo));
     }
   };
 
@@ -52,9 +74,9 @@ const CheckoutForm = ({ total, addressInfo, purchasedProduct }) => {
         <button
           className="btn btn-primary"
           type="submit"
-          disabled={!stripe || !elements}
+          disabled={!stripe || !elements || order?.createLoading}
         >
-          Pay ${total}
+          {order?.createLoading ? 'Loading...' : `Pay $${total}`}
         </button>
       </div>
     </form>

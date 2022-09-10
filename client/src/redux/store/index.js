@@ -7,6 +7,7 @@ import categoriesSlice from './categories-slice';
 import productSlice from './product-slice';
 import productListSlice from './product-list-slice';
 import addressSlice from './address-slice';
+import orderSlice from './order-slice';
 
 const persistConfig = {
   keyPrefix: 'smart-shopping-',
@@ -27,6 +28,7 @@ const store = configureStore({
     products: productSlice.reducer,
     productList: persistReducer(persistCartConfig, productListSlice.reducer),
     address: addressSlice.reducer,
+    order: orderSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }),
