@@ -16,6 +16,7 @@ import EditProduct from './components/admin/EditProduct/EditProduct';
 import Home from './components/pages/Home/Home';
 import Cart from './components/user/Cart/Cart';
 import Checkout from './components/user/Checkout/Checkout';
+import Shop from './components/pages/Shop/Shop';
 
 const App = () => {
   return (
@@ -27,6 +28,7 @@ const App = () => {
           <Route path="login" element={<Login />} />
           <Route path="" element={<Home />} />
           <Route path="cart" element={<Cart />} />
+          <Route path="shop" element={<Shop />} />
         </Route>
         <Route path="" element={<PrivateRoute userRole="USER" />}>
           <Route path="" element={<PublicLayout />}>
