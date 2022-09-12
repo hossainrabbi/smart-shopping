@@ -1,48 +1,14 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import ContentTitle from '../../common/ContentTitle/ContentTitle';
-import { useSelector, useDispatch } from 'react-redux';
 import { FaRegHeart, FaHeart, FaShoppingCart } from 'react-icons/fa';
-import toast from 'react-hot-toast';
 import './Products.scss';
-import { getProducts } from '../../../redux/action/product-action';
 import SingleProduct from '../../common/SingleProduct/SingleProduct';
-import {
-  addProductCartList,
-  addProductWishList,
-} from '../../../redux/action/product-list-action';
-import { Link } from 'react-router-dom';
+import useProduct from '../../../hooks/useProduct';
 
 const Products = () => {
-  const { products, productList } = useSelector((store) => store);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getProducts());
-  }, [dispatch]);
-
-  const wishProductItem = (id) => {
-    dispatch(addProductWishList(id, products?.products));
-  };
-
-  const cartProductItem = (id) => {
-    dispatch(addProductCartList(id, products?.products));
-    if (id) {
-      toast(
-        <Link to="/cart" className="text-decoration-none">
-          <span className="text-muted">Product add to cart,</span>{' '}
-          <span className="text-primary text-decoration-underline">
-            Go To Cart
-          </span>
-        </Link>,
-        {
-          position: 'bottom-center',
-          icon: '🛒',
-          duration: 1000,
-        }
-      );
-    }
-  };
+  const { products, productList, wishProductItem, cartProductItem } =
+    useProduct();
 
   return (
     <Container className="my-5">
