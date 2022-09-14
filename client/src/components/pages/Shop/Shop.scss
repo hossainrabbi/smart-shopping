@@ -1,0 +1,11 @@
+$width__sidebar: 300px;
+
+.shop__sidebar {
+  height: calc(100vh - 63.9583px);
+  width: $width__sidebar;
+}
+
+.shop__products {
+  width: calc(100% - $width__sidebar);
+  margin-left: calc($width__sidebar + 30px);
+}

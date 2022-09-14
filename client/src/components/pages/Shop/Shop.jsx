@@ -3,6 +3,7 @@ import { Col, Container, Form, Navbar, Row } from 'react-bootstrap';
 import { FaRegHeart, FaHeart, FaShoppingCart } from 'react-icons/fa';
 import SingleProduct from '../../common/SingleProduct/SingleProduct';
 import useProduct from '../../../hooks/useProduct';
+import './Shop.scss';
 
 const Shop = () => {
   const { products, productList, wishProductItem, cartProductItem } =
@@ -10,9 +11,12 @@ const Shop = () => {
 
   return (
     <Container>
-      <Row>
-        <Col md={3}></Col>
-        <Col md={9}>
+      <div className="d-flex justify-content-between">
+        <div className="shop__sidebar shadow-sm rounded-2 position-fixed p-2">
+          <Form.Range />
+        </div>
+
+        <div className="shop__products">
           <Navbar className="shadow-sm my-3 rounded-2">
             <Container>
               <Row className="w-100">
@@ -66,8 +70,8 @@ const Shop = () => {
               </Col>
             ))}
           </Row>
-        </Col>
-      </Row>
+        </div>
+      </div>
     </Container>
   );
 };
