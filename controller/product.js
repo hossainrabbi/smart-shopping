@@ -58,6 +58,7 @@ exports.createProduct = async (req, res, next) => {
     product = await product.save();
     res.status(200).json(product);
   } catch (err) {
+    console.log(err);
     next(err);
   }
 };

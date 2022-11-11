@@ -24,11 +24,16 @@ const productSchema = new Schema(
     },
     images: {
       type: [String],
+      required: true,
       validate: (v) => Array.isArray(v) && v.length > 0,
     },
     description: {
       type: String,
       required: [true, 'product description is required'],
+    },
+    featured: {
+      type: Boolean,
+      default: false,
     },
   },
   {
