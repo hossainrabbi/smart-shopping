@@ -10,27 +10,33 @@ const useFilter = (search, category, priceValue, rattingValue, sortBy) => {
     dispatch(getProducts());
   }, [dispatch]);
 
-  let allProducts = products?.products;
+  let allProducts = products?.products || [];
 
+  // filter by search input
   allProducts = allProducts?.filter(
     (product) =>
       product?.productName?.toLowerCase()?.includes(search) ||
       product?.category?.toLowerCase()?.includes(search)
   );
 
+  // filter by categories
   allProducts =
     category === 'all'
       ? allProducts
       : allProducts?.filter((product) => product.category === category);
 
+  // filter by ratting
   allProducts = allProducts?.filter(
     (product) => product.ratting >= rattingValue
   );
 
+  // filter by product price range
   allProducts = allProducts?.filter((product) => product?.price >= priceValue);
 
+  // store filtered product in another variable for sorting
   let searchFilter = allProducts;
 
+  // sorting implement
   if (sortBy === 'aToZ') {
     allProducts = searchFilter?.sort((a, b) =>
       a.productName > b.productName ? 1 : b.productName > a.productName ? -1 : 0
