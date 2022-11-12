@@ -13,6 +13,7 @@ import { getCategories } from '../../../redux/action/categories-action';
 import useFilter from '../../../hooks/useFilter';
 import { useState } from 'react';
 import formatCurrency from '../../utils/formatCurrency';
+import { sortProduct } from '../../../data/home.data';
 
 const Shop = () => {
   const { productList, wishProductItem, cartProductItem } = useProduct();
@@ -22,10 +23,15 @@ const Shop = () => {
   const [category, setCategory] = useState('all');
   const [priceValue, setPriceValue] = useState(0);
   const [rattingValue, setRattingValue] = useState(0);
+  const [sortBy, setSortBy] = useState('default');
 
-  console.log(rattingValue);
-
-  const allProducts = useFilter(searchData, category, priceValue, rattingValue);
+  const allProducts = useFilter(
+    searchData,
+    category,
+    priceValue,
+    rattingValue,
+    sortBy
+  );
 
   console.log(allProducts);
 
@@ -40,6 +46,7 @@ const Shop = () => {
           <Form.Control
             type="text"
             placeholder="Search..."
+            value={searchData}
             onChange={(e) => setSearchData(e.target.value)}
           />
           <div className="pt-1 my-4">
@@ -56,7 +63,7 @@ const Shop = () => {
                   key={item?._id}
                   onClick={() => setCategory(item?.categoryName)}
                   className={
-                    item?.categoryName === category && 'text-underline'
+                    item?.categoryName === category ? 'text-underline' : ''
                   }
                 >
                   {item?.categoryName}
@@ -100,7 +107,6 @@ const Shop = () => {
             <Form.Range
               min={0}
               max={100}
-              defaultValue={0}
               value={priceValue}
               onChange={(e) => setPriceValue(e.target.value)}
             />
@@ -114,13 +120,15 @@ const Shop = () => {
               <div className="d-flex ms-auto align-items-center gap-4">
                 <span>Sort By:</span>
                 <Form.Select
-                  aria-label="Default select example"
                   style={{ width: '150px' }}
-                  value="default"
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
                 >
-                  <option value="default">Default</option>
-                  <option value="aToZ">A to Z</option>
-                  <option value="zToA">Z to A</option>
+                  {sortProduct.map((item) => (
+                    <option value={item.item} key={item.item}>
+                      {item.name}
+                    </option>
+                  ))}
                 </Form.Select>
               </div>
             </div>

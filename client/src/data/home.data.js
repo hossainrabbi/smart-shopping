@@ -35,3 +35,26 @@ export const support = [
     image: support_3,
   },
 ];
+
+export const sortProduct = [
+  {
+    item: 'default',
+    name: 'Default',
+  },
+  {
+    item: 'aToZ',
+    name: 'A to Z',
+  },
+  {
+    item: 'zToA',
+    name: 'Z to A',
+  },
+  {
+    item: 'lowToHeigh',
+    name: 'Low to Heigh (price)',
+  },
+  {
+    item: 'heighToLow',
+    name: 'Heigh to Low (price)',
+  },
+];

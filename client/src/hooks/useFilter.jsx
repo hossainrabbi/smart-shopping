@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProducts } from '../redux/action/product-action';
 
-const useFilter = (search, category, priceValue, rattingValue) => {
+const useFilter = (search, category, priceValue, rattingValue, sortBy) => {
   const { products } = useSelector((store) => store);
   const dispatch = useDispatch();
 
@@ -28,6 +28,34 @@ const useFilter = (search, category, priceValue, rattingValue) => {
   );
 
   allProducts = allProducts?.filter((product) => product?.price >= priceValue);
+
+  let searchFilter = allProducts;
+
+  if (sortBy === 'aToZ') {
+    allProducts = searchFilter?.sort((a, b) =>
+      a.productName > b.productName ? 1 : b.productName > a.productName ? -1 : 0
+    );
+  } else if (sortBy === 'zToA') {
+    allProducts = searchFilter
+      ?.sort((a, b) =>
+        a.productName > b.productName
+          ? 1
+          : b.productName > a.productName
+          ? -1
+          : 0
+      )
+      .reverse();
+  } else if (sortBy === 'lowToHeigh') {
+    allProducts = searchFilter?.sort((a, b) =>
+      a.price > b.price ? 1 : b.price > a.price ? -1 : 0
+    );
+  } else if (sortBy === 'heighToLow') {
+    allProducts = searchFilter
+      ?.sort((a, b) => (a.price > b.price ? 1 : b.price > a.price ? -1 : 0))
+      .reverse();
+  } else {
+    allProducts = searchFilter;
+  }
 
   return allProducts;
 };
