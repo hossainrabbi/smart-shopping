@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Button, Col, Container, Form, Navbar, Row } from 'react-bootstrap';
 import { FaRegHeart, FaHeart, FaShoppingCart } from 'react-icons/fa';
 import ReactStars from 'react-rating-stars-component';
@@ -21,8 +21,11 @@ const Shop = () => {
   const [searchData, setSearchData] = useState('');
   const [category, setCategory] = useState('all');
   const [priceValue, setPriceValue] = useState(0);
+  const [rattingValue, setRattingValue] = useState(0);
 
-  const allProducts = useFilter(searchData, category, priceValue);
+  console.log(rattingValue);
+
+  const allProducts = useFilter(searchData, category, priceValue, rattingValue);
 
   console.log(allProducts);
 
@@ -64,17 +67,31 @@ const Shop = () => {
           <div className="ratting my-4">
             <h5>Ratting:</h5>
             {[1, 2, 3, 4, 5].reverse().map((item) => (
-              <ReactStars
-                emptyIcon={<FaStar />}
-                fullIcon={<FaStar />}
-                activeColor="#ffa534"
-                color={'transparent'}
-                size={25}
-                value={item}
-                edit={false}
-                classNames="me-1"
-                key={item}
-              />
+              <Fragment key={item}>
+                <div
+                  onClick={() => setRattingValue(item)}
+                  className="d-inline-flex cursor-pointer"
+                >
+                  <ReactStars
+                    emptyIcon={<FaStar />}
+                    fullIcon={<FaStar />}
+                    activeColor="#ffa534"
+                    color={'#ddd'}
+                    size={25}
+                    value={item}
+                    edit={false}
+                    classNames="me-1 py-0 my-0"
+                  />{' '}
+                  <span
+                    className={
+                      item === rattingValue ? 'active-color' : 'light-color'
+                    }
+                  >
+                    {item < 5 ? 'and Up' : ''}
+                  </span>
+                </div>
+                <br />
+              </Fragment>
             ))}
           </div>
           <div className="mb-4">

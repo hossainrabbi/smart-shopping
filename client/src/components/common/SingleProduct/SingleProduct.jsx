@@ -13,6 +13,8 @@ const SingleProduct = ({
   price,
   productName,
   category,
+  ratting,
+  review,
   iconLeft: IconLeft,
   iconRight: IconRight,
   leftIconClass,
@@ -59,15 +61,16 @@ const SingleProduct = ({
               fullIcon={<FaStar />}
               halfIcon={<FaStarHalf />}
               activeColor="#ffa534"
+              color={'#dddddd'}
               size={25}
-              value={3.5}
+              value={ratting}
               edit={false}
               isHalf
               // char={<FaStar />}
               classNames="me-1"
             />
 
-            <span>(5)</span>
+            <span>({review})</span>
           </div>
         </div>
         <div className="d-flex justify-content-between align-items-center mb-1">

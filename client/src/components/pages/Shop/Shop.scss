@@ -1,3 +1,4 @@
+@import '../../../index.scss';
 $width__sidebar: 300px;
 
 .shop__sidebar {
@@ -13,15 +14,27 @@ $width__sidebar: 300px;
 
     .text-underline {
       text-decoration: underline;
-      // color: $primary;
     }
   }
 
   .ratting {
-    .react-stars {
-      cursor: pointer !important;
+    .cursor-pointer {
+      cursor: pointer;
       user-select: none;
+      line-height: 1;
     }
+
+    span {
+      cursor: pointer !important;
+    }
+  }
+
+  .light-color {
+    color: $light-gray;
+  }
+
+  .active-color {
+    color: $sub-main;
   }
 }
 

@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProducts } from '../redux/action/product-action';
 
-const useFilter = (search, category, priceValue) => {
+const useFilter = (search, category, priceValue, rattingValue) => {
   const { products } = useSelector((store) => store);
   const dispatch = useDispatch();
 
@@ -22,6 +22,10 @@ const useFilter = (search, category, priceValue) => {
     category === 'all'
       ? allProducts
       : allProducts?.filter((product) => product.category === category);
+
+  allProducts = allProducts?.filter(
+    (product) => product.ratting >= rattingValue
+  );
 
   allProducts = allProducts?.filter((product) => product?.price >= priceValue);
 
