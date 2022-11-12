@@ -62,7 +62,7 @@ const NavBar = () => {
           {auth?.user?.token ? (
             <Dropdown>
               <Dropdown.Toggle
-                className="dropdown__avatar ms-3"
+                className="dropdown__avatar ms-3 p-0"
                 id="dropdown-user"
               >
                 <img

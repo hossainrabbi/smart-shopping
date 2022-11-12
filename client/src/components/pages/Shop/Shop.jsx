@@ -1,75 +1,144 @@
 import React from 'react';
-import { Col, Container, Form, Navbar, Row } from 'react-bootstrap';
+import { Button, Col, Container, Form, Navbar, Row } from 'react-bootstrap';
 import { FaRegHeart, FaHeart, FaShoppingCart } from 'react-icons/fa';
+import ReactStars from 'react-rating-stars-component';
+import { FaStar } from 'react-icons/fa';
+
 import SingleProduct from '../../common/SingleProduct/SingleProduct';
 import useProduct from '../../../hooks/useProduct';
 import './Shop.scss';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { getCategories } from '../../../redux/action/categories-action';
+import useFilter from '../../../hooks/useFilter';
+import { useState } from 'react';
+import formatCurrency from '../../utils/formatCurrency';
 
 const Shop = () => {
-  const { products, productList, wishProductItem, cartProductItem } =
-    useProduct();
+  const { productList, wishProductItem, cartProductItem } = useProduct();
+  const categories = useSelector((store) => store.categories);
+  const dispatch = useDispatch();
+  const [searchData, setSearchData] = useState('');
+  const [category, setCategory] = useState('all');
+  const [priceValue, setPriceValue] = useState(0);
+
+  const allProducts = useFilter(searchData, category, priceValue);
+
+  console.log(allProducts);
+
+  useEffect(() => {
+    dispatch(getCategories());
+  }, [dispatch]);
 
   return (
     <Container>
       <div className="d-flex justify-content-between">
-        <div className="shop__sidebar shadow-sm rounded-2 position-fixed p-2">
-          <Form.Range />
+        <div className="shop__sidebar shadow-sm rounded-2 position-fixed px-4 my-3 py-2">
+          <Form.Control
+            type="text"
+            placeholder="Search..."
+            onChange={(e) => setSearchData(e.target.value)}
+          />
+          <div className="pt-1 my-4">
+            <h5>Category:</h5>
+            <ul className="category">
+              <li
+                onClick={() => setCategory('all')}
+                className={'all' === category && 'text-underline'}
+              >
+                all
+              </li>
+              {categories?.categories?.map((item) => (
+                <li
+                  key={item?._id}
+                  onClick={() => setCategory(item?.categoryName)}
+                  className={
+                    item?.categoryName === category && 'text-underline'
+                  }
+                >
+                  {item?.categoryName}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="ratting my-4">
+            <h5>Ratting:</h5>
+            {[1, 2, 3, 4, 5].reverse().map((item) => (
+              <ReactStars
+                emptyIcon={<FaStar />}
+                fullIcon={<FaStar />}
+                activeColor="#ffa534"
+                color={'transparent'}
+                size={25}
+                value={item}
+                edit={false}
+                classNames="me-1"
+                key={item}
+              />
+            ))}
+          </div>
+          <div className="mb-4">
+            <h5>Price:</h5>
+            <p className="mb-1">{formatCurrency.format(priceValue)}</p>
+            <Form.Range
+              min={0}
+              max={100}
+              defaultValue={0}
+              value={priceValue}
+              onChange={(e) => setPriceValue(e.target.value)}
+            />
+          </div>
+          <Button className="w-100">Clear Filter</Button>
         </div>
 
         <div className="shop__products">
-          <Navbar className="shadow-sm my-3 rounded-2">
-            <Container>
-              <Row className="w-100">
-                <Col sm={4}>
-                  <Form.Control type="text" placeholder="Search..." />
-                </Col>
-                <Col sm={8}>
-                  <div className="d-flex justify-content-between align-items-center w-100">
-                    <div className="d-flex justify-content-between align-items-center w-50">
-                      <span>Sort By:</span>
-                      <Form.Select
-                        aria-label="Default select example"
-                        style={{ width: '150px' }}
-                        value="default"
-                      >
-                        <option value="default">Default</option>
-                        <option value="aToZ">A to Z</option>
-                        <option value="zToA">Z to A</option>
-                      </Form.Select>
-                    </div>
-                    <div></div>
-                  </div>
-                </Col>
-              </Row>
-            </Container>
+          <Navbar className="shadow-sm my-3 rounded-2 p-2">
+            <div className="d-flex justify-content-between align-items-center w-100">
+              <div className="d-flex ms-auto align-items-center gap-4">
+                <span>Sort By:</span>
+                <Form.Select
+                  aria-label="Default select example"
+                  style={{ width: '150px' }}
+                  value="default"
+                >
+                  <option value="default">Default</option>
+                  <option value="aToZ">A to Z</option>
+                  <option value="zToA">Z to A</option>
+                </Form.Select>
+              </div>
+            </div>
           </Navbar>
-          <Row>
-            {products?.products?.map((product) => (
-              <Col xl={4} lg={6} key={product._id} className="mb-4">
-                <SingleProduct
-                  iconLeft={
-                    productList.wishList.some(
-                      (item) => item._id === product._id
-                    )
-                      ? FaHeart
-                      : FaRegHeart
-                  }
-                  iconRight={FaShoppingCart}
-                  leftIconClass={
-                    productList.wishList.some(
-                      (item) => item._id === product._id
-                    )
-                      ? 'text-danger'
-                      : 'text-primary'
-                  }
-                  rightIconClass="text-primary"
-                  rightProductHandler={cartProductItem}
-                  leftProductHandler={wishProductItem}
-                  {...product}
-                />
-              </Col>
-            ))}
-          </Row>
+          {allProducts?.length > 0 ? (
+            <Row>
+              {allProducts?.map((product) => (
+                <Col lg={6} key={product._id} className="mb-4">
+                  <SingleProduct
+                    iconLeft={
+                      productList.wishList.some(
+                        (item) => item._id === product._id
+                      )
+                        ? FaHeart
+                        : FaRegHeart
+                    }
+                    iconRight={FaShoppingCart}
+                    leftIconClass={
+                      productList.wishList.some(
+                        (item) => item._id === product._id
+                      )
+                        ? 'text-danger'
+                        : 'text-primary'
+                    }
+                    rightIconClass="text-primary"
+                    rightProductHandler={cartProductItem}
+                    leftProductHandler={wishProductItem}
+                    {...product}
+                  />
+                </Col>
+              ))}
+            </Row>
+          ) : (
+            <p className="text-center mt-3">Product Not Found!</p>
+          )}
         </div>
       </div>
     </Container>

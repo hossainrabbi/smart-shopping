@@ -4,6 +4,7 @@ import ReactStars from 'react-rating-stars-component';
 import { FaStar, FaStarHalf } from 'react-icons/fa';
 import './SingleProduct.scss';
 import discountPrice from '../../utils/discount';
+import formatCurrency from '../../utils/formatCurrency';
 
 const SingleProduct = ({
   images,
@@ -41,14 +42,16 @@ const SingleProduct = ({
             ? `${description.slice(0, 100)}...`
             : description}
         </Card.Text> */}
-        <div className="d-flex align-items-center justify-content-between">
+        <div className="d-flex align-items-center justify-content-between flex-wrap">
           <div className="d-flex align-items-center">
             {discount > 0 && (
               <h6 className="mb-0 me-2 text-muted">
-                <s>${price}</s>
+                <s>{formatCurrency.format(price)}</s>
               </h6>
             )}
-            <h5 className="mb-0 text-primary">${calculatePrice}</h5>
+            <h5 className="mb-0 text-primary">
+              ${formatCurrency.format(calculatePrice)}
+            </h5>
           </div>
           <div className="d-flex align-items-center">
             <ReactStars

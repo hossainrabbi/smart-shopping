@@ -9,7 +9,10 @@ export const registerUser = (registerData) => async (dispatch) => {
       })
     );
 
-    const { data } = await axios.post('/api/v1/auth/register', registerData);
+    const { data } = await axios.post(
+      `${process.env.REACT_APP_API_URL}/api/v1/auth/register`,
+      registerData
+    );
 
     dispatch(
       authAction.registerUser({
@@ -37,7 +40,10 @@ export const loginUser = (loginData) => async (dispatch) => {
       })
     );
 
-    const { data } = await axios.post('/api/v1/auth/login', loginData);
+    const { data } = await axios.post(
+      `${process.env.REACT_APP_API_URL}/api/v1/auth/login`,
+      loginData
+    );
 
     dispatch(
       authAction.loginUser({

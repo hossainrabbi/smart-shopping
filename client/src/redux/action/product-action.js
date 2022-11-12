@@ -19,7 +19,11 @@ export const createProduct = (productData) => async (dispatch) => {
       })
     );
 
-    const { data } = await axios.post('/api/v1/products', productData, config);
+    const { data } = await axios.post(
+      `${process.env.REACT_APP_API_URL}/api/v1/products`,
+      productData,
+      config
+    );
 
     dispatch(
       productAction.createProduct({
@@ -58,7 +62,7 @@ export const updateProduct = (productId, productData) => async (dispatch) => {
     );
 
     const { data } = await axios.patch(
-      `/api/v1/products/${productId}`,
+      `${process.env.REACT_APP_API_URL}/api/v1/products/${productId}`,
       productData,
       config
     );
@@ -89,7 +93,9 @@ export const getProducts = () => async (dispatch) => {
       })
     );
 
-    const { data } = await axios.get('/api/v1/products');
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_API_URL}/api/v1/products`
+    );
 
     dispatch(
       productAction.getProducts({
@@ -126,7 +132,10 @@ export const removeProduct = (productId) => async (dispatch) => {
       })
     );
 
-    await axios.delete(`/api/v1/products/${productId}`, config);
+    await axios.delete(
+      `${process.env.REACT_APP_API_URL}/api/v1/products/${productId}`,
+      config
+    );
 
     dispatch(
       productAction.removeProduct({

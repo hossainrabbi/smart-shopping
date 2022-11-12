@@ -3,6 +3,26 @@ $width__sidebar: 300px;
 .shop__sidebar {
   height: calc(100vh - 63.9583px);
   width: $width__sidebar;
+
+  .category {
+    li {
+      cursor: pointer;
+      user-select: none;
+      text-transform: capitalize;
+    }
+
+    .text-underline {
+      text-decoration: underline;
+      // color: $primary;
+    }
+  }
+
+  .ratting {
+    .react-stars {
+      cursor: pointer !important;
+      user-select: none;
+    }
+  }
 }
 
 .shop__products {

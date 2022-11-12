@@ -20,7 +20,7 @@ export const createCategories = (category) => async (dispatch) => {
     );
 
     const { data } = await axios.post(
-      '/api/v1/products/categories',
+      `${process.env.REACT_APP_API_URL}/api/v1/products/categories`,
       category,
       config
     );
@@ -54,7 +54,9 @@ export const getCategories = () => async (dispatch) => {
       })
     );
 
-    const { data } = await axios.get('/api/v1/products/categories');
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_API_URL}/api/v1/products/categories`
+    );
 
     if (data) {
       dispatch(
@@ -85,7 +87,10 @@ export const removeCategory = (id) => async (dispatch) => {
   };
 
   try {
-    await axios.delete(`/api/v1/products/categories/${id}`, config);
+    await axios.delete(
+      `${process.env.REACT_APP_API_URL}/api/v1/products/categories/${id}`,
+      config
+    );
 
     dispatch(
       categoriesAction.removeCategory({
@@ -120,7 +125,7 @@ export const updateCategory = (id, updatedValue) => async (dispatch) => {
     );
 
     const { data } = await axios.put(
-      `/api/v1/products/categories/${id}`,
+      `${process.env.REACT_APP_API_URL}/api/v1/products/categories/${id}`,
       updatedValue,
       config
     );

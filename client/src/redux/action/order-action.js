@@ -19,7 +19,11 @@ export const createOrder = (submitInfo) => async (dispatch) => {
   );
 
   try {
-    const { data } = await axios.post('/api/v1/order', submitInfo, config);
+    const { data } = await axios.post(
+      `${process.env.REACT_APP_API_URL}/api/v1/order`,
+      submitInfo,
+      config
+    );
 
     dispatch(
       orderAction.createOrder({
