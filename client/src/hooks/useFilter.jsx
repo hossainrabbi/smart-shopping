@@ -4,7 +4,14 @@ import { getProducts } from '../redux/action/product-action';
 import discountPrice from '../utils/discount';
 import sortProductFilter from '../utils/sortProduct';
 
-const useFilter = (search, category, priceValue, rattingValue, sortBy) => {
+const useFilter = (
+  search,
+  category,
+  priceValue,
+  rattingValue,
+  sortBy,
+  clearFilter
+) => {
   const { products } = useSelector((store) => store);
   const dispatch = useDispatch();
 
@@ -51,6 +58,10 @@ const useFilter = (search, category, priceValue, rattingValue, sortBy) => {
     allProducts = sortProductFilter(searchFilter, true).reverse();
   } else {
     allProducts = searchFilter;
+  }
+
+  if (clearFilter) {
+    allProducts = products?.products;
   }
 
   return allProducts;

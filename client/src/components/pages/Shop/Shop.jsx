@@ -24,16 +24,25 @@ const Shop = () => {
   const [priceValue, setPriceValue] = useState(0);
   const [rattingValue, setRattingValue] = useState(0);
   const [sortBy, setSortBy] = useState('default');
+  const [clearFilter, setClearFilter] = useState(false);
 
   const allProducts = useFilter(
     searchData,
     category,
     priceValue,
     rattingValue,
-    sortBy
+    sortBy,
+    clearFilter
   );
 
-  console.log(allProducts);
+  const handleClearFilter = () => {
+    setClearFilter(true);
+    setSearchData('');
+    setCategory('all');
+    setPriceValue(0);
+    setRattingValue(0);
+    setSortBy('default');
+  };
 
   useEffect(() => {
     dispatch(getCategories());
@@ -111,7 +120,9 @@ const Shop = () => {
               onChange={(e) => setPriceValue(e.target.value)}
             />
           </div>
-          <Button className="w-100">Clear Filter</Button>
+          <Button className="w-100" onClick={handleClearFilter}>
+            Clear Filter
+          </Button>
         </div>
 
         <div className="shop__products">
