@@ -5,9 +5,9 @@ import { Col, Container, Form, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCity, getDivision } from '../../../redux/action/address.action';
 import ContentTitle from '../../common/ContentTitle/ContentTitle';
-import discountPrice from '../../utils/discount';
-import subTotal from '../../utils/subTotal';
-import totalPrice from '../../utils/totalPrice';
+import discountPrice from '../../../utils/discount';
+import subTotal from '../../../utils/subTotal';
+import totalPrice from '../../../utils/totalPrice';
 import Payment from '../Payment/Payment';
 import './Checkout.scss';
 

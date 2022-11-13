@@ -3,8 +3,8 @@ import { Card } from 'react-bootstrap';
 import ReactStars from 'react-rating-stars-component';
 import { FaStar, FaStarHalf } from 'react-icons/fa';
 import './SingleProduct.scss';
-import discountPrice from '../../utils/discount';
-import formatCurrency from '../../utils/formatCurrency';
+import discountPrice from '../../../utils/discount';
+import formatCurrency from '../../../utils/formatCurrency';
 
 const SingleProduct = ({
   images,

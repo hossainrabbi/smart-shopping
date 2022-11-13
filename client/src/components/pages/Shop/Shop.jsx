@@ -12,7 +12,7 @@ import { useEffect } from 'react';
 import { getCategories } from '../../../redux/action/categories-action';
 import useFilter from '../../../hooks/useFilter';
 import { useState } from 'react';
-import formatCurrency from '../../utils/formatCurrency';
+import formatCurrency from '../../../utils/formatCurrency';
 import { sortProduct } from '../../../data/home.data';
 
 const Shop = () => {

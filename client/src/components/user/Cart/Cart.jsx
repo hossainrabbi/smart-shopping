@@ -7,15 +7,15 @@ import { HiMinus } from 'react-icons/hi';
 import { AiOutlineClose } from 'react-icons/ai';
 import './Cart.scss';
 import ContentTitle from '../../common/ContentTitle/ContentTitle';
-import discountPrice from '../../utils/discount';
+import discountPrice from '../../../utils/discount';
 import {
   clearAllFromCart,
   decrementCartProductQty,
   incrementCartProductQty,
   removeFromCart,
 } from '../../../redux/action/product-list-action';
-import totalPrice from '../../utils/totalPrice';
-import subTotal from '../../utils/subTotal';
+import totalPrice from '../../../utils/totalPrice';
+import subTotal from '../../../utils/subTotal';
 
 const Cart = () => {
   const { productList } = useSelector((store) => store);
