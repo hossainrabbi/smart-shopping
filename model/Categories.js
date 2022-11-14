@@ -6,6 +6,7 @@ const categorySchema = new Schema(
       type: String,
       required: [true, 'category name is required'],
       unique: [true, 'category already exist'],
+      lowercase: true,
     },
     categoryImage: {
       type: String,

@@ -35,6 +35,16 @@ const productSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    ratting: {
+      type: Number,
+      min: 0,
+      max: 5,
+      default: 0,
+    },
+    review: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     timestamps: true,
