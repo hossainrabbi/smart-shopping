@@ -4,7 +4,7 @@ import { addressAction } from '../store/address-slice';
 export const getDivision = () => async (dispatch) => {
   try {
     const { data } = await axios.get(
-      'http://bdapis.herokuapp.com/api/v1.1/divisions'
+      `${process.env.REACT_APP_BD_API_URL}/divisions`
     );
 
     dispatch(
@@ -24,7 +24,7 @@ export const getDivision = () => async (dispatch) => {
 export const getCity = (division) => async (dispatch) => {
   try {
     const { data } = await axios.get(
-      `http://bdapis.herokuapp.com/api/v1.1/division/${division}`
+      `${process.env.REACT_APP_BD_API_URL}/division/${division}`
     );
 
     dispatch(

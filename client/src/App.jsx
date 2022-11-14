@@ -17,6 +17,7 @@ import Home from './components/pages/Home/Home';
 import Cart from './components/user/Cart/Cart';
 import Checkout from './components/user/Checkout/Checkout';
 import Shop from './components/pages/Shop/Shop';
+import Profile from './components/user/Profile/Profile';
 
 const App = () => {
   return (
@@ -33,6 +34,7 @@ const App = () => {
         <Route path="" element={<PrivateRoute userRole="USER" />}>
           <Route path="" element={<PublicLayout />}>
             <Route path="checkout" element={<Checkout />} />
+            <Route path="user/profile" element={<Profile />} />
           </Route>
         </Route>
         <Route path="admin" element={<PrivateRoute userRole="ADMIN" />}>

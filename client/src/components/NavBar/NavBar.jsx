@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { authAction } from '../../redux/store/auth-slice';
 import './Navbar.scss';
 import Logo from '../../images/smart-shopping.png';
+import { productListAction } from '../../redux/store/product-list-slice';
 
 const navMenu = [
   {
@@ -33,6 +34,7 @@ const NavBar = () => {
 
   const handleLogout = () => {
     dispatch(authAction.logoutUser());
+    dispatch(productListAction.clearAllFromCart());
   };
 
   return (
