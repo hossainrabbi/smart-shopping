@@ -37,7 +37,7 @@ export const createProduct = (productData) => async (dispatch) => {
     dispatch(
       productAction.createProduct({
         loading: false,
-        error: err.response.data.message,
+        error: err.response.data.message || err.message,
       })
     );
   }
@@ -79,7 +79,7 @@ export const updateProduct = (productId, productData) => async (dispatch) => {
     dispatch(
       productAction.updateProduct({
         loading: false,
-        error: err.response.data.message,
+        error: err.response.data.message || err.message,
       })
     );
   }
@@ -108,7 +108,7 @@ export const getProducts = () => async (dispatch) => {
     dispatch(
       productAction.getProducts({
         loading: false,
-        error: err.response.data.message,
+        error: err.response.data.message || err.message,
       })
     );
   }
@@ -149,7 +149,7 @@ export const removeProduct = (productId) => async (dispatch) => {
     dispatch(
       productAction.removeProduct({
         loading: false,
-        error: err.response.data.message,
+        error: err.response.data.message || err.message,
       })
     );
   }
