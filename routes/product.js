@@ -2,6 +2,7 @@ const router = require('express').Router();
 const {
   createProduct,
   getAllProduct,
+  getSingleProduct,
   updateProduct,
   deleteProduct,
 } = require('../controller/product');
@@ -12,6 +13,8 @@ router
   .route('/')
   .get(getAllProduct)
   .post(authentication, authorization(['ADMIN']), createProduct);
+
+router.get('/:productId', getSingleProduct);
 
 router
   .route('/:productId')

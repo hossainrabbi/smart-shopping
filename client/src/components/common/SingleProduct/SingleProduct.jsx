@@ -22,8 +22,6 @@ const SingleProduct = ({
   rightProductHandler,
   leftProductHandler,
 }) => {
-  const calculatePrice = discountPrice(price, discount);
-
   return (
     <Card className="shadow-sm single__product">
       <div className="product__image position-relative">
@@ -52,7 +50,7 @@ const SingleProduct = ({
               </h6>
             )}
             <h5 className="mb-0 text-primary">
-              ${formatCurrency.format(calculatePrice)}
+              ${formatCurrency.format(discountPrice(price, discount))}
             </h5>
           </div>
           <div className="d-flex align-items-center">

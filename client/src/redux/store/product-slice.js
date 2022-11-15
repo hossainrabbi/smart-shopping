@@ -7,6 +7,7 @@ const productSlice = createSlice({
     getLoading: false,
     removeLoading: false,
     updateLoading: false,
+    singleProductLoading: false,
     isCreate: false,
     isRemove: false,
     isUpdate: false,
@@ -14,7 +15,9 @@ const productSlice = createSlice({
     getError: '',
     removeError: '',
     updateError: '',
+    singleProductError: '',
     products: [],
+    singleProduct: null,
   },
   reducers: {
     createProduct(state, action) {
@@ -36,6 +39,11 @@ const productSlice = createSlice({
       state.isCreate = false;
       state.isRemove = false;
       state.isUpdate = false;
+    },
+    getSingleProduct(state, action) {
+      state.singleProduct = action.payload.loading;
+      state.singleProductError = action.payload.error;
+      state.singleProduct = action.payload.product;
     },
     updateProduct(state, action) {
       state.updateLoading = action.payload.loading;

@@ -18,6 +18,7 @@ import Cart from './components/user/Cart/Cart';
 import Checkout from './components/user/Checkout/Checkout';
 import Shop from './components/pages/Shop/Shop';
 import Profile from './components/user/Profile/Profile';
+import SingleProductDetails from './components/pages/SingleProductDetails/SingleProductDetails';
 
 const App = () => {
   return (
@@ -30,6 +31,8 @@ const App = () => {
           <Route path="" element={<Home />} />
           <Route path="cart" element={<Cart />} />
           <Route path="shop" element={<Shop />} />
+          <Route path="shop" element={<Shop />} />
+          <Route path="shop/:productId" element={<SingleProductDetails />} />
         </Route>
         <Route path="" element={<PrivateRoute userRole="USER" />}>
           <Route path="" element={<PublicLayout />}>

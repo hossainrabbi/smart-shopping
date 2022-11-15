@@ -114,6 +114,35 @@ export const getProducts = () => async (dispatch) => {
   }
 };
 
+export const getSingleProduct = (productId) => async (dispatch) => {
+  try {
+    dispatch(
+      productAction.getSingleProduct({
+        loading: true,
+      })
+    );
+
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_API_URL}/api/v1/products/${productId}`
+    );
+
+    dispatch(
+      productAction.getSingleProduct({
+        loading: false,
+        error: '',
+        product: data,
+      })
+    );
+  } catch (err) {
+    dispatch(
+      productAction.getSingleProduct({
+        loading: false,
+        error: err.response.data.message || err.message,
+      })
+    );
+  }
+};
+
 export const removeProduct = (productId) => async (dispatch) => {
   const config = {
     headers: {

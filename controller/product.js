@@ -14,6 +14,24 @@ exports.getAllProduct = async (_req, res, next) => {
   }
 };
 
+exports.getSingleProduct = async (req, res, next) => {
+  const { productId } = req.params;
+  try {
+    if (!mongoose.Types.ObjectId.isValid(productId)) {
+      throw error('product not found', 404);
+    }
+
+    const product = await Product.findById(productId);
+    if (!product) {
+      throw error('product not found', 404);
+    }
+
+    res.status(200).json(product);
+  } catch (err) {
+    next(err);
+  }
+};
+
 exports.createProduct = async (req, res, next) => {
   const {
     productName,
