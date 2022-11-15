@@ -5,29 +5,36 @@ import { Button, Table } from 'react-bootstrap';
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaTrash } from 'react-icons/fa';
-import { getUsers } from '../../../redux/action/users.action';
+import { getUsers, removeUser } from '../../../redux/action/users.action';
 import Loading from '../../common/Loading';
 import './Users.scss';
 
 const Users = () => {
-  const { getLoading, getError, users } = useSelector((store) => store.users);
+  const { getLoading, getError, users, removeLoading, removeError, isRemove } =
+    useSelector((store) => store.users);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // if (products?.isRemove) {
-    //   toast.success('Product Remove Successfully');
-    // }
-
     if (getError) {
       toast.error(getError);
     }
   }, [getError]);
 
   useEffect(() => {
+    if (isRemove) {
+      toast.success('User Remove Successfully');
+    } else if (removeError) {
+      toast.error(removeError);
+    }
+  }, [isRemove, removeError]);
+
+  useEffect(() => {
     dispatch(getUsers());
   }, [dispatch]);
 
-  console.log(users);
+  const handleRemoveUser = (userId) => {
+    dispatch(removeUser(userId));
+  };
 
   if (getLoading) {
     return <Loading />;
@@ -81,6 +88,8 @@ const Users = () => {
                     <button
                       className="btn border-0 p-0"
                       style={{ color: '#DC3545', fontSize: 20 }}
+                      onClick={() => handleRemoveUser(user?._id)}
+                      disabled={removeLoading}
                     >
                       <FaTrash />
                     </button>
