@@ -9,7 +9,7 @@ exports.registerUser = async (req, res, next) => {
     if (!username || !email || !password)
       throw error('invalid credentials', 400);
 
-    let user = await User.findOne({ email });
+    let user = await User.findOne({ email, username });
     if (user) throw error('user already exist', 400);
 
     user = new User({ username, email, password });
