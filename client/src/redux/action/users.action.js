@@ -82,3 +82,43 @@ export const removeUser = (userId) => async (dispatch) => {
     );
   }
 };
+
+export const makeAdmin = (userId) => async (dispatch) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${
+        JSON.parse(
+          JSON.parse(localStorage.getItem('smart-shopping-login')).user
+        ).token
+      }`,
+    },
+  };
+
+  try {
+    dispatch(
+      usersAction.makeAdmin({
+        loading: true,
+      })
+    );
+
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_API_URL}/api/v1/users/${userId}?isAdmin=true`,
+      config
+    );
+
+    dispatch(
+      usersAction.makeAdmin({
+        loading: false,
+        error: '',
+        user: data,
+      })
+    );
+  } catch (err) {
+    dispatch(
+      usersAction.makeAdmin({
+        loading: false,
+        error: err.response.data.message || err.message,
+      })
+    );
+  }
+};

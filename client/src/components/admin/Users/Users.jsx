@@ -5,13 +5,25 @@ import { Button, Table } from 'react-bootstrap';
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaTrash } from 'react-icons/fa';
-import { getUsers, removeUser } from '../../../redux/action/users.action';
+import {
+  getUsers,
+  makeAdmin,
+  removeUser,
+} from '../../../redux/action/users.action';
 import Loading from '../../common/Loading';
 import './Users.scss';
 
 const Users = () => {
-  const { getLoading, getError, users, removeLoading, removeError, isRemove } =
-    useSelector((store) => store.users);
+  const {
+    getLoading,
+    getError,
+    users,
+    removeLoading,
+    removeError,
+    isRemove,
+    updateLoading,
+    updateError,
+  } = useSelector((store) => store.users);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -19,6 +31,12 @@ const Users = () => {
       toast.error(getError);
     }
   }, [getError]);
+
+  useEffect(() => {
+    if (updateError) {
+      toast.error(updateError);
+    }
+  }, [updateError]);
 
   useEffect(() => {
     if (isRemove) {
@@ -34,6 +52,10 @@ const Users = () => {
 
   const handleRemoveUser = (userId) => {
     dispatch(removeUser(userId));
+  };
+
+  const handleMakeOrRemoveAdmin = (userId) => {
+    dispatch(makeAdmin(userId));
   };
 
   if (getLoading) {
@@ -79,9 +101,21 @@ const Users = () => {
                   </td>
                   <td>
                     {user?.roles?.includes('ADMIN') ? (
-                      <Button variant="danger">Remove Admin</Button>
+                      <Button
+                        variant="danger"
+                        onClick={() => handleMakeOrRemoveAdmin(user?._id)}
+                        disabled={updateLoading}
+                      >
+                        Remove Admin
+                      </Button>
                     ) : (
-                      <Button variant="success">Make Admin</Button>
+                      <Button
+                        variant="success"
+                        onClick={() => handleMakeOrRemoveAdmin(user?._id)}
+                        disabled={updateLoading}
+                      >
+                        Make Admin
+                      </Button>
                     )}
                   </td>
                   <td>

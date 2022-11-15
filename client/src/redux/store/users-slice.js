@@ -6,8 +6,10 @@ const usersSlice = createSlice({
     users: [],
     getLoading: false,
     removeLoading: false,
+    updateLoading: false,
     getError: '',
     removeError: '',
+    updateError: '',
     isRemove: false,
   },
   reducers: {
@@ -24,6 +26,19 @@ const usersSlice = createSlice({
         state.users = state.users.filter(
           (user) => user._id !== action.payload.userId
         );
+      }
+    },
+    makeAdmin(state, action) {
+      state.updateLoading = action.payload.loading;
+      state.updateError = action.payload.error;
+      if (action.payload.user) {
+        const findIndex = state.users.findIndex(
+          (user) => user._id === action.payload.user._id
+        );
+
+        if (findIndex >= 0) {
+          state.users[findIndex] = action.payload.user;
+        }
       }
     },
   },
