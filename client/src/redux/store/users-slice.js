@@ -17,6 +17,13 @@ const usersSlice = createSlice({
       state.getLoading = action.payload.loading;
       state.getError = action.payload.error;
       state.users = action.payload.users;
+
+      state.createError = '';
+      state.removeError = '';
+      state.updateError = '';
+      state.isRemove = false;
+      state.removeLoading = false;
+      state.updateLoading = false;
     },
     removeUser(state, action) {
       state.removeLoading = action.payload.loading;
