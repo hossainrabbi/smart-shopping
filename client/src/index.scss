@@ -40,8 +40,14 @@ img {
   fill: $main !important;
 }
 
-.price__item s {
-  font-size: 12px !important;
+.price__item {
+  font-size: 1rem !important;
+  h5 {
+    font-size: 1rem !important;
+  }
+  s {
+    font-size: 12px !important;
+  }
 }
 
 .cursor-pointer {

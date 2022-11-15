@@ -42,9 +42,17 @@ const productListSlice = createSlice({
       } else if (
         findIndex !== -1 &&
         state.cartList[findIndex].inStock >= 1 &&
+        state.cartList[findIndex].qty < state.cartList[findIndex].inStock &&
+        action.payload.productQty
+      ) {
+        state.cartList[findIndex].qty = parseInt(action.payload.productQty);
+      } else if (
+        findIndex !== -1 &&
+        state.cartList[findIndex].inStock >= 1 &&
         state.cartList[findIndex].qty < state.cartList[findIndex].inStock
       ) {
         state.cartList[findIndex].qty = state.cartList[findIndex].qty + 1;
+      } else {
         state.cartList = [...state.cartList];
       }
     },

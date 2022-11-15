@@ -77,7 +77,7 @@ const SingleProduct = ({
               </h6>
             )}
             <h5 className="mb-0 text-primary">
-              ${formatCurrency.format(discountPrice(price, discount))}
+              {formatCurrency.format(discountPrice(price, discount))}
             </h5>
           </div>
           <div className="d-flex align-items-center">

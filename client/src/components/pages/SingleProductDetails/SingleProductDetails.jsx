@@ -17,6 +17,7 @@ import discountPrice from '../../../utils/discount';
 import formatCurrency from '../../../utils/formatCurrency';
 import Loading from '../../common/Loading';
 import useProduct from '../../../hooks/useProduct';
+import './SingleProductDetails.scss';
 
 const SingleProductDetails = () => {
   const { productId } = useParams();
@@ -52,16 +53,18 @@ const SingleProductDetails = () => {
     <Container className="mt-5">
       <Row>
         <Col md={6}>
-          <img
-            src={singleProduct?.images[imageItem]}
-            alt={singleProduct?.productName}
-          />
+          <div className="product__image__area mx-auto">
+            <img
+              src={singleProduct?.images[imageItem]}
+              alt={singleProduct?.productName}
+              className="h-100"
+            />
+          </div>
         </Col>
         <Col md={6}>
           <h3>{singleProduct?.productName}</h3>
           <h5 className="price__item">
             <span className="mb-0 text-primary">
-              $
               {formatCurrency.format(
                 discountPrice(singleProduct?.price, singleProduct?.discount)
               )}
@@ -88,6 +91,11 @@ const SingleProductDetails = () => {
 
             <span>({singleProduct?.review})</span>
           </div>
+          <p className="my-2">
+            {singleProduct?.description.length > 200
+              ? `${singleProduct?.description.slice(0, 199)}...`
+              : singleProduct?.description}
+          </p>
           <div className="py-2">
             {productList.wishList.some(
               (item) => item._id === singleProduct?._id
