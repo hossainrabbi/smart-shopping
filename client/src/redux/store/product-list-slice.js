@@ -35,7 +35,10 @@ const productListSlice = createSlice({
       );
 
       if (findIndex === -1 && findProduct.inStock >= 1) {
-        state.cartList = [...state.cartList, { ...findProduct, qty: 1 }];
+        state.cartList = [
+          ...state.cartList,
+          { ...findProduct, qty: parseInt(action.payload.productQty || 1) },
+        ];
       } else if (
         findIndex !== -1 &&
         state.cartList[findIndex].inStock >= 1 &&

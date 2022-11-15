@@ -62,6 +62,7 @@ const Products = () => {
                   rightProductHandler={cartProductItem}
                   leftProductHandler={wishProductItem}
                   {...product}
+                  showDetails
                 />
               </Col>
             ))}

@@ -21,18 +21,28 @@ import useProduct from '../../../hooks/useProduct';
 const SingleProductDetails = () => {
   const { productId } = useParams();
   const dispatch = useDispatch();
+  const [imageItem, setImageItem] = useState(0);
+
   const { singleProductLoading, singleProduct } = useSelector(
     (store) => store.products
   );
-  const { products, productList, wishProductItem, cartProductItem } =
-    useProduct();
-  const [imageItem, setImageItem] = useState(0);
+  const [productQty, setProductQty] = useState(0);
+  const { productList, wishProductItem, cartProductItem } =
+    useProduct(productQty);
+
+  const thisProduct = productList.cartList.find(
+    (product) => product._id === productId
+  );
 
   useEffect(() => {
     dispatch(getSingleProduct(productId));
   }, [dispatch, productId]);
 
-  console.log(singleProduct);
+  useEffect(() => {
+    if (thisProduct) {
+      setProductQty(parseInt(thisProduct?.qty));
+    }
+  }, [thisProduct]);
 
   if (singleProductLoading) {
     return <Loading />;
@@ -49,7 +59,7 @@ const SingleProductDetails = () => {
         </Col>
         <Col md={6}>
           <h3>{singleProduct?.productName}</h3>
-          <h5>
+          <h5 className="price__item">
             <span className="mb-0 text-primary">
               $
               {formatCurrency.format(
@@ -103,8 +113,15 @@ const SingleProductDetails = () => {
               className="py-1 px-2 rounded text-center d-inline-block"
               min={0}
               max={singleProduct?.inStock}
+              value={productQty}
+              onChange={(e) => setProductQty(e.target.value)}
             />
-            <Button className="py-1 px-3">Add to Cart</Button>
+            <Button
+              className="py-1 px-3 d-flex align-items-center gap-2"
+              onClick={() => cartProductItem(singleProduct?._id)}
+            >
+              <FaShoppingCart /> Add to Cart
+            </Button>
           </div>
         </Col>
       </Row>

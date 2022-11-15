@@ -9,14 +9,16 @@ export const addProductWishList = (productId, products) => (dispatch) => {
   );
 };
 
-export const addProductCartList = (productId, products) => (dispatch) => {
-  dispatch(
-    productListAction.addCartList({
-      productId,
-      products,
-    })
-  );
-};
+export const addProductCartList =
+  (productId, products, productQty) => (dispatch) => {
+    dispatch(
+      productListAction.addCartList({
+        productId,
+        products,
+        productQty,
+      })
+    );
+  };
 
 export const removeFromCart = (productId) => (dispatch) => {
   dispatch(

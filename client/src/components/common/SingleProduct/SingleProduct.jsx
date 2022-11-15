@@ -2,6 +2,7 @@ import React from 'react';
 import { Card } from 'react-bootstrap';
 import ReactStars from 'react-rating-stars-component';
 import { FaStar, FaStarHalf } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 import './SingleProduct.scss';
 import discountPrice from '../../../utils/discount';
 import formatCurrency from '../../../utils/formatCurrency';
@@ -21,10 +22,21 @@ const SingleProduct = ({
   rightIconClass,
   rightProductHandler,
   leftProductHandler,
+  showDetails,
 }) => {
+  const navigate = useNavigate();
+  const handleProductDetails = (id) => {
+    navigate(`/shop/${id}`);
+  };
+
   return (
     <Card className="shadow-sm single__product">
-      <div className="product__image position-relative">
+      <div
+        className={`product__image position-relative ${
+          showDetails ? 'cursor-pointer' : ''
+        }`}
+        onClick={showDetails ? () => handleProductDetails(_id) : null}
+      >
         <Card.Img variant="top" src={images[0]} />
         {discount > 0 && (
           <small className="position-absolute px-2 bg-danger text-white">
@@ -33,17 +45,32 @@ const SingleProduct = ({
         )}
       </div>
       <Card.Body className="py-0">
-        <small className="text-muted text-capitalize my-2 d-inline-block">
+        <small
+          className={`text-muted text-capitalize my-2 d-inline-block ${
+            showDetails ? 'cursor-pointer' : ''
+          }`}
+          onClick={showDetails ? () => handleProductDetails(_id) : null}
+        >
           {category}
         </small>
-        <Card.Title>{productName}</Card.Title>
+        <Card.Title
+          onClick={showDetails ? () => handleProductDetails(_id) : null}
+          className={showDetails ? 'cursor-pointer' : ''}
+        >
+          {productName}
+        </Card.Title>
         {/* <Card.Text className="mb-0">
           {description.length > 100
             ? `${description.slice(0, 100)}...`
             : description}
         </Card.Text> */}
-        <div className="d-flex align-items-center justify-content-between flex-wrap">
-          <div className="d-flex align-items-center">
+        <div
+          className={`d-flex align-items-center justify-content-between flex-wrap ${
+            showDetails ? 'cursor-pointer' : ''
+          }`}
+          onClick={showDetails ? () => handleProductDetails(_id) : null}
+        >
+          <div className="d-flex align-items-center price__item">
             {discount > 0 && (
               <h6 className="mb-0 me-2 text-muted">
                 <s>{formatCurrency.format(price)}</s>

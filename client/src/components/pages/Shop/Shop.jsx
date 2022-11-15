@@ -168,6 +168,7 @@ const Shop = () => {
                     rightProductHandler={cartProductItem}
                     leftProductHandler={wishProductItem}
                     {...product}
+                    showDetails
                   />
                 </Col>
               ))}

@@ -8,7 +8,7 @@ import {
   addProductWishList,
 } from '../redux/action/product-list-action';
 
-const useProduct = () => {
+const useProduct = (productQty = 0) => {
   const { products, productList } = useSelector((store) => store);
   const dispatch = useDispatch();
 
@@ -21,7 +21,7 @@ const useProduct = () => {
   };
 
   const cartProductItem = (id) => {
-    dispatch(addProductCartList(id, products?.products));
+    dispatch(addProductCartList(id, products?.products, productQty));
     if (id) {
       toast(
         <Link to="/cart" className="text-decoration-none">

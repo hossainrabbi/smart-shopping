@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { MdOutlineAdd } from 'react-icons/md';
 import { HiMinus } from 'react-icons/hi';
 import { AiOutlineClose } from 'react-icons/ai';
+import { useNavigate } from 'react-router-dom';
 import './Cart.scss';
 import ContentTitle from '../../common/ContentTitle/ContentTitle';
 import discountPrice from '../../../utils/discount';
@@ -16,10 +17,12 @@ import {
 } from '../../../redux/action/product-list-action';
 import totalPrice from '../../../utils/totalPrice';
 import subTotal from '../../../utils/subTotal';
+import formatCurrency from '../../../utils/formatCurrency';
 
 const Cart = () => {
   const { productList } = useSelector((store) => store);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const shippingFee = 75.0;
   const total = totalPrice(productList?.cartList, shippingFee);
@@ -38,6 +41,10 @@ const Cart = () => {
 
   const clearAll = () => {
     dispatch(clearAllFromCart());
+  };
+
+  const handleProductDetails = (id) => {
+    navigate(`/shop/${id}`);
   };
 
   return (
@@ -64,7 +71,8 @@ const Cart = () => {
                     <img
                       src={productItem.images[0]}
                       alt={productItem.productName}
-                      className="w-100"
+                      className="w-100 cursor-pointer"
+                      onClick={() => handleProductDetails(productItem._id)}
                     />
                   </td>
                   <td
@@ -72,11 +80,22 @@ const Cart = () => {
                       textAlign: 'left',
                     }}
                   >
-                    {productItem.productName}
+                    <span
+                      className="cursor-pointer d-inline-block w-100"
+                      onClick={() => handleProductDetails(productItem._id)}
+                    >
+                      {productItem.productName}
+                    </span>
                   </td>
-                  <td>
-                    <s className="text-muted">${productItem.price}</s> $
-                    {discountPrice(productItem.price, productItem.discount)}
+                  <td className="price__item">
+                    {productItem?.discount > 0 && (
+                      <s className="text-muted me-2">
+                        {formatCurrency.format(productItem.price)}
+                      </s>
+                    )}
+                    {formatCurrency.format(
+                      discountPrice(productItem.price, productItem.discount)
+                    )}
                   </td>
                   <td>{productItem.inStock}</td>
                   <td>
@@ -99,10 +118,11 @@ const Cart = () => {
                     </div>
                   </td>
                   <td className="price">
-                    $
-                    {subTotal(
-                      discountPrice(productItem.price, productItem.discount),
-                      productItem.qty
+                    {formatCurrency.format(
+                      subTotal(
+                        discountPrice(productItem.price, productItem.discount),
+                        productItem.qty
+                      )
                     )}
                   </td>
                   <td>
