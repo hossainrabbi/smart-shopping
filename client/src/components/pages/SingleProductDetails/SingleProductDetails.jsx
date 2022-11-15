@@ -53,12 +53,23 @@ const SingleProductDetails = () => {
     <Container className="mt-5">
       <Row>
         <Col md={6}>
-          <div className="product__image__area mx-auto">
+          <div className="product__image__area mx-auto text-center">
             <img
               src={singleProduct?.images[imageItem]}
               alt={singleProduct?.productName}
               className="h-100"
             />
+          </div>
+          <div className="d-flex justify-content-center align-items-center gap-4 cursor-pointer product__image__item mt-4">
+            {singleProduct?.images?.map((image, i) => (
+              <img
+                src={image}
+                alt={`${singleProduct?.productName}-${i + 1}`}
+                key={i}
+                className={imageItem === i ? 'border border-primary' : ''}
+                onClick={() => setImageItem(i)}
+              />
+            ))}
           </div>
         </Col>
         <Col md={6}>
@@ -133,6 +144,7 @@ const SingleProductDetails = () => {
           </div>
         </Col>
       </Row>
+      <p className="my-5">{singleProduct?.description}</p>
     </Container>
   );
 };

@@ -1,8 +1,16 @@
 .product__image__area {
   width: 300px;
-  height: 350px;
+  height: 300px;
 
   img {
+    object-fit: cover;
+  }
+}
+
+.product__image__item {
+  img {
+    width: 70px;
+    height: 70px;
     object-fit: cover;
   }
 }

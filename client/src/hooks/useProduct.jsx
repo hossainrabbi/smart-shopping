@@ -22,6 +22,7 @@ const useProduct = (productQty = 0) => {
 
   const cartProductItem = (id) => {
     dispatch(addProductCartList(id, products?.products, productQty));
+
     if (id) {
       toast(
         <Link to="/cart" className="text-decoration-none">
