@@ -45,6 +45,8 @@ const Shop = () => {
     setPriceValue(0);
     setRattingValue(0);
     setSortBy('default');
+    setMinimum(0);
+    setMaximum(3000);
   };
 
   useEffect(() => {
