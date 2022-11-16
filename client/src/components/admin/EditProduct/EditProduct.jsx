@@ -10,7 +10,7 @@ const productInitialsState = {
   price: '',
   inStock: '',
   discount: '',
-  featured: false,
+  featured: true,
   category: '',
   images: [],
   description: '',
@@ -50,7 +50,7 @@ const EditProduct = () => {
     if (e.target.name === 'featured') {
       setProductsValue((prevProduct) => ({
         ...prevProduct,
-        featured: e.target.checked,
+        [e.target.name]: e.target.checked,
       }));
     } else {
       setProductsValue((prevProduct) => ({

@@ -44,7 +44,7 @@ const AddProduct = () => {
     if (e.target.name === 'featured') {
       setProductsValue((prevProduct) => ({
         ...prevProduct,
-        featured: e.target.checked,
+        [e.target.name]: e.target.checked,
       }));
     } else {
       setProductsValue((prevProduct) => ({
