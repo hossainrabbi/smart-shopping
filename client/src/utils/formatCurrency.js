@@ -1,4 +1,4 @@
-const formatCurrency = new Intl.NumberFormat('en-US', {
+const formatCurrency = new Intl.NumberFormat('en-IN', {
   style: 'currency',
   currency: 'BDT',
   minimumFractionDigits: 2,
