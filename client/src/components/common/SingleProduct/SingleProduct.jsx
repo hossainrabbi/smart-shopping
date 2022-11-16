@@ -37,7 +37,7 @@ const SingleProduct = ({
         }`}
         onClick={showDetails ? () => handleProductDetails(_id) : null}
       >
-        <Card.Img variant="top" src={images[0]} />
+        <Card.Img variant="top" style={{ height: '220px' }} src={images[0]} />
         {discount > 0 && (
           <small className="position-absolute px-2 bg-danger text-white">
             {discount}%

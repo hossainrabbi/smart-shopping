@@ -36,7 +36,11 @@ const Category = () => {
       >
         {categories?.map((category) => (
           <SwiperSlide className="category__container" key={category._id}>
-            <img src={category.categoryImage} alt={category.categoryName} />
+            <img
+              src={category.categoryImage}
+              alt={category.categoryName}
+              style={{ objectFit: 'contain' }}
+            />
             <h5 className="my-3">{category.categoryName}</h5>
           </SwiperSlide>
         ))}

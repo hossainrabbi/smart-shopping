@@ -1,8 +1,9 @@
 import React, { Fragment } from 'react';
 import { Button, Col, Container, Form, Navbar, Row } from 'react-bootstrap';
 import { FaRegHeart, FaHeart, FaShoppingCart } from 'react-icons/fa';
-import ReactStars from 'react-rating-stars-component';
 import { FaStar } from 'react-icons/fa';
+import { AiOutlineMinus } from 'react-icons/ai';
+import ReactStars from 'react-rating-stars-component';
 
 import SingleProduct from '../../common/SingleProduct/SingleProduct';
 import useProduct from '../../../hooks/useProduct';
@@ -23,6 +24,8 @@ const Shop = () => {
   const [category, setCategory] = useState('all');
   const [priceValue, setPriceValue] = useState(0);
   const [rattingValue, setRattingValue] = useState(0);
+  const [minimum, setMinimum] = useState(0);
+  const [maximum, setMaximum] = useState(3000);
   const [sortBy, setSortBy] = useState('default');
   const [clearFilter, setClearFilter] = useState(false);
 
@@ -112,10 +115,27 @@ const Shop = () => {
           </div>
           <div className="mb-4">
             <h5>Price:</h5>
-            <p className="mb-1">{formatCurrency.format(priceValue)}</p>
+            <div className="d-flex align-items-center justify-content-between gap-1">
+              <input
+                type="number"
+                className="text-center"
+                style={{ width: '90px' }}
+                value={minimum}
+                onChange={(e) => setMinimum(e.target.value)}
+              />
+              <AiOutlineMinus />
+              <input
+                type="number"
+                className="text-center"
+                style={{ width: '90px' }}
+                value={maximum}
+                onChange={(e) => setMaximum(e.target.value)}
+              />
+            </div>
+            <p className="mb-1 mt-2">{formatCurrency.format(priceValue)}</p>
             <Form.Range
-              min={0}
-              max={100}
+              min={minimum}
+              max={maximum}
               value={priceValue}
               onChange={(e) => setPriceValue(e.target.value)}
             />

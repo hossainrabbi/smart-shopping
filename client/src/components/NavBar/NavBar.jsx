@@ -14,7 +14,7 @@ const navMenu = [
     link: '/',
   },
   {
-    name: 'Shop',
+    name: 'Products',
     link: '/shop',
   },
   {

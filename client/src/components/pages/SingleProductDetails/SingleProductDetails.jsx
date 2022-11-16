@@ -134,6 +134,7 @@ const SingleProductDetails = () => {
               max={singleProduct?.inStock}
               value={productQty}
               onChange={(e) => setProductQty(e.target.value)}
+              style={{ width: '50px' }}
             />
             <Button
               className="py-1 px-3 d-flex align-items-center gap-2"
