@@ -11,6 +11,7 @@ const productInitialsState = {
   inStock: '',
   discount: '',
   category: '',
+  featured: false,
   images: [],
   description: '',
 };
@@ -40,10 +41,17 @@ const AddProduct = () => {
   }, [products?.createError, products?.isCreate]);
 
   const handleProductChange = (e) => {
-    setProductsValue((prevProduct) => ({
-      ...prevProduct,
-      [e.target.name]: e.target.value,
-    }));
+    if (e.target.name === 'featured') {
+      setProductsValue((prevProduct) => ({
+        ...prevProduct,
+        featured: e.target.checked,
+      }));
+    } else {
+      setProductsValue((prevProduct) => ({
+        ...prevProduct,
+        [e.target.name]: e.target.value,
+      }));
+    }
 
     setError('');
   };

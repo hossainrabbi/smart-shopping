@@ -8,7 +8,7 @@ cloudinary.config({
 
 const uploadImages = (image) => {
   return cloudinary.uploader.upload(image, {
-    upload_preset: 'smart_shopping',
+    upload_preset: process.env.CLOUDINARY_UPLOAD_PRESET,
     allowed_formats: 'jpg, jpeg, png',
   });
 };

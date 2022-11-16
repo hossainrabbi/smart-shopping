@@ -36,19 +36,19 @@ const ProductForm = ({
               />
             </Form.Group>
           </Col>
-          <Col md={6}>
+          <Col md={4}>
             <Form.Group className="mb-3" controlId="productPrice">
               <Form.Label>Product Price:</Form.Label>
               <Form.Control
                 type="number"
-                placeholder="$ Price"
+                placeholder="Price (BDT)"
                 name="price"
                 value={productsValue.price}
                 onChange={handleProductChange}
               />
             </Form.Group>
           </Col>
-          <Col md={6}>
+          <Col md={4}>
             <Form.Group className="mb-3" controlId="productInStock">
               <Form.Label>InStock:</Form.Label>
               <Form.Control
@@ -60,7 +60,7 @@ const ProductForm = ({
               />
             </Form.Group>
           </Col>
-          <Col md={6}>
+          <Col md={4}>
             <Form.Group className="mb-3" controlId="productDiscount">
               <Form.Label>Product Discount:</Form.Label>
               <Form.Control
@@ -72,7 +72,7 @@ const ProductForm = ({
               />
             </Form.Group>
           </Col>
-          <Col md={6}>
+          <Col md={6} className="mb-3">
             <Form.Label>Choose Category:</Form.Label>
             <Form.Select
               aria-label="category selected"
@@ -91,7 +91,19 @@ const ProductForm = ({
                 ))}
             </Form.Select>
           </Col>
-          <Col md={6}>
+          <Col md={6} className="mb-3">
+            <div className="h-100 d-flex align-items-center user-select-none mt-3">
+              <Form.Check
+                type="checkbox"
+                id="featured"
+                label="Featured Product"
+                name="featured"
+                checked={productsValue.featured}
+                onChange={handleProductChange}
+              />
+            </div>
+          </Col>
+          <Col md={6} className="mb-3">
             <Form.Group controlId="productImageUpload" className="mb-3">
               <Form.Label>Upload Images:</Form.Label>
               <Form.Control
@@ -102,7 +114,7 @@ const ProductForm = ({
               />
             </Form.Group>
           </Col>
-          <Col md={6}>
+          <Col md={6} className="mb-3">
             <div className="d-flex">
               {productsValue?.images?.map((image, i) => (
                 <div

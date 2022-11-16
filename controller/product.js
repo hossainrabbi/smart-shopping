@@ -40,6 +40,7 @@ exports.createProduct = async (req, res, next) => {
     discount,
     category,
     images,
+    featured,
     description,
   } = req.body;
 
@@ -70,6 +71,7 @@ exports.createProduct = async (req, res, next) => {
       discount,
       category,
       description,
+      featured: featured || false,
       images: imageResult,
     });
 
