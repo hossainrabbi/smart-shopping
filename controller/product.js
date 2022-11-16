@@ -71,7 +71,7 @@ exports.createProduct = async (req, res, next) => {
       discount,
       category,
       description,
-      featured: featured || false,
+      featured: Boolean(featured) || false,
       images: imageResult,
     });
 
@@ -93,6 +93,7 @@ exports.updateProduct = async (req, res, next) => {
     discount,
     category,
     images,
+    featured,
     description,
   } = req.body;
 
@@ -120,6 +121,7 @@ exports.updateProduct = async (req, res, next) => {
         inStock,
         discount,
         category,
+        featured: Boolean(featured) || false,
         images: imageResult,
         description,
       },

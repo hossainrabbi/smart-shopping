@@ -10,6 +10,7 @@ const productInitialsState = {
   price: '',
   inStock: '',
   discount: '',
+  featured: false,
   category: '',
   images: [],
   description: '',
@@ -46,10 +47,17 @@ const EditProduct = () => {
   }, [products?.updateError, products?.isUpdate, navigate]);
 
   const handleProductChange = (e) => {
-    setProductsValue((prevProduct) => ({
-      ...prevProduct,
-      [e.target.name]: e.target.value,
-    }));
+    if (e.target.name === 'featured') {
+      setProductsValue((prevProduct) => ({
+        ...prevProduct,
+        featured: e.target.checked,
+      }));
+    } else {
+      setProductsValue((prevProduct) => ({
+        ...prevProduct,
+        [e.target.name]: e.target.value,
+      }));
+    }
 
     setError('');
   };
@@ -72,6 +80,7 @@ const EditProduct = () => {
         if (findImage) {
           return setError('This image already exist');
         }
+
         setProductsValue((prevProduct) => ({
           ...prevProduct,
           images: [...prevProduct.images, reader.result],
