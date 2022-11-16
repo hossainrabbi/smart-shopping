@@ -2,11 +2,12 @@ const Order = require('../model/Order');
 const error = require('../utils/error');
 
 exports.postOrder = async (req, res, next) => {
-  const { paymentId, totalPrice, purchasedProduct, address } = req.body;
+  const { paymentId, userId, totalPrice, purchasedProduct, address } = req.body;
 
   try {
     if (
       !paymentId ||
+      !userId ||
       !totalPrice ||
       !purchasedProduct ||
       purchasedProduct.length === 0 ||
@@ -17,6 +18,7 @@ exports.postOrder = async (req, res, next) => {
 
     let order = new Order({
       paymentId,
+      userId,
       totalPrice,
       purchasedProduct,
       address,
@@ -24,6 +26,15 @@ exports.postOrder = async (req, res, next) => {
 
     order = await order.save();
     res.status(201).json(order);
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.getOrder = async (req, res, next) => {
+  try {
+    const order = await Order.find();
+    res.status(200).json(order);
   } catch (err) {
     next(err);
   }

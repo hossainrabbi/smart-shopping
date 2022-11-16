@@ -83,7 +83,7 @@ export const removeUser = (userId) => async (dispatch) => {
   }
 };
 
-export const makeAdmin = (userId) => async (dispatch) => {
+export const getSingleUser = (userId, isAdmin) => async (dispatch) => {
   const config = {
     headers: {
       Authorization: `Bearer ${
@@ -96,18 +96,18 @@ export const makeAdmin = (userId) => async (dispatch) => {
 
   try {
     dispatch(
-      usersAction.makeAdmin({
+      usersAction.getSingleUser({
         loading: true,
       })
     );
 
     const { data } = await axios.get(
-      `${process.env.REACT_APP_API_URL}/api/v1/users/${userId}?isAdmin=true`,
+      `${process.env.REACT_APP_API_URL}/api/v1/users/${userId}?${isAdmin}`,
       config
     );
 
     dispatch(
-      usersAction.makeAdmin({
+      usersAction.getSingleUser({
         loading: false,
         error: '',
         user: data,
@@ -115,7 +115,7 @@ export const makeAdmin = (userId) => async (dispatch) => {
     );
   } catch (err) {
     dispatch(
-      usersAction.makeAdmin({
+      usersAction.getSingleUser({
         loading: false,
         error: err.response.data.message || err.message,
       })

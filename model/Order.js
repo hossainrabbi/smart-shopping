@@ -22,6 +22,10 @@ const orderSchema = new Schema(
         },
       },
     ],
+    userId: {
+      type: Schema.Types.ObjectId,
+      required: true,
+    },
     address: {
       firstName: {
         type: String,
@@ -38,6 +42,7 @@ const orderSchema = new Schema(
       phoneNo: {
         type: String,
         required: true,
+        min: [10, 'type a valid number'],
       },
       address: {
         type: String,

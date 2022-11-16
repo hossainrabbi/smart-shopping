@@ -6,8 +6,8 @@ import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaTrash } from 'react-icons/fa';
 import {
+  getSingleUser,
   getUsers,
-  makeAdmin,
   removeUser,
 } from '../../../redux/action/users.action';
 import Loading from '../../common/Loading';
@@ -55,7 +55,7 @@ const Users = () => {
   };
 
   const handleMakeOrRemoveAdmin = (userId) => {
-    dispatch(makeAdmin(userId));
+    dispatch(getSingleUser(userId, 'isAdmin=true'));
   };
 
   if (getLoading) {

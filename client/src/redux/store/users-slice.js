@@ -35,7 +35,7 @@ const usersSlice = createSlice({
         );
       }
     },
-    makeAdmin(state, action) {
+    getSingleUser(state, action) {
       state.updateLoading = action.payload.loading;
       state.updateError = action.payload.error;
       if (action.payload.user) {

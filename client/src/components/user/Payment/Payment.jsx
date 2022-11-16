@@ -20,6 +20,7 @@ const CheckoutForm = ({ total, addressInfo, purchasedProduct }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const order = useSelector((state) => state.order);
+  const { user } = useSelector((state) => state.auth.user);
 
   useEffect(() => {
     if (order.isOrder) {
@@ -54,11 +55,16 @@ const CheckoutForm = ({ total, addressInfo, purchasedProduct }) => {
       return toast.error('Cart is empty!');
     }
 
+    if (!user?._id) {
+      return toast.error('Please login again!');
+    }
+
     if (paymentMethod) {
       const submitInfo = {
-        address: { ...addressInfo },
         paymentId: paymentMethod.id,
+        userId: user?._id,
         purchasedProduct,
+        address: { ...addressInfo },
         totalPrice: total,
       };
 

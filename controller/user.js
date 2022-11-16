@@ -33,7 +33,7 @@ exports.removeUser = async (req, res, next) => {
   }
 };
 
-exports.makeAdmin = async (req, res, next) => {
+exports.getSingleUser = async (req, res, next) => {
   const { userId } = req.params;
 
   try {
@@ -46,19 +46,20 @@ exports.makeAdmin = async (req, res, next) => {
       throw error('user not found', 404);
     }
 
-    if (user._id.valueOf() === req.user._id.valueOf()) {
-      throw error('you cannot change your status', 403);
-    }
-
     if (Boolean(req.query.isAdmin)) {
+      if (user._id.valueOf() === req.user._id.valueOf()) {
+        throw error('you cannot change your status', 403);
+      }
+
       if (user.roles.includes('ADMIN')) {
         user.roles = user.roles.filter((role) => role !== 'ADMIN');
       } else {
         user.roles.push('ADMIN');
       }
+
+      await user.save();
     }
 
-    await user.save();
     res.status(200).json(user);
   } catch (err) {
     next(err);
