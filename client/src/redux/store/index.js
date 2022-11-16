@@ -11,14 +11,14 @@ import orderSlice from './order-slice';
 import usersSlice from './users-slice';
 
 const persistConfig = {
-  keyPrefix: 'smart-shopping-',
-  key: 'login',
+  keyPrefix: process.env.REACT_APP_SITE_NAME,
+  key: '-login',
   storage,
 };
 
 const persistCartConfig = {
-  keyPrefix: 'smart-shopping-',
-  key: 'cart',
+  keyPrefix: process.env.REACT_APP_SITE_NAME,
+  key: '-cart',
   storage,
 };
 
