@@ -9,12 +9,15 @@ import discountPrice from '../../../utils/discount';
 import subTotal from '../../../utils/subTotal';
 import totalPrice from '../../../utils/totalPrice';
 import Payment from '../Payment/Payment';
+import formatCurrency from '../../../utils/formatCurrency';
 import './Checkout.scss';
 
 const Checkout = () => {
   const [nextInfo, setNextInfo] = useState(false);
   const { auth, address, productList } = useSelector((store) => store);
   const dispatch = useDispatch();
+
+  console.log(address);
 
   const [addressInfo, setAddressInfo] = useState({
     firstName: '',
@@ -256,12 +259,14 @@ const Checkout = () => {
             <hr />
             <p>
               <span>Shipping Fee:</span>
-              <span className="price__site">${shippingFee}</span>
+              <span className="price__site">
+                {formatCurrency.format(shippingFee)}
+              </span>
             </p>
             <hr />
             <p>
               <b>Total:</b>
-              <b className="price__site">${total}</b>
+              <b className="price__site">{formatCurrency.format(total)}</b>
             </p>
           </div>
           <br />
