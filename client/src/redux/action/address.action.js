@@ -7,15 +7,18 @@ export const getDivision = () => async (dispatch) => {
       `${process.env.REACT_APP_BD_API_URL}/divisions`
     );
 
+    console.log('d', data?.data);
+
     dispatch(
       addressAction.getDivision({
-        divisions: data.data ?? [],
+        divisions: data.data || [],
       })
     );
   } catch (err) {
+    console.log(err);
     dispatch(
       addressAction.getDivision({
-        divisionsError: err.message,
+        divisionsError: err.response.data.message || err.message,
       })
     );
   }
@@ -27,16 +30,18 @@ export const getCity = (division) => async (dispatch) => {
       `${process.env.REACT_APP_BD_API_URL}/division/${division}`
     );
 
+    console.log('cc', data?.data);
+
     dispatch(
       addressAction.getCity({
-        city: data.data,
+        city: data.data || [],
       })
     );
   } catch (err) {
     console.log(err);
     dispatch(
       addressAction.getCity({
-        cityError: err.message,
+        cityError: err.response.data.message || err.message,
       })
     );
   }

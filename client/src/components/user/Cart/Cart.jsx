@@ -137,12 +137,12 @@ const Cart = () => {
               ))}
               <tr className="total__calculation">
                 <td colSpan="5">Shipping Fee:</td>
-                <td className="price">${shippingFee}</td>
+                <td className="price">{formatCurrency.format(shippingFee)}</td>
                 <td />
               </tr>
               <tr className="total__calculation">
                 <td colSpan="5">Total:</td>
-                <td className="price">${total}</td>
+                <td className="price">{formatCurrency.format(total)}</td>
                 <td>
                   <button className="btn" onClick={clearAll}>
                     Clear All
