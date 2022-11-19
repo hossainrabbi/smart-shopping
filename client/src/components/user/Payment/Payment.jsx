@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import { clearOrder, createOrder } from '../../../redux/action/order-action';
 import { useEffect } from 'react';
 import { clearAllFromCart } from '../../../redux/action/product-list-action';
+import formatCurrency from '../../../utils/formatCurrency';
 
 const CheckoutForm = ({ total, addressInfo, purchasedProduct }) => {
   const stripe = useStripe();
@@ -82,7 +83,9 @@ const CheckoutForm = ({ total, addressInfo, purchasedProduct }) => {
           type="submit"
           disabled={!stripe || !elements || order?.createLoading}
         >
-          {order?.createLoading ? 'Loading...' : `Pay $${total}`}
+          {order?.createLoading
+            ? 'Loading...'
+            : `Pay ${formatCurrency.format(total)}`}
         </button>
       </div>
     </form>

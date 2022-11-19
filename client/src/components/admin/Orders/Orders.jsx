@@ -70,7 +70,7 @@ const Orders = () => {
                 <td>
                   <span>{`${item?.address?.address},`}</span>
                   <br />
-                  <span>{`${item?.address?.city}, ${item?.address?.division}`}</span>
+                  <span>{`${item?.address?.upozilla}, ${item?.address?.city}, ${item?.address?.division}`}</span>
                 </td>
                 <td>{item?.address?.phoneNo}</td>
                 <td>{formatCurrency.format(item?.totalPrice)}</td>

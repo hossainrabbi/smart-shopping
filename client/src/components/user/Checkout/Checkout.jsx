@@ -17,8 +17,6 @@ const Checkout = () => {
   const { auth, address, productList } = useSelector((store) => store);
   const dispatch = useDispatch();
 
-  console.log(address);
-
   const [addressInfo, setAddressInfo] = useState({
     firstName: '',
     lastName: '',
@@ -248,10 +246,11 @@ const Checkout = () => {
                   {product.productName} X {product.qty}
                 </span>
                 <span className="price__site">
-                  $
-                  {subTotal(
-                    discountPrice(product.price, product.discount),
-                    product.qty
+                  {formatCurrency.format(
+                    subTotal(
+                      discountPrice(product.price, product.discount),
+                      product.qty
+                    )
                   )}
                 </span>
               </p>
