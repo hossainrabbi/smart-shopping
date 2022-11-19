@@ -41,6 +41,8 @@ const useProduct = (productQty = 0) => {
   };
 
   return {
+    productGetLoading: products?.getLoading,
+    productGetError: products?.getError,
     products,
     productList,
     wishProductItem,

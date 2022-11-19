@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const categoriesSlice = createSlice({
   name: 'categories',
   initialState: {
+    getLoading: false,
     createLoading: false,
     updateLoading: false,
     createError: '',
@@ -23,6 +24,7 @@ const categoriesSlice = createSlice({
       }
     },
     getCategories(state, action) {
+      state.getLoading = action.payload.loading;
       state.getError = action.payload.error;
       state.categories = action.payload.categories;
 

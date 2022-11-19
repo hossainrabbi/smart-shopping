@@ -4,7 +4,7 @@ import ReactLoading from 'react-loading';
 
 const Loading = () => {
   return (
-    <Row className="w-100 h-100 justify-content-center align-items-center">
+    <Row className="w-100 h-100 justify-content-center align-items-center my-3">
       <ReactLoading type="spin" className="loading__color" />
     </Row>
   );

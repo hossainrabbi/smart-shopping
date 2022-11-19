@@ -19,6 +19,7 @@ import Checkout from './components/user/Checkout/Checkout';
 import Shop from './components/pages/Shop/Shop';
 import Profile from './components/user/Profile/Profile';
 import SingleProductDetails from './components/pages/SingleProductDetails/SingleProductDetails';
+import NotFound from './components/pages/NotFound/NotFound';
 
 const App = () => {
   return (
@@ -51,6 +52,8 @@ const App = () => {
             <Route path="orders" element={<Orders />} />
           </Route>
         </Route>
+
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );

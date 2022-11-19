@@ -15,9 +15,17 @@ import useFilter from '../../../hooks/useFilter';
 import { useState } from 'react';
 import formatCurrency from '../../../utils/formatCurrency';
 import { sortProduct } from '../../../data/home.data';
+import Loading from '../../common/Loading';
+import NoData from '../../common/NoData/NoData';
 
 const Shop = () => {
-  const { productList, wishProductItem, cartProductItem } = useProduct();
+  const {
+    productList,
+    productGetLoading,
+    productGetError,
+    wishProductItem,
+    cartProductItem,
+  } = useProduct();
   const categories = useSelector((store) => store.categories);
   const dispatch = useDispatch();
   const [searchData, setSearchData] = useState('');
@@ -25,7 +33,7 @@ const Shop = () => {
   const [priceValue, setPriceValue] = useState(0);
   const [rattingValue, setRattingValue] = useState(0);
   const [minimum, setMinimum] = useState(0);
-  const [maximum, setMaximum] = useState(3000);
+  const [maximum, setMaximum] = useState(30000);
   const [sortBy, setSortBy] = useState('default');
   const [clearFilter, setClearFilter] = useState(false);
 
@@ -46,7 +54,7 @@ const Shop = () => {
     setRattingValue(0);
     setSortBy('default');
     setMinimum(0);
-    setMaximum(3000);
+    setMaximum(30000);
   };
 
   useEffect(() => {
@@ -56,7 +64,7 @@ const Shop = () => {
   return (
     <Container>
       <div className="d-flex justify-content-between">
-        <div className="shop__sidebar shadow-sm rounded-2 position-fixed px-4 my-3 py-2">
+        <div className="shop__sidebar shadow-sm rounded-2 position-fixed px-4 my-3 py-2 bg-white">
           <Form.Control
             type="text"
             placeholder="Search..."
@@ -166,7 +174,11 @@ const Shop = () => {
               </div>
             </div>
           </Navbar>
-          {allProducts?.length > 0 ? (
+          {productGetLoading ? (
+            <Loading />
+          ) : productGetError ? (
+            <NoData title={productGetError} />
+          ) : allProducts?.length > 0 ? (
             <Row>
               {allProducts?.map((product) => (
                 <Col lg={6} key={product._id} className="mb-4">
