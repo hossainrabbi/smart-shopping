@@ -40,7 +40,7 @@ export const createCategories = (category) => async (dispatch) => {
       categoriesAction.createCategories({
         loading: false,
         isCreate: false,
-        error: err.response.data.message || err.message,
+        error: err?.response?.data?.message || err.message,
       })
     );
   }
@@ -71,7 +71,7 @@ export const getCategories = () => async (dispatch) => {
     dispatch(
       categoriesAction.getCategories({
         loading: false,
-        error: err.response.data.message || err.message,
+        error: err?.response?.data?.message || err.message,
       })
     );
   }
@@ -102,7 +102,7 @@ export const removeCategory = (id) => async (dispatch) => {
   } catch (err) {
     dispatch(
       categoriesAction.removeCategory({
-        error: err.response.data.message || err.message,
+        error: err?.response?.data?.message || err.message,
       })
     );
   }
@@ -144,9 +144,9 @@ export const updateCategory = (id, updatedValue) => async (dispatch) => {
   } catch (err) {
     dispatch(
       categoriesAction.updateCategory({
-        error: err.response.data.message || err.message,
         isUpdate: false,
         loading: false,
+        error: err?.response?.data?.message || err.message,
       })
     );
   }

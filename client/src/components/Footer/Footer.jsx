@@ -4,7 +4,7 @@ import { socialMedia } from '../../data/home.data';
 
 const Footer = () => {
   return (
-    <footer className="mt-5 bg-primary text-white">
+    <footer className="mt-5 bg-secondary text-white">
       <Container className="text-center py-4">
         <div>
           {socialMedia?.map(({ id, icon: Icon, link }) => (

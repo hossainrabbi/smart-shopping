@@ -26,7 +26,7 @@ export const registerUser = (registerData) => async (dispatch) => {
     dispatch(
       authAction.registerUser({
         loading: false,
-        error: err.response.data.message,
+        error: err?.response?.data?.message || err.message,
       })
     );
   }
@@ -57,7 +57,7 @@ export const loginUser = (loginData) => async (dispatch) => {
     dispatch(
       authAction.loginUser({
         loading: false,
-        error: err.response.data.message,
+        error: err?.response?.data?.message || err.message,
       })
     );
   }

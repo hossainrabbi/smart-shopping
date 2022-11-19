@@ -35,7 +35,7 @@ export const getUsers = () => async (dispatch) => {
     dispatch(
       usersAction.getUsers({
         loading: false,
-        error: err.response.data.message || err.message,
+        error: err?.response?.data?.message || err.message,
       })
     );
   }
@@ -77,7 +77,7 @@ export const removeUser = (userId) => async (dispatch) => {
       usersAction.removeUser({
         loading: false,
         isRemove: false,
-        error: err.response.data.message || err.message,
+        error: err?.response?.data?.message || err.message,
       })
     );
   }
@@ -117,7 +117,7 @@ export const getSingleUser = (userId, isAdmin) => async (dispatch) => {
     dispatch(
       usersAction.getSingleUser({
         loading: false,
-        error: err.response.data.message || err.message,
+        error: err?.response?.data?.message || err.message,
       })
     );
   }

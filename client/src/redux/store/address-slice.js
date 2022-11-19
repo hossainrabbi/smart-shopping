@@ -11,11 +11,11 @@ const addressSlice = createSlice({
   reducers: {
     getDivision(state, action) {
       state.divisions = action.payload.divisions;
-      state.divisionsError = action.payload.divisionsError;
+      state.divisionsError = action.payload.error;
     },
     getCity(state, action) {
       state.city = action.payload.city;
-      state.cityError = action.payload.cityError;
+      state.cityError = action.payload.error;
     },
   },
 });

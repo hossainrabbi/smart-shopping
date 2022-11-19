@@ -36,7 +36,7 @@ export const createOrder = (submitInfo) => async (dispatch) => {
     dispatch(
       orderAction.createOrder({
         loading: false,
-        error: err.response.data.message || err.message,
+        error: err?.response?.data?.message || err.message,
         isOrder: false,
       })
     );
@@ -77,7 +77,7 @@ export const getOrder = () => async (dispatch) => {
     dispatch(
       orderAction.getOrder({
         loading: false,
-        error: err.response.data.message || err.message,
+        error: err?.response?.data?.message || err.message,
       })
     );
   }
