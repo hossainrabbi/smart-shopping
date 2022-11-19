@@ -1,5 +1,6 @@
-import slider_1 from '../images/slider/1.jpg';
-import slider_2 from '../images/slider/2.jpg';
+import slider_1 from '../images/slider/slider-1.jpg';
+import slider_2 from '../images/slider/slider-2.jpg';
+import slider_3 from '../images/slider/slider-3.jpg';
 import support_1 from '../images/support/support-1.png';
 import support_2 from '../images/support/support-2.png';
 import support_3 from '../images/support/support-3.png';
@@ -12,6 +13,10 @@ export const slider = [
   {
     id: 2,
     image: slider_2,
+  },
+  {
+    id: 3,
+    image: slider_3,
   },
 ];
 

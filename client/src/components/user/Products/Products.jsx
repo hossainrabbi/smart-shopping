@@ -12,14 +12,14 @@ const Products = () => {
 
   return (
     <Container className="my-5">
-      <ContentTitle title="Our Products" />
+      <ContentTitle title="Featured Products" />
       <Row>
         {products?.products?.length > 6
           ? products?.products
               ?.filter((item) => item?.featured)
               ?.slice(0, 6)
               .map((product) => (
-                <Col md={4} key={product._id} className="mb-4">
+                <Col lg={4} md={6} key={product._id} className="mb-4">
                   <SingleProduct
                     iconLeft={
                       productList.wishList.some(
@@ -44,32 +44,34 @@ const Products = () => {
                   />
                 </Col>
               ))
-          : products?.products?.map((product) => (
-              <Col md={4} key={product._id} className="mb-4">
-                <SingleProduct
-                  iconLeft={
-                    productList.wishList.some(
-                      (item) => item._id === product._id
-                    )
-                      ? FaHeart
-                      : FaRegHeart
-                  }
-                  iconRight={FaShoppingCart}
-                  leftIconClass={
-                    productList.wishList.some(
-                      (item) => item._id === product._id
-                    )
-                      ? 'text-danger'
-                      : 'text-primary'
-                  }
-                  rightIconClass="text-primary"
-                  rightProductHandler={cartProductItem}
-                  leftProductHandler={wishProductItem}
-                  {...product}
-                  showDetails
-                />
-              </Col>
-            ))}
+          : products?.products
+              ?.filter((item) => item?.featured)
+              ?.map((product) => (
+                <Col lg={4} md={6} key={product._id} className="mb-4">
+                  <SingleProduct
+                    iconLeft={
+                      productList.wishList.some(
+                        (item) => item._id === product._id
+                      )
+                        ? FaHeart
+                        : FaRegHeart
+                    }
+                    iconRight={FaShoppingCart}
+                    leftIconClass={
+                      productList.wishList.some(
+                        (item) => item._id === product._id
+                      )
+                        ? 'text-danger'
+                        : 'text-primary'
+                    }
+                    rightIconClass="text-primary"
+                    rightProductHandler={cartProductItem}
+                    leftProductHandler={wishProductItem}
+                    {...product}
+                    showDetails
+                  />
+                </Col>
+              ))}
       </Row>
     </Container>
   );

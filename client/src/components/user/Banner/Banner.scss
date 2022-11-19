@@ -2,12 +2,14 @@
   background-image: url('../../../images/banner.jpeg');
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: center center;
+  background-position: bottom center;
+  background-attachment: scroll;
   width: 100%;
-  height: 420px;
+  height: 400px;
+}
 
-  & .btn {
-    bottom: 70px;
-    right: 230px;
+@media (max-width: 992px) {
+  .banner__area {
+    height: 300px;
   }
 }

@@ -31,8 +31,22 @@ const Category = () => {
           delay: 2500,
           disableOnInteraction: false,
         }}
+        breakpoints={{
+          640: {
+            slidesPerView: 2,
+            spaceBetween: 20,
+          },
+          768: {
+            slidesPerView: 4,
+            spaceBetween: 40,
+          },
+          1024: {
+            slidesPerView: 5,
+            spaceBetween: 50,
+          },
+        }}
         modules={[Pagination, Autoplay, Navigation]}
-        className="categories"
+        className="categories home__slider"
       >
         {categories?.map((category) => (
           <SwiperSlide className="category__container" key={category._id}>

@@ -38,7 +38,7 @@ const NavBar = () => {
   };
 
   return (
-    <Navbar expand="lg" className="sticky-top shadow-sm">
+    <Navbar expand="lg" className="sticky-top shadow-sm custom__navbar">
       <Container>
         <Link to="/" className="navbar-brand app__logo">
           <img src={Logo} alt="smart-shopping" />
@@ -52,15 +52,17 @@ const NavBar = () => {
               </Link>
             ))}
           </Nav>
-          <Link
-            to="/cart"
-            className="btn border-0 badge__style position-relative"
-          >
-            <FiShoppingCart />
-            <span className="rounded-circle">
-              {productList?.cartList?.length}
-            </span>
-          </Link>
+          <div className="cart__icon">
+            <Link
+              to="/cart"
+              className="btn border-0 badge__style position-relative"
+            >
+              <FiShoppingCart />
+              <span className="rounded-circle">
+                {productList?.cartList?.length}
+              </span>
+            </Link>
+          </div>
           {auth?.user?.token ? (
             <Dropdown>
               <Dropdown.Toggle

@@ -4,6 +4,21 @@
   background-color: $white;
 }
 
+@media (max-width: 992px) {
+  .custom__navbar {
+    .nav-link,
+    .cart__icon,
+    .dropdown {
+      text-align: center;
+    }
+
+    .dropdown__menu {
+      left: 50% !important;
+      transform: translateX(-50%);
+    }
+  }
+}
+
 .app__logo {
   img {
     height: 38px;
