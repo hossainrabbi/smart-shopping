@@ -4,6 +4,12 @@ import slider_3 from '../images/slider/slider-3.jpg';
 import support_1 from '../images/support/support-1.png';
 import support_2 from '../images/support/support-2.png';
 import support_3 from '../images/support/support-3.png';
+import {
+  FaFacebookF,
+  FaTwitter,
+  FaLinkedinIn,
+  FaInstagram,
+} from 'react-icons/fa';
 
 export const slider = [
   {
@@ -61,5 +67,29 @@ export const sortProduct = [
   {
     item: 'heighToLow',
     name: 'Heigh to Low (price)',
+  },
+];
+
+// Social Media Icons
+export const socialMedia = [
+  {
+    id: 1,
+    icon: FaFacebookF,
+    link: '#',
+  },
+  {
+    id: 2,
+    icon: FaTwitter,
+    link: '#',
+  },
+  {
+    id: 3,
+    icon: FaLinkedinIn,
+    link: '#',
+  },
+  {
+    id: 4,
+    icon: FaInstagram,
+    link: '#',
   },
 ];

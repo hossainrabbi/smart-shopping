@@ -87,10 +87,6 @@ img {
     transition: color $transition;
   }
 
-  .swiper-pagination-bullets {
-    bottom: -6px;
-  }
-
   .swiper-pagination-bullet-active {
     transition: all $transition;
     background-color: $primary;
