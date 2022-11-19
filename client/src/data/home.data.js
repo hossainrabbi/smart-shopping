@@ -62,11 +62,11 @@ export const sortProduct = [
   },
   {
     item: 'lowToHeigh',
-    name: 'Low to Heigh (price)',
+    name: 'Low to Heigh',
   },
   {
     item: 'heighToLow',
-    name: 'Heigh to Low (price)',
+    name: 'Heigh to Low',
   },
 ];
 

@@ -1,12 +1,11 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
 import { socialMedia } from '../../data/home.data';
-import './Footer.scss';
 
 const Footer = () => {
   return (
-    <footer className="footer mt-5">
-      <Container className="text-center pt-5 pb-4">
+    <footer className="mt-5 bg-primary text-white">
+      <Container className="text-center py-4">
         <div>
           {socialMedia?.map(({ id, icon: Icon, link }) => (
             <a
