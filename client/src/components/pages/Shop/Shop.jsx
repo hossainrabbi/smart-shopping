@@ -120,8 +120,8 @@ const Shop = () => {
             </Offcanvas.Body>
           </Offcanvas>
 
-          <div className="d-flex justify-content-between">
-            <div>
+          <div className="d-flex justify-content-between w-100">
+            <div className="w-100">
               <Navbar className="shadow-sm my-3 rounded-2 p-2">
                 <div className="d-flex justify-content-between align-items-center w-100">
                   <Button

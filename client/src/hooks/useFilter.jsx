@@ -21,6 +21,11 @@ const useFilter = (
 
   let allProducts = products?.products || [];
 
+  // clear filter
+  if (clearFilter) {
+    allProducts = products?.products;
+  }
+
   // filter by search input
   allProducts = allProducts?.filter(
     (product) =>
@@ -58,10 +63,6 @@ const useFilter = (
     allProducts = sortProductFilter(searchFilter, true).reverse();
   } else {
     allProducts = searchFilter;
-  }
-
-  if (clearFilter) {
-    allProducts = products?.products;
   }
 
   return allProducts;
