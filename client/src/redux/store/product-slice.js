@@ -41,7 +41,7 @@ const productSlice = createSlice({
       state.isUpdate = false;
     },
     getSingleProduct(state, action) {
-      state.singleProduct = action.payload.loading;
+      state.singleProductLoading = action.payload.loading;
       state.singleProductError = action.payload.error;
       state.singleProduct = action.payload.product;
     },

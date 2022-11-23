@@ -18,15 +18,15 @@ import formatCurrency from '../../../utils/formatCurrency';
 import Loading from '../../common/Loading';
 import useProduct from '../../../hooks/useProduct';
 import './SingleProductDetails.scss';
+import NoData from '../../common/NoData/NoData';
 
 const SingleProductDetails = () => {
   const { productId } = useParams();
   const dispatch = useDispatch();
   const [imageItem, setImageItem] = useState(0);
 
-  const { singleProductLoading, singleProduct } = useSelector(
-    (store) => store.products
-  );
+  const { singleProductLoading, singleProductError, singleProduct } =
+    useSelector((store) => store.products);
   const [productQty, setProductQty] = useState(0);
   const { productList, wishProductItem, cartProductItem } =
     useProduct(productQty);
@@ -47,6 +47,10 @@ const SingleProductDetails = () => {
 
   if (singleProductLoading) {
     return <Loading />;
+  }
+
+  if (singleProductError) {
+    return <NoData title={singleProductError} />;
   }
 
   return (

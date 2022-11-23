@@ -12,7 +12,7 @@ const Orders = () => {
   const navigate = useNavigate();
   const { getLoading, orders } = useSelector((store) => store.order);
   const { users } = useSelector((store) => store.users);
-  const [statusChange, setStatusChange] = useState('Pending');
+  // const [statusChange, setStatusChange] = useState('Pending');
 
   useEffect(() => {
     dispatch(getOrder());
@@ -29,8 +29,6 @@ const Orders = () => {
   if (getLoading) {
     return <Loading />;
   }
-
-  console.log(orders);
 
   return (
     <div className="section__area p-3">
@@ -76,17 +74,17 @@ const Orders = () => {
                 <td>{formatCurrency.format(item?.totalPrice)}</td>
                 <td>
                   <Form.Select
-                    value={statusChange}
-                    onChange={(e) => setStatusChange(e.target.value)}
-                    className={
-                      statusChange === 'Pending'
-                        ? 'text-danger'
-                        : statusChange === 'Delivered'
-                        ? 'text-success'
-                        : statusChange === 'Processing'
-                        ? 'text-warning'
-                        : ''
-                    }
+                  // value={statusChange}
+                  // onChange={(e) => setStatusChange(e.target.value)}
+                  // className={
+                  //   statusChange === 'Pending'
+                  //     ? 'text-danger'
+                  //     : statusChange === 'Delivered'
+                  //     ? 'text-success'
+                  //     : statusChange === 'Processing'
+                  //     ? 'text-warning'
+                  //     : ''
+                  // }
                   >
                     <option className="text-danger" value="Pending">
                       Pending
