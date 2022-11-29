@@ -9,6 +9,7 @@ import productListSlice from './product-list-slice';
 import addressSlice from './address-slice';
 import orderSlice from './order-slice';
 import usersSlice from './users-slice';
+import profileSlice from './profile.slice';
 
 const persistConfig = {
   keyPrefix: process.env.REACT_APP_SITE_NAME,
@@ -31,6 +32,7 @@ const store = configureStore({
     address: addressSlice.reducer,
     order: orderSlice.reducer,
     users: usersSlice.reducer,
+    profile: profileSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }),

@@ -1,17 +1,17 @@
 import { Button, Col, Container, Form, Navbar, Row } from 'react-bootstrap';
-import { FaRegHeart, FaHeart, FaShoppingCart, FaBars } from 'react-icons/fa';
+import { BsFilter } from 'react-icons/bs';
+import { FaHeart, FaRegHeart, FaShoppingCart } from 'react-icons/fa';
 
+import { useEffect, useState } from 'react';
 import Offcanvas from 'react-bootstrap/Offcanvas';
-import SingleProduct from '../../common/SingleProduct/SingleProduct';
-import useProduct from '../../../hooks/useProduct';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
-import { getCategories } from '../../../redux/action/categories-action';
-import useFilter from '../../../hooks/useFilter';
-import { useState } from 'react';
 import { sortProduct } from '../../../data/home.data';
+import useFilter from '../../../hooks/useFilter';
+import useProduct from '../../../hooks/useProduct';
+import { getCategories } from '../../../redux/action/categories-action';
 import Loading from '../../common/Loading';
 import NoData from '../../common/NoData/NoData';
+import SingleProduct from '../../common/SingleProduct/SingleProduct';
 import FilterSidebar from '../../user/FilterSidebar/FilterSidebar';
 
 const Shop = () => {
@@ -125,12 +125,12 @@ const Shop = () => {
               <Navbar className="shadow-sm my-3 rounded-2 p-2">
                 <div className="d-flex justify-content-between align-items-center w-100">
                   <Button
-                    variant="primary"
-                    className="d-flex justify-content-center align-items-center"
-                    style={{ width: '40px', height: '39px' }}
+                    variant="light"
+                    className="d-flex justify-content-center align-items-center gap-2"
+                    style={{ height: '39px' }}
                     onClick={handleShow}
                   >
-                    <FaBars />
+                    <BsFilter /> <span>Filter</span>
                   </Button>
 
                   <div className="d-flex ms-auto align-items-center gap-4">
