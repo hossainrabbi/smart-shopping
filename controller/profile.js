@@ -16,6 +16,10 @@ exports.updateProfile = async (req, res, next) => {
   const { username, avatar, name } = req.body;
 
   try {
+    if (!username || !avatar) {
+      throw error('No change yet', 500);
+    }
+
     if (!mongoose.isValidObjectId(_id)) {
       throw error('Invalid User', 404);
     }
@@ -34,7 +38,7 @@ exports.updateProfile = async (req, res, next) => {
       user.avatar = avatarImage.url;
     }
 
-    if (name && name !== user.name) {
+    if (name !== user.name) {
       user.name = name;
     }
 
