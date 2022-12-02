@@ -71,6 +71,7 @@ export const updateProfile = (profileData) => async (dispatch) => {
       profileAction.updateProfile({
         loading: false,
         error: '',
+        isUpdateProfile: true,
         profile: data,
       })
     );

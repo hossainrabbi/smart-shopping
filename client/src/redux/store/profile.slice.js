@@ -7,6 +7,7 @@ const profileSlice = createSlice({
     updateLoading: false,
     getError: '',
     updateError: '',
+    isUpdateProfile: false,
     profile: {},
   },
   reducers: {
@@ -14,11 +15,13 @@ const profileSlice = createSlice({
       state.getLoading = action.payload.loading;
       state.getError = action.payload.error;
       state.profile = action.payload.profile;
+      state.isUpdateProfile = false;
     },
     updateProfile(state, action) {
       state.updateLoading = action.payload.loading;
       state.updateError = action.payload.error;
       state.profile = action.payload.profile;
+      state.isUpdateProfile = action.payload.isUpdateProfile;
     },
   },
 });

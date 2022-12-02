@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
+import toast from 'react-hot-toast';
 import { FaCamera } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -18,14 +19,22 @@ const Profile = () => {
     name: '',
     username: '',
   });
-  const { profile, getError, getLoading, updateLoading, updateError } =
-    useSelector((state) => state.profile);
+  const {
+    profile,
+    getError,
+    getLoading,
+    updateLoading,
+    updateError,
+    isUpdateProfile,
+  } = useSelector((state) => state.profile);
   const dispatch = useDispatch();
 
+  // get user profile
   useEffect(() => {
     dispatch(getProfile());
   }, [dispatch]);
 
+  // set profile default value
   useEffect(() => {
     setProfileValue({
       avatar: profile?.avatar || '',
@@ -33,6 +42,21 @@ const Profile = () => {
       username: profile?.username || '',
     });
   }, [profile]);
+
+  // show update profile error in tosh message
+  useEffect(() => {
+    if (updateError) {
+      toast.error(updateError);
+    }
+  }, [updateError]);
+
+  // show success message for profile update
+  useEffect(() => {
+    if (isUpdateProfile) {
+      setIsUpdate(false);
+      toast.success('Profile Update Successfully');
+    }
+  }, [isUpdateProfile]);
 
   // input value change handler
   const handleChangeProfile = (e) => {
@@ -52,11 +76,9 @@ const Profile = () => {
         avatar: file,
       });
     } catch (err) {
-      console.log(err);
+      toast.error(err.message);
     }
   };
-
-  console.log({ updateError });
 
   /**
    * profile update submit handler

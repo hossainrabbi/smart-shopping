@@ -38,8 +38,8 @@ exports.updateProfile = async (req, res, next) => {
       user.name = name;
     }
 
-    await user.save();
-    res.status(200).json(user);
+    const updateUser = await user.save();
+    res.status(200).json(updateUser);
   } catch (err) {
     next(err);
   }
