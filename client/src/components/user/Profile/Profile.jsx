@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { FaCamera } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProfile } from '../../../redux/action/profile.action';
+import {
+  getProfile,
+  updateProfile,
+} from '../../../redux/action/profile.action';
 import { convertBase64 } from '../../../utils/convertBase64';
 import Loading from '../../common/Loading';
 import NoData from '../../common/NoData/NoData';
@@ -15,9 +18,8 @@ const Profile = () => {
     name: '',
     username: '',
   });
-  const { profile, getError, getLoading } = useSelector(
-    (state) => state.profile
-  );
+  const { profile, getError, getLoading, updateLoading, updateError } =
+    useSelector((state) => state.profile);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -54,13 +56,15 @@ const Profile = () => {
     }
   };
 
+  console.log({ updateError });
+
   /**
    * profile update submit handler
    * @param {Event} e
    */
   const handleUpdateProfile = (e) => {
     e.preventDefault();
-    setIsUpdate(false);
+    dispatch(updateProfile(profileValue));
   };
 
   return (
@@ -74,17 +78,27 @@ const Profile = () => {
           <div>
             <h2 className="text-center mt-5 mb-4">Update your profile</h2>
             <div style={{ textAlign: 'right' }}>
-              {isUpdate ? (
-                <Button type="submit">Update</Button>
-              ) : (
-                <Button onClick={() => setIsUpdate(true)}>Edit</Button>
+              {isUpdate && (
+                <Button type="submit" disabled={updateLoading}>
+                  {updateLoading ? 'Profile Updating...' : 'Update Profile'}
+                </Button>
+              )}
+
+              {!isUpdate && (
+                <Button type="button" onClick={() => setIsUpdate(true)}>
+                  Edit
+                </Button>
               )}
             </div>
           </div>
           <Row className="align-items-center gap-4 gap-md-0">
             <Col className="text-center" md={4}>
-              <div className="profile__image">
-                {isUpdate ? (
+              <div className="profile__image d-flex justify-content-center w-100">
+                {updateLoading || profileValue?.avatar === '' ? (
+                  <label className="d-flex justify-content-center align-items-center">
+                    <Loading />
+                  </label>
+                ) : isUpdate ? (
                   <label
                     htmlFor="avatar"
                     className="cursor-pointer position-relative"
@@ -144,7 +158,7 @@ const Profile = () => {
                   className="user-select-none"
                   type="email"
                   disabled
-                  value={profile?.email}
+                  defaultValue={profile?.email}
                 />
               </Form.Group>
             </Col>

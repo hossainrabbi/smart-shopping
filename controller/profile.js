@@ -30,7 +30,8 @@ exports.updateProfile = async (req, res, next) => {
     }
 
     if (avatar && avatar !== user.avatar) {
-      user.avatar = await uploadImages(avatar).url;
+      const avatarImage = await uploadImages(avatar);
+      user.avatar = avatarImage.url;
     }
 
     if (name && name !== user.name) {
