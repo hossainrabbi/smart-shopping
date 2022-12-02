@@ -1,12 +1,20 @@
-import React from 'react';
-import { useEffect } from 'react';
-import { Col, Container, Form, Row } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { Button, Col, Container, Form, Row } from 'react-bootstrap';
+import { FaCamera } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
+import { getProfile } from '../../../redux/action/profile.action';
+import { convertBase64 } from '../../../utils/convertBase64';
 import Loading from '../../common/Loading';
 import NoData from '../../common/NoData/NoData';
-import { getProfile } from '../../../redux/action/profile.action';
+import './Profile.scss';
 
 const Profile = () => {
+  const [isUpdate, setIsUpdate] = useState(false);
+  const [profileValue, setProfileValue] = useState({
+    avatar: '',
+    name: '',
+    username: '',
+  });
   const { profile, getError, getLoading } = useSelector(
     (state) => state.profile
   );
@@ -16,7 +24,44 @@ const Profile = () => {
     dispatch(getProfile());
   }, [dispatch]);
 
-  console.log(profile);
+  useEffect(() => {
+    setProfileValue({
+      avatar: profile?.avatar || '',
+      name: profile?.name || '',
+      username: profile?.username || '',
+    });
+  }, [profile]);
+
+  // input value change handler
+  const handleChangeProfile = (e) => {
+    setProfileValue({
+      ...profileValue,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  // avatar upload change handler
+  const handleAvatarUpload = async (e) => {
+    try {
+      const file = await convertBase64(e.target.files[0]);
+
+      setProfileValue({
+        ...profileValue,
+        avatar: file,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  /**
+   * profile update submit handler
+   * @param {Event} e
+   */
+  const handleUpdateProfile = (e) => {
+    e.preventDefault();
+    setIsUpdate(false);
+  };
 
   return (
     <Container>
@@ -25,32 +70,82 @@ const Profile = () => {
       ) : getError ? (
         <NoData title={getError} />
       ) : (
-        <form>
-          <h2 className="text-center my-5">Update your profile</h2>
-          <Row className="align-items-center">
-            <Col md={4}>
-              <img src={profile?.avatar} alt={profile?.username} />
+        <form onSubmit={handleUpdateProfile}>
+          <div>
+            <h2 className="text-center mt-5 mb-4">Update your profile</h2>
+            <div style={{ textAlign: 'right' }}>
+              {isUpdate ? (
+                <Button type="submit">Update</Button>
+              ) : (
+                <Button onClick={() => setIsUpdate(true)}>Edit</Button>
+              )}
+            </div>
+          </div>
+          <Row className="align-items-center gap-4 gap-md-0">
+            <Col className="text-center" md={4}>
+              <div className="profile__image">
+                {isUpdate ? (
+                  <label
+                    htmlFor="avatar"
+                    className="cursor-pointer position-relative"
+                  >
+                    <img
+                      src={profileValue?.avatar}
+                      alt={profileValue?.username}
+                    />
+                    <span className="position-absolute avatar__icon text-white">
+                      <FaCamera />
+                    </span>
+                    <input
+                      className="d-none"
+                      type="file"
+                      name="avatar"
+                      onChange={handleAvatarUpload}
+                      id="avatar"
+                    />
+                  </label>
+                ) : (
+                  <label htmlFor="avatarDefault">
+                    <img
+                      id="avatarDefault"
+                      src={profileValue?.avatar}
+                      alt={profileValue?.username}
+                    />
+                  </label>
+                )}
+              </div>
             </Col>
             <Col md={8}>
               <Form.Group className="mb-3" controlId="productName">
                 <Form.Label>Full Name</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Enter Full Name"
+                  placeholder={isUpdate ? 'Enter Full Name' : ''}
                   name="name"
+                  onChange={handleChangeProfile}
+                  disabled={!isUpdate}
+                  value={profileValue?.name}
                 />
               </Form.Group>
               <Form.Group className="mb-3" controlId="productName">
                 <Form.Label>Username</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Enter User Name"
+                  placeholder={isUpdate ? 'Enter User Name' : ''}
                   name="username"
+                  onChange={handleChangeProfile}
+                  disabled={!isUpdate}
+                  value={profileValue?.username}
                 />
               </Form.Group>
               <Form.Group className="mb-3" controlId="productName">
                 <Form.Label>Email Address</Form.Label>
-                <Form.Control type="email" disabled />
+                <Form.Control
+                  className="user-select-none"
+                  type="email"
+                  disabled
+                  value={profile?.email}
+                />
               </Form.Group>
             </Col>
           </Row>

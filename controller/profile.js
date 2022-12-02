@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const uploadImages = require('../config/cloudinary');
 const User = require('../model/User');
 const error = require('../utils/error');
 
@@ -12,7 +13,7 @@ exports.getProfile = (req, res, next) => {
 
 exports.updateProfile = async (req, res, next) => {
   const { _id } = req.user;
-  const { username, avatar } = req.body;
+  const { username, avatar, name } = req.body;
 
   try {
     if (!mongoose.isValidObjectId(_id)) {
@@ -29,7 +30,11 @@ exports.updateProfile = async (req, res, next) => {
     }
 
     if (avatar && avatar !== user.avatar) {
-      user.avatar = avatar;
+      user.avatar = await uploadImages(avatar).url;
+    }
+
+    if (name && name !== user.name) {
+      user.name = name;
     }
 
     await user.save();

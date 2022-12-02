@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { profileAction } from '../store/profile.slice';
 
+// get profile
 export const getProfile = () => async (dispatch) => {
   const config = {
     headers: {
@@ -34,6 +35,48 @@ export const getProfile = () => async (dispatch) => {
   } catch (err) {
     dispatch(
       profileAction.getProfile({
+        loading: false,
+        error: err?.response?.data?.message || err.message,
+      })
+    );
+  }
+};
+
+// update profile
+export const updateProfile = (profileData) => async (dispatch) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${
+        JSON.parse(
+          JSON.parse(localStorage.getItem('smart-shopping-login')).user
+        ).token
+      }`,
+    },
+  };
+
+  try {
+    dispatch(
+      profileAction.updateProfile({
+        loading: true,
+      })
+    );
+
+    const { data } = await axios.put(
+      `${process.env.REACT_APP_API_URL}/api/v1/users/profile`,
+      profileData,
+      config
+    );
+
+    dispatch(
+      profileAction.updateProfile({
+        loading: false,
+        error: '',
+        profile: data,
+      })
+    );
+  } catch (err) {
+    dispatch(
+      profileAction.updateProfile({
         loading: false,
         error: err?.response?.data?.message || err.message,
       })
