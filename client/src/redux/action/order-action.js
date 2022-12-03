@@ -6,7 +6,9 @@ export const createOrder = (submitInfo) => async (dispatch) => {
     headers: {
       Authorization: `Bearer ${
         JSON.parse(
-          JSON.parse(localStorage.getItem('smart-shopping-login')).user
+          JSON.parse(
+            localStorage.getItem(`${process.env.REACT_APP_SITE_NAME}-login`)
+          ).user
         ).token
       }`,
     },
@@ -48,7 +50,9 @@ export const getOrder = () => async (dispatch) => {
     headers: {
       Authorization: `Bearer ${
         JSON.parse(
-          JSON.parse(localStorage.getItem('smart-shopping-login')).user
+          JSON.parse(
+            localStorage.getItem(`${process.env.REACT_APP_SITE_NAME}-login`)
+          ).user
         ).token
       }`,
     },

@@ -7,7 +7,9 @@ export const getProfile = () => async (dispatch) => {
     headers: {
       Authorization: `Bearer ${
         JSON.parse(
-          JSON.parse(localStorage.getItem('smart-shopping-login')).user
+          JSON.parse(
+            localStorage.getItem(`${process.env.REACT_APP_SITE_NAME}-login`)
+          ).user
         ).token
       }`,
     },
@@ -24,6 +26,8 @@ export const getProfile = () => async (dispatch) => {
       `${process.env.REACT_APP_API_URL}/api/v1/users/profile`,
       config
     );
+
+    console.log(data);
 
     dispatch(
       profileAction.getProfile({
@@ -48,7 +52,9 @@ export const updateProfile = (profileData) => async (dispatch) => {
     headers: {
       Authorization: `Bearer ${
         JSON.parse(
-          JSON.parse(localStorage.getItem('smart-shopping-login')).user
+          JSON.parse(
+            localStorage.getItem(`${process.env.REACT_APP_SITE_NAME}-login`)
+          ).user
         ).token
       }`,
     },
