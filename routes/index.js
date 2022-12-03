@@ -10,7 +10,7 @@ router.use('/auth', auth);
 router.use('/products/categories', categories);
 router.use('/products', product);
 router.use('/order', order);
-router.use('/users/profile', profile);
+router.use('/user/profile', profile);
 router.use('/users', user);
 
 module.exports = router;

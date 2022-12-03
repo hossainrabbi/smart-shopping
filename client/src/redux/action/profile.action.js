@@ -23,7 +23,7 @@ export const getProfile = () => async (dispatch) => {
     );
 
     const { data } = await axios.get(
-      `${process.env.REACT_APP_API_URL}/api/v1/users/profile`,
+      `${process.env.REACT_APP_API_URL}/api/v1/user/profile`,
       config
     );
 
@@ -37,6 +37,7 @@ export const getProfile = () => async (dispatch) => {
       })
     );
   } catch (err) {
+    console.log(err);
     dispatch(
       profileAction.getProfile({
         loading: false,
@@ -68,7 +69,7 @@ export const updateProfile = (profileData) => async (dispatch) => {
     );
 
     const { data } = await axios.put(
-      `${process.env.REACT_APP_API_URL}/api/v1/users/profile`,
+      `${process.env.REACT_APP_API_URL}/api/v1/user/profile`,
       profileData,
       config
     );
