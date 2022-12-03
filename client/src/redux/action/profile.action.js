@@ -27,7 +27,7 @@ export const getProfile = () => async (dispatch) => {
       config
     );
 
-    console.log(data);
+    console.log({ 'profile data': data });
 
     dispatch(
       profileAction.getProfile({
@@ -37,7 +37,7 @@ export const getProfile = () => async (dispatch) => {
       })
     );
   } catch (err) {
-    console.log(err);
+    console.log({ 'profile error': err });
     dispatch(
       profileAction.getProfile({
         loading: false,
